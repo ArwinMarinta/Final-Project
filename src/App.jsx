@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/header";
 import HomePage from "./pages/HomePage/HomePage";
 import RegisterPage from "./pages/RegisterPage/Register";
 import LoginPage from "./pages/LoginPage/Login";
@@ -11,6 +12,7 @@ import ResetPasswordPage from "./pages/ResetPassword/ResetPassword";
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
