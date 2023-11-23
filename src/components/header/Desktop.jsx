@@ -5,7 +5,6 @@ import { SiCodechef } from "react-icons/si";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
-import {} from "react-router-dom";
 
 const Desktop = () => {
   const [user, setUser] = useState(false);
@@ -40,8 +39,7 @@ const Desktop = () => {
 
   return (
     <>
-      {" "}
-      <nav className="bg-gray-100/50">
+      <nav className="hidden sm:inline bg-gray-100/50">
         <div className="container flex justify-between mx-auto py-4 ">
           <div className="flex gap-2">
             <SiCodechef className="text-4xl" />
@@ -67,7 +65,7 @@ const Desktop = () => {
               <input
                 name="search"
                 className=" hidden sm:inline text-black w-36 md:w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-full   focus:outline-none 
-                                        ring-2  ring-gray-700/50 focus:ring-black duration-200"
+                                        ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
                 type="text"
                 placeholder="Cari Kelas ..."
                 value={keyword}
