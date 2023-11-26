@@ -39,8 +39,9 @@ const Desktop = () => {
 
   return (
     <>
-      <nav className="hidden sm:inline bg-gray-100/50">
-        <div className="container flex justify-between mx-auto py-4 ">
+      <nav className="hidden lg:block bg-DARKBLUE05 ">
+        {/* <div className="bg-DARKBLUE05"> */}
+        <div className="container flex justify-between mx-auto py-4 bg-DARKBLUE05">
           <div className="flex gap-2">
             <SiCodechef className="text-4xl" />
             <p className="text-2xl font-bold">ngodingCoy</p>
@@ -121,6 +122,7 @@ const Desktop = () => {
             )}
           </div>
         </div>
+        {/* </div> */}
       </nav>
     </>
   );
