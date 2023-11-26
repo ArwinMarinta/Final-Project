@@ -37,6 +37,30 @@ const course = [
     rating: 4.8,
     Image: Image,
   },
+  {
+    id: 4,
+    nama: "UI/EX Design",
+    topic: "Pengenalan tentang Design System",
+    mentor: "by Angela Doe",
+    level: "Intermediate Level",
+    modul: "10 Modul",
+    durasi: "120 Menit",
+    harga: "249.000",
+    rating: 4.8,
+    Image: Image,
+  },
+  {
+    id: 5,
+    nama: "UI/EX Design",
+    topic: "Pengenalan tentang Design System",
+    mentor: "by Angela Doe",
+    level: "Intermediate Level",
+    modul: "10 Modul",
+    durasi: "120 Menit",
+    harga: "249.000",
+    rating: 4.8,
+    Image: Image,
+  },
 ];
 
 export default course;

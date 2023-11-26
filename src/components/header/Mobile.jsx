@@ -43,7 +43,7 @@ const Mobile = () => {
     <>
       {path !== "/notification" && path !== "/profile" && (
         <form
-          className="sticky top-0 p-3"
+          className="sticky top-0 p-3 sm:p-0"
           action="search"
           onSubmit={onSubmitHandler}
         >
