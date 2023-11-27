@@ -15,6 +15,7 @@ export default {
       },
       colors: {
         DARKBLUE05: "#6148FF",
+        DARKBLUE04: "#EBF3FC",
         DARKBLUE03: "#489CFF",
         DARKBLUE02: "#D0B7E6",
         DARKBLUE01: "#E2D4F0",
