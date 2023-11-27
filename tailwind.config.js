@@ -32,6 +32,7 @@ export default {
         NEUTRAL02: "#D0D0D0",
         LightBlue5: "#EBF3FC",
         LightBlue4: "#489CFF",
+        DEEPGRAY: "#8A8A8A",
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],

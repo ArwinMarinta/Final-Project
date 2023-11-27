@@ -1,5 +1,12 @@
+import Header from "../../components/header";
+
 const ClassMe = () => {
-  return <div>ClassMe</div>;
+  return (
+    <>
+      <Header />
+      <div>My course</div>
+    </>
+  );
 };
 
 export default ClassMe;
