@@ -7,30 +7,12 @@ import course from "../../data/DataCourse";
 import populer from "../../data/DataKursurPopuler";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import responsive from "../../utils/responsiveCarousel";
-
+import { responsive } from "../../utils/responsiveCarousel";
+import { responsive2 } from "../../utils/responsiveCarousel";
 import "../../utils/CssConfig.css";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const responsive2 = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 7,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 6,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 5,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2,
-    },
-  };
   return (
     <>
       <Header />
@@ -41,13 +23,13 @@ const HomePage = () => {
             <img src={PeopleHome} className="w-full lg:w-full z-0" />
             <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-l from-DARKBLUE05 via-transparent to-transparent"></div>
           </div>
-          <div className=" flex  container py-4 lg:w-[40%]">
-            <div className="flex flex-col justify-center gap-4 ">
-              <div className="flex flex-col font-Montserrat font-bold  lg:text-2xl text-white gap-3">
+          <div className=" flex  container py-4 lg:w-[40%] ">
+            <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2">
+              <div className="flex flex-col font-Montserrat font-bold  lg:text-2xl text-white lg:gap-3 gap-2">
                 <h1>Belajar</h1>
                 <h1>dari Praktisi Terbaik!</h1>
               </div>
-              <button className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-base rounded-[10px] py-2 w-[100%]">
+              <button className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%]">
                 IKUTI KELAS
               </button>
             </div>
