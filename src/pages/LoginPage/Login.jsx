@@ -44,7 +44,7 @@ const Login = () => {
                 </label>
                 <input
                   type="email"
-                  className="border w-full p-2 rounded-2xl"
+                  className="border w-full py-3 px-4 rounded-2xl"
                   placeholder="Contoh: johndoe@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -56,7 +56,7 @@ const Login = () => {
                     Password
                   </label>
                   <Link to="/reset-password">
-                    <span className="font-Poppins text-[11px] text-DARKBLUE05 transition duration-300 ease-in-out hover:border-b-2 hover:border-DARKBLUE05">
+                    <span className="font-Poppins text-[11px] text-DARKBLUE05 transition duration-300 ease-in-out hover:underline hover:border-DARKBLUE05">
                       Lupa Kata Sandi
                     </span>
                   </Link>
@@ -64,7 +64,7 @@ const Login = () => {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="border w-full p-2 rounded-2xl pr-[3.5rem]"
+                    className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem]"
                     placeholder="Masukkan password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -96,7 +96,7 @@ const Login = () => {
               </h1>
               <Link
                 to="/register"
-                className="font-Poppins text-DARKBLUE05 text-[14px] font-bold transition duration-300 ease-in-out hover:border-b-2 hover:border-DARKBLUE05"
+                className="font-Poppins text-DARKBLUE05 text-[14px] font-bold transition duration-300 ease-in-out hover:underline hover:border-DARKBLUE05"
               >
                 Daftar di sini
               </Link>
