@@ -39,7 +39,7 @@ const Desktop = () => {
 
   return (
     <>
-      <nav className="hidden lg:block bg-DARKBLUE05 ">
+      <nav className="hidden sm:block bg-DARKBLUE05 ">
         {/* <div className="bg-DARKBLUE05"> */}
         <div className="container flex justify-between mx-auto py-4 bg-DARKBLUE05">
           <div className="flex gap-2">
@@ -78,7 +78,7 @@ const Desktop = () => {
             {user ? (
               <div className="flex h-full items-center gap-4">
                 <NavLink
-                  to="/"
+                  to="/my-course"
                   className={({ isActive }) =>
                     isActive
                       ? "flex items-center rounded-full bg-blue-500 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Kelas']"

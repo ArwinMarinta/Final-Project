@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Checklist from "../../components/checklist/Checklist";
 import CardCourse from "../../components/card/CardCourse";
@@ -125,8 +126,7 @@ const MyCourse = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
+      </>
+  )}
 
 export default MyCourse;
