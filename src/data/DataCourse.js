@@ -12,6 +12,7 @@ const course = [
     harga: "249.000",
     rating: 4.7,
     Image: Image,
+    Kategori: "Premium",
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const course = [
     harga: "249.000",
     rating: 4.8,
     Image: Image,
+    Kategori: "Premium",
   },
   {
     id: 3,
@@ -36,6 +38,7 @@ const course = [
     harga: "249.000",
     rating: 4.8,
     Image: Image,
+    Kategori: "Premium",
   },
   {
     id: 4,
@@ -48,10 +51,11 @@ const course = [
     harga: "249.000",
     rating: 4.8,
     Image: Image,
+    Kategori: "Gratis",
   },
   {
     id: 5,
-    nama: "UI/EX Design",
+    nama: "JAVA SCRIPT",
     topic: "Pengenalan tentang Design System",
     mentor: "by Angela Doe",
     level: "Intermediate Level",
@@ -60,6 +64,7 @@ const course = [
     harga: "249.000",
     rating: 4.8,
     Image: Image,
+    Kategori: "Gratis",
   },
 ];
 

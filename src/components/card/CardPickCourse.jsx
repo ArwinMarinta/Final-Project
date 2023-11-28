@@ -4,7 +4,7 @@ import Start from "../../assets/star.svg";
 import Time from "../../assets/time.svg";
 import PropTypes from "prop-types";
 
-const CardCourse = ({ data }) => {
+const CardPickCourse = ({ data }) => {
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg mx-1 hover:w-full">
       <img src={data.Image} />
@@ -38,14 +38,18 @@ const CardCourse = ({ data }) => {
             {data.durasi}
           </span>
         </div>
-        <div></div>
+        <div>
+          <button className="rounded-full bg-blue-600 hover:bg-blue-400 py-1 px-8 text-xs text-bold text-white">
+            Mulai Kelas
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-CardCourse.propTypes = {
+CardPickCourse.propTypes = {
   data: PropTypes.object,
 };
 
-export default CardCourse;
+export default CardPickCourse;
