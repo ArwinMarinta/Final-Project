@@ -11,7 +11,7 @@ function Checklist() {
   return (
     <div
       style={{ backgroundColor: `white` }}
-      className="w-full px-5 py-2.5 rounded-lg flex flex-col gap-y-2.5 h-max lg:sticky top-[9vh]"
+      className="w-full px-5 py-2.5 rounded-lg flex flex-col gap-y-2.5 h-max lg:sticky top-[9vh] drop-shadow-xl"
     >
       <p className="font-bold text-sm">Filter</p>
       <ul>
