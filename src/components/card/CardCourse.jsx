@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const CardCourse = ({ data }) => {
   return (
-    <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg mx-1 hover:w-full">
+    <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg  ">
       <img src={data.Image} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
