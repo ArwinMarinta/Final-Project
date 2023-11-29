@@ -1,19 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import logo from "../../assets/Belajar_white 2.svg";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/actions/AuthActions";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Email:", email);
+  //   console.log("Password:", password);
+  // };
 
   //fungsi show/hidden password
   const togglePassword = () => {
@@ -26,6 +30,11 @@ const Login = () => {
     setTimeout(() => setIsLoading(false), 3000);
   };
 
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    dispatch(login(email, password, navigate));
+  };
+
   return (
     <>
       {/* <div className="lg:hidden flex justify-center items-center bg-DARKBLUE05 w-full h-20">
@@ -33,7 +42,7 @@ const Login = () => {
       </div> */}
       <div className="flex min-h-screen bg-DARKBLUE04 ">
         <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
-          <form onSubmit={handleSubmit} className="w-full ">
+          <form onSubmit={handleLogin} className="w-full ">
             <h1 className="text-[24px] font-bold text-DARKBLUE05 font-Montserrat mb-8">
               Masuk
             </h1>
