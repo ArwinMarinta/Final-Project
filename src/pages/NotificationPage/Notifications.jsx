@@ -2,6 +2,7 @@ import Navbar from "../../components/header";
 import Arrow from "../../assets/arrow_left.svg";
 import Data from "../../data/DataNotifikasi";
 import Notification from "../../assets/notification.svg";
+import { Link } from "react-router-dom";
 
 const notifications = () => {
   return (
@@ -12,10 +13,14 @@ const notifications = () => {
           <div className="bg-LightBlue5 h-[250px] drop-shadow-xl"></div>
           <div className="absolute  flex justify-center mt-6  top-0 left-0 right-0 bottom-0">
             <div className="container flex flex-col    ">
-              <div className="  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold">
+              <Link
+                as={Link}
+                to="/"
+                className="  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold"
+              >
                 <img src={Arrow} />
                 <p>Kembali ke Beranda</p>
-              </div>
+              </Link>
               <div className="flex flex-col border-2 mt-4 border-DARKBLUE05 rounded-2xl">
                 <div className="bg-DARKBLUE05 rounded-t-xl text-white p-6 font-Montserrat font-bold text-xl text-center">
                   Notifikasi

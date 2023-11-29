@@ -61,10 +61,10 @@ const Login = () => {
                     </span>
                   </Link>
                 </div>
-                <div className="relative">
+                <div className="relative ">
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem]"
+                    className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem] "
                     placeholder="Masukkan password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
