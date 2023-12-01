@@ -15,7 +15,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
     navigate("/");
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      alert(error?.response?.error?.email?.message);
     }
   }
 };
