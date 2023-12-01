@@ -1,5 +1,4 @@
 import CardKategori from "../../components/card/CardKategori";
-import kategori from "../../data/DataKategori";
 import CardCourse from "../../components/card/CardPopular";
 import Header from "../../components/header";
 import PeopleHome from "../../assets/people_homepage.svg";
@@ -11,8 +10,19 @@ import { responsive } from "../../utils/responsiveCarousel";
 import { responsive2 } from "../../utils/responsiveCarousel";
 import "../../utils/CssConfig.css";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory, getPopular } from "../../redux/actions/CourseActions";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+  const { category } = useSelector((state) => state.course);
+
+  useEffect(() => {
+    dispatch(getCategory());
+    dispatch(getPopular());
+  }, [dispatch]);
+
   return (
     <>
       <Header />
@@ -41,13 +51,17 @@ const HomePage = () => {
           <div className="flex w-full flex-col pt-[26px] pb-[14px] gap-5 container">
             <div className="flex flex-row justify-between container">
               <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
-              <p className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center">
+              <Link
+                as={Link}
+                to="/course"
+                className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
+              >
                 Lihat Semua
-              </p>
+              </Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
-              {kategori.map((data) => (
-                <CardKategori key={data.id} data={data} />
+              {category.map((data) => (
+                <CardKategori key={data.category} data={data} />
               ))}
             </div>
           </div>
