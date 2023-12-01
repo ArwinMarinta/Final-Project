@@ -4,22 +4,18 @@ import { VITE_API_URL } from "../../config/config";
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
-    const response = await axios.post(`${VITE_API_URL}/v1/auth/login`, {
+    const response = await axios.post(`${VITE_API_URL}/auth/login`, {
       email,
       password,
     });
+    const { data } = response;
+    const { token } = data.value;
 
-    console.log(response?.value?.token);
-    // const { token } = response.value;
-    // const { token } = data;
-    //menyimpan ke local storage
-    // console.log(token);
-    dispatch(setToken());
+    dispatch(setToken(token));
     navigate("/");
   } catch (error) {
     if (axios.isAxiosError(error)) {
       alert(error?.response?.error?.email?.message);
     }
-    alert(error?.message);
   }
 };
