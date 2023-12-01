@@ -10,6 +10,7 @@ import NotificationPage from "./pages/NotificationPage/notifications";
 import ResetPasswordPage from "./pages/ResetPassword/ResetPassword";
 import MyCourse from "./pages/Class/MyCourse";
 import Course from "./pages/Class/Course";
+import DetailClassPayment from "./pages/DetailPage/DetailClassPayment";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/payment" element={<DetailClassPayment />} />
       </Routes>
     </BrowserRouter>
   );
