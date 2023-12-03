@@ -1,6 +1,6 @@
 import CardKategori from "../../components/card/CardKategori";
 import CardCourse from "../../components/card/CardPopular";
-import Header from "../../components/header";
+import Header from "../../components/header/Header";
 import PeopleHome from "../../assets/people_homepage.svg";
 import course from "../../data/DataCourse";
 import populer from "../../data/DataKursurPopuler";
