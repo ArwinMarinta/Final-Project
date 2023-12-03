@@ -15,6 +15,7 @@ import HomeAdmin from "./pages/DasboardAdminPage/HomeAdmin";
 import ManageCourse from "./pages/DasboardAdminPage/ManageCourse";
 import OtpPage from "./pages/OtpPage/Otp";
 import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
+import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/detail/course" element={<DetailPage />} />
+        <Route path="/detail/payment" element={<DetailPaymentPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
