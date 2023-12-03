@@ -1,4 +1,4 @@
-import Header from "../../components/header";
+import Header from "../../components/header/Header";
 import { Link } from "react-router-dom";
 import Arrow from "../../assets/arrow_left.svg";
 
