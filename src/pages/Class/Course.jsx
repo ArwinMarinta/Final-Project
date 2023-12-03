@@ -5,6 +5,7 @@ import Search from "../../assets/search.svg";
 import Header from "../../components/header";
 import axios from "axios";
 
+
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
