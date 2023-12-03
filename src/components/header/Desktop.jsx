@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams, NavLink } from "react-router-dom";
+import { useNavigate, useSearchParams, NavLink, Link } from "react-router-dom";
 import { FaArrowRightToBracket } from "react-icons/fa6";
 import { SiCodechef } from "react-icons/si";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 
-const Desktop = () => {
-  const [user, setUser] = useState(false);
+const Desktop = ({ user }) => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query");
 
@@ -30,11 +29,6 @@ const Desktop = () => {
 
   const onKeywordChangeHandler = (event) => {
     setKeyword(event.target.value);
-  };
-
-  //   tes perubahan ui doank
-  const onLogin = () => {
-    setUser(true);
   };
 
   return (
@@ -110,14 +104,14 @@ const Desktop = () => {
               </div>
             ) : (
               <div className="">
-                <button
+                <Link
                   to="/login"
                   className=" h-full flex items-center gap-2 text-lg"
-                  onClick={onLogin}
+                  // onClick={onLogin}
                 >
                   <FaArrowRightToBracket />
                   <p className="font-semibold ">Masuk</p>
-                </button>
+                </Link>
               </div>
             )}
           </div>

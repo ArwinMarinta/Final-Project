@@ -3,7 +3,7 @@ import Checklist from "../../components/checklist/Checklist";
 import CardCourse from "../../components/card/CardCourse";
 import course from "../../data/DataCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/header";
+import Header from "../../components/header/Header";
 
 const MyCourse = () => {
   const [typeButton, setTypeButton] = useState("");
