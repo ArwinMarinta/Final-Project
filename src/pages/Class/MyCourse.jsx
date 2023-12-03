@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Checklist from "../../components/checklist/Checklist";
 import CardCourse from "../../components/card/CardCourse";
 import course from "../../data/DataCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/header/Header";
+import Header from "../../components/header";
+import axios from "axios";
+
 
 const MyCourse = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
+  const [hasil, setHasil] = useState([]);
 
+  useEffect(() => {
+    const getCourse = async () => {
+      try {
+        const response = await axios.get(
+          `https://backend-production-6687.up.railway.app/api/v1/course`
+        );
+        const { data } = response;
+        setHasil(data.value);
+      } catch (errors) {
+        alert(errors?.message);
+      }
+    };
+    getCourse();
+  }, []);
   const handleInputChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
@@ -39,7 +56,7 @@ const MyCourse = () => {
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
         <div className="container">
           <div className="container mx-auto  w-auto">
-            <div className="flex flex-wrap justify-between mt-10 items-center md:sticky md:top-0 md:backdrop-blur  md:neon-slate md:h-[9vh]">
+            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50 h-14 min-h-fullbg-white/30 backdrop-blur">
               <h1
                 style={{
                   fontFamily: `montserrat`,
@@ -73,7 +90,7 @@ const MyCourse = () => {
               </div>
             </div>
             {/* bagian 2*/}
-            <div className="flex  mt-8  justify-between gap-20">
+            <div className="md:flex  mt-6  justify-between gap-20">
               <div className="block md:hidden md:w-auto w-full">
                 {filter && <Checklist />}
               </div>
