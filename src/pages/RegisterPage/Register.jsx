@@ -1,17 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import logo from "../../assets/Belajar_white 2.svg";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { register } from "../../redux/actions/AuthActions";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
-  const [nama, setNama] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [nomor, setNomor] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [confirmpassword, setConfirmPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passworderror, setPasswordError] = useState("");
 
@@ -22,10 +26,10 @@ const Register = () => {
     const numberValue = inputValue.replace(/[^\d]/g, "");
 
     // membatasi inputan nomor menjadi 15
-    const maxLength = 15;
+    const maxLength = 14;
     const truncateValueNomor = numberValue.slice(0, maxLength);
 
-    setNomor(truncateValueNomor);
+    setPhone(truncateValueNomor);
   };
 
   // Validasi password dengan konfirm password
@@ -42,22 +46,24 @@ const Register = () => {
 
   const handlePasswordMatch = (event) => {
     setPassword(event.target.value);
-    passwordValidation(event.target.value, confirmpassword);
+    passwordValidation(event.target.value, confPassword);
   };
 
   const handleConfirmPasswordMatch = (event) => {
-    setConfirmPassword(event.target.value);
+    setConfPassword(event.target.value);
     passwordValidation(password, event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleRegis = (e) => {
     e.preventDefault();
 
-    console.log("nama:", nama);
-    console.log("Email:", email);
-    console.log("nomor:", nomor);
-    console.log("Password:", password);
-    console.log("Konfirm Password:", confirmpassword);
+    // console.log("nama:", name);
+    // console.log("Email:", email);
+    // // localStorage.setItem("email", email);
+    // console.log("nomor:", phone);
+    // console.log("Password:", password);
+    // console.log("Konfirm Password:", confPassword);
+    dispatch(register(name, email, phone, password, confPassword, navigate));
   };
 
   const togglePassword = () => {
@@ -71,7 +77,7 @@ const Register = () => {
   return (
     <div className="flex min-h-screen bg-DARKBLUE04">
       <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[128px] ">
-        <form onSubmit={handleSubmit} className="w-full">
+        <form onSubmit={handleRegis} className="w-full">
           <h1 className="text-[28px] font-Montserrat font-bold text-DARKBLUE05 mb-8">
             Daftar
           </h1>
@@ -82,8 +88,8 @@ const Register = () => {
                 type="text"
                 className="border w-full py-3 px-4 rounded-2xl"
                 placeholder="Nama Lengkap"
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="flex flex-col">
@@ -105,7 +111,7 @@ const Register = () => {
                 pattern="[0-9+]+"
                 className="border w-full py-3 px-4 rounded-2xl appearance-none"
                 placeholder="+62, contohnya 6281...."
-                value={nomor}
+                value={phone}
                 onChange={validateNomor}
                 style={{ appearance: "none" }}
               />
@@ -123,12 +129,11 @@ const Register = () => {
                   placeholder="Masukkan password"
                   value={password}
                   onChange={handlePasswordMatch}
-                  required
                 />
                 {passworderror && (
                   <p
                     className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
-                      password === confirmpassword
+                      password === confPassword
                         ? "text-ALERTGREEN"
                         : "text-ALERTRED"
                     }`}
@@ -162,13 +167,13 @@ const Register = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem]"
                   placeholder="Masukkan konfirmasi password"
-                  value={confirmpassword}
+                  value={confPassword}
                   onChange={handleConfirmPasswordMatch}
                 />
                 {passworderror && (
                   <p
                     className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
-                      password === confirmpassword
+                      password === confPassword
                         ? "text-ALERTGREEN"
                         : "text-ALERTRED"
                     }`}
