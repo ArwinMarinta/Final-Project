@@ -16,6 +16,9 @@ import ManageCourse from "./pages/DasboardAdminPage/ManageCourse";
 import OtpPage from "./pages/OtpPage/Otp";
 import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
 import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
+import ChangePassword from "./pages/ProfilePage/ChangePassword";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -28,7 +31,7 @@ function App() {
         <Route path="/detail/payment" element={<DetailPaymentPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/course" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
@@ -36,7 +39,21 @@ function App() {
         <Route path="/manage-course" element={<ManageCourse />} />
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
+      {/* <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        limit={1}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      /> */}
     </BrowserRouter>
   );
 }

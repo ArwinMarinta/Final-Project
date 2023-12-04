@@ -1,6 +1,6 @@
 import CardKategori from "../../components/card/CardKategori";
 import CardCourse from "../../components/card/CardPopular";
-import Header from "../../components/header/Header";
+import Header from "../../components/Navbar/Header";
 import PeopleHome from "../../assets/people_homepage.svg";
 import course from "../../data/DataCourse";
 import populer from "../../data/DataKursurPopuler";
@@ -61,7 +61,7 @@ const HomePage = () => {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
-                <CardKategori key={data.category} data={data} />
+                <CardKategori key={data.id} data={data} />
               ))}
             </div>
           </div>
@@ -93,6 +93,7 @@ const HomePage = () => {
               ))}
             </Carousel>
           </div>
+
           <div className=" drop-shadow-xl container mx-auto">
             <Carousel responsive={responsive}>
               {course.map((data) => (
