@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import Checklist from "../../components/checklist/Checklist";
 import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/header";
+import Header from "../../components/header/Header";
 import axios from "axios";
-
 
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
