@@ -14,8 +14,9 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 import { SiCodechef } from "react-icons/si";
 import Search from "../../assets/search.svg";
 import { GoX } from "react-icons/go";
+import PropTypes from "prop-types";
 
-const Mobile = () => {
+const Mobile = ({ user }) => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [openSearch, setOpenSearch] = useState(false);
@@ -177,6 +178,10 @@ const Mobile = () => {
       </nav>
     </>
   );
+};
+
+Mobile.propTypes = {
+  user: PropTypes.object,
 };
 
 export default Mobile;

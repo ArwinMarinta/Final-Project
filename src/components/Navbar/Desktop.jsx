@@ -5,6 +5,7 @@ import { SiCodechef } from "react-icons/si";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
+import PropTypes from "prop-types";
 
 const Desktop = ({ user }) => {
   const [searchParams] = useSearchParams();
@@ -120,6 +121,10 @@ const Desktop = ({ user }) => {
       </nav>
     </>
   );
+};
+
+Desktop.propTypes = {
+  user: PropTypes.object,
 };
 
 export default Desktop;

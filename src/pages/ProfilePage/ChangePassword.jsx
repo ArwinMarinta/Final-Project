@@ -49,22 +49,26 @@ const ChangePassword = () => {
                 <div className=" flex flex-row gap-10 border-DARKBLUE05 border-2 px-6 py-4 rounded-b-2xl mb-12 bg-white">
                   <div className="hidden lg:block lg:w-[40%] ">
                     <div className="flex flex-col ">
-                      <div className="flex flex-row py-3 gap-2 border-b-2">
+                      <Link
+                        as={Link}
+                        to="/profile"
+                        className="flex flex-row py-3 gap-2 border-b-2"
+                      >
                         <img src={EditeIcon} />
                         <div>Profile Saya</div>
-                      </div>
-                      <div className="flex flex-row py-3 gap-2 border-b-2">
+                      </Link>
+                      <Link className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-DARKBLUE05 ">
                         <img src={SettingIcon} />
                         <div>Ubah Password</div>
-                      </div>
-                      <div className="flex flex-row py-3 gap-2 border-b-2">
+                      </Link>
+                      <Link className="flex flex-row py-3 gap-2 border-b-2">
                         <img src={ShopIcon} />
                         <div>Riwayat Pembelian</div>
-                      </div>
-                      <div className="flex flex-row py-3 gap-2 border-b-2">
+                      </Link>
+                      <button className="flex flex-row py-3 gap-2 border-b-2">
                         <img src={LogoutIcon} />
                         <div>Keluar</div>
-                      </div>
+                      </button>
                     </div>
                   </div>
                   <div className="flex flex-col lg:w-[60%] py-4 w-full gap-6 ">

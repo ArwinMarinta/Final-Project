@@ -1,18 +1,19 @@
 import { useState } from "react";
 import logo from "../../assets/Belajar_white 2.svg";
+import { useDispatch } from "react-redux";
+import { RequestPassword } from "../../redux/actions/AuthActions";
 
 const VerifyEmail = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Email:", email);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    dispatch(RequestPassword(email, setIsLoading));
   };
-  const handleClick = () => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 3000);
-  };
+
   return (
     <div className="flex min-h-screen bg-DARKBLUE04 ">
       <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
@@ -37,7 +38,6 @@ const VerifyEmail = () => {
             </div>
           </div>
           <button
-            onClick={handleClick}
             type="submit"
             className="w-full font-Poppins bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03"
           >

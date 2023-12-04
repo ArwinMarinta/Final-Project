@@ -66,3 +66,20 @@ export const profile =
       alert(error?.message);
     }
   };
+
+export const RequestPassword = (email, setIsLoading) => async () => {
+  try {
+    setIsLoading(true);
+    await axios.post(`${VITE_API_URL}/auth/request-reset-password`, {
+      email,
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
+    }
+    setIsLoading(false);
+  }
+};
