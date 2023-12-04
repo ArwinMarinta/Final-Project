@@ -130,7 +130,6 @@ export const verify = (otp, navigate) => async () => {
 export const resendOtp = () => async () => {
   try {
     const registeredEmail = localStorage.getItem("registeredEmail");
-    console.log("Registered Email:", registeredEmail);
     const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
       email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
     });
