@@ -64,7 +64,7 @@ const Login = () => {
                   <label className="font-Poppins text-[15px] mb-[4px]">
                     Password
                   </label>
-                  <Link to="/reset-password">
+                  <Link to="/verify-email">
                     <span className="font-Poppins text-[11px] text-DARKBLUE05 transition duration-300 ease-in-out hover:underline hover:border-DARKBLUE05">
                       Lupa Kata Sandi
                     </span>

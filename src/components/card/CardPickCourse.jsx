@@ -7,8 +7,7 @@ import PropTypes from "prop-types";
 const CardPickCourse = ({ data }) => {
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg mx-1 ">
-      
-        <img className="w-full h-[15vh]" src={data.imageUrl} />
+      <img className="w-full h-[15vh]" src={data.imageUrl} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
           <h3 className="text-DARKBLUE05">{data.category}</h3>
@@ -32,7 +31,7 @@ const CardPickCourse = ({ data }) => {
           </span>
           <span className="font-semibold text-xs flex gap-x-1">
             <img src={Book} className="w-3" />
-            {data.type} 
+            {data.type}
           </span>
           <span className="font-semibold text-xs flex gap-x-1">
             <img src={Time} className="w-3" />
