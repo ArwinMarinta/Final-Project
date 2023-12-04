@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
+import { toastify } from "../../utils/toastify";
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
@@ -15,7 +16,10 @@ export const login = (email, password, navigate) => async (dispatch) => {
     navigate("/");
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error?.response?.error?.email?.message);
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
     }
   }
 };
