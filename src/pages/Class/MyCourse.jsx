@@ -3,7 +3,7 @@ import Checklist from "../../components/checklist/Checklist";
 import CardCourse from "../../components/card/CardCourse";
 import course from "../../data/DataCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/Navbar/Header";
+import Header from "../../components/header";
 import axios from "axios";
 
 const MyCourse = () => {
