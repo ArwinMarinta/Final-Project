@@ -25,9 +25,13 @@ export const getContentDetail =
 
       const { value } = response.data;
       const data = value;
+      console.log("axios true");
+      console.log(data);
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        console.log("axios false");
+        // console.log(data);
         alert(error.response.data.message);
       }
     }

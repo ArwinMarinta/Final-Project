@@ -14,8 +14,10 @@ import { MdOutlinePersonOutline } from "react-icons/md";
 import { SiCodechef } from "react-icons/si";
 import Search from "../../assets/search.svg";
 import { GoX } from "react-icons/go";
+import PropTypes from "prop-types";
+import LoginIcon from "../../assets/log_in.svg";
 
-const Mobile = () => {
+const Mobile = ({ user }) => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const [openSearch, setOpenSearch] = useState(false);
@@ -46,55 +48,79 @@ const Mobile = () => {
 
   return (
     <>
-      {path !== "/notification" && path !== "/profile" && (
-        <form
-          className="sticky top-0 p-3 sm:p-0 bg-DARKBLUE05 z-[999]"
-          action="search"
-          onSubmit={onSubmitHandler}
-        >
-          <div
-            className="relative mx-auto w-full flex flex-row justify-between sm:hidden "
-            style={{ maxWidth: "600px" }}
+      {path !== "/notification" &&
+        path !== "/profile" &&
+        path !== "/change-password" &&
+        path !== "/history" && (
+          <form
+            className="sticky top-0 p-3 sm:p-0 bg-DARKBLUE05 z-[999]"
+            action="search"
+            onSubmit={onSubmitHandler}
           >
-            <Link as={Link} to="/" className="flex flex-row ">
-              <SiCodechef className="text-3xl" />
-              <p className="text-xl font-bold">ngodingCoy</p>
-            </Link>
-            <button
-              className="border-2 p-[1px] rounded-lg"
-              onClick={() => setOpenSearch(true)}
+            <div
+              className="relative mx-auto w-full flex flex-row justify-between sm:hidden "
+              style={{ maxWidth: "600px" }}
             >
-              <img src={Search} />
-            </button>
-            {openSearch && (
-              <>
-                <div className=" sm:hidden absolute flex flex-row gap-2  w-full border-0 outline-none rounded-lg  ">
-                  <form className="flex flex-row relative  w-full">
-                    <input
-                      name="search"
-                      className=" text-black w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-lg focus:outline-none 
-                                        ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
-                      type="text"
-                      placeholder="Cari Kelas ..."
-                      value={keyword}
-                      onChange={onKeywordChangeHandler}
-                    />
-                    <button className="absolute bottom-1/2 right-2 translate-y-1/2 rounded-lg bg-DARKBLUE05 p-[1px]">
+              <Link as={Link} to="/" className="flex flex-row ">
+                <SiCodechef className="text-3xl" />
+                <p className="text-xl font-bold">ngodingCoy</p>
+              </Link>
+              <div className="flex flex-row gap-4 mr-[7px]">
+                {user ? (
+                  <button
+                    className="border-2 p-[1px] rounded-lg"
+                    onClick={() => setOpenSearch(true)}
+                  >
+                    <img src={Search} />
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      className="border-2 p-[1px] rounded-lg"
+                      onClick={() => setOpenSearch(true)}
+                    >
                       <img src={Search} />
                     </button>
-                  </form>
-                  <button
-                    className="bg-white px-2 rounded-lg "
-                    onClick={() => setOpenSearch(false)}
-                  >
-                    <GoX className="text-xl " />
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </form>
-      )}
+                    <Link
+                      as={Link}
+                      to="/login"
+                      className="border-2 p-[1px] rounded-lg"
+                    >
+                      <img src={LoginIcon} />
+                    </Link>
+                  </>
+                )}
+              </div>
+
+              {openSearch && (
+                <>
+                  <div className=" sm:hidden absolute flex flex-row gap-2 h-full w-full border-0 outline-none rounded-lg  ">
+                    <form className="flex flex-row relative  w-full">
+                      <input
+                        name="search"
+                        className=" text-black w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-lg focus:outline-none 
+                                        ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
+                        type="text"
+                        placeholder="Cari Kelas ..."
+                        value={keyword}
+                        onChange={onKeywordChangeHandler}
+                      />
+                      <button className="absolute bottom-1/2 right-2 translate-y-1/2 rounded-lg bg-DARKBLUE05 p-[1px]">
+                        <img src={Search} />
+                      </button>
+                    </form>
+                    <button
+                      className="bg-white px-2 rounded-lg "
+                      onClick={() => setOpenSearch(false)}
+                    >
+                      <GoX className="text-xl " />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </form>
+        )}
 
       <nav className="sm:hidden flex items-center fixed bg-white border-t drop-shadow-2xl shadow-outline border-gray-300 w-full bottom-0 py-4 z-[999]">
         <NavLink
@@ -177,6 +203,10 @@ const Mobile = () => {
       </nav>
     </>
   );
+};
+
+Mobile.propTypes = {
+  user: PropTypes.object,
 };
 
 export default Mobile;

@@ -18,6 +18,7 @@ import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
 import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
 import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
+import HistoryPage from "./pages/ProfilePage/Histori";
 // import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/history" element={<HistoryPage />} />
       </Routes>
       {/* <ToastContainer
         position="bottom-center"
