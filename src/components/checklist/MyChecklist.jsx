@@ -124,9 +124,6 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       navigateToCourses();
     }
   }, [
-    dispatch,
-    applyFilter,
-    navigateToCourses,
     selectedCheckboxes,
     selectedLevel,
     setData,

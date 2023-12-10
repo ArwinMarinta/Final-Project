@@ -44,7 +44,7 @@ const HomePage = () => {
               </div>
               <Link
                 as={Link}
-                to="/course"
+                to="/course/:nameCourse"
                 className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%] text-center"
               >
                 IKUTI KELAS
@@ -67,7 +67,11 @@ const HomePage = () => {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
-                <CardKategori key={data.id} data={data} />
+                <>
+                  <Link as={Link} to={`/course/category=${data.slug}`}>
+                    <CardKategori key={data.category} data={data} />
+                  </Link>
+                </>
               ))}
             </div>
           </div>
