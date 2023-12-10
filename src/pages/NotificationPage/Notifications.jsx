@@ -1,4 +1,4 @@
-import Navbar from "../../components/header";
+import Navbar from "../../components/Navbar/Header";
 import Arrow from "../../assets/arrow_left.svg";
 import Data from "../../data/DataNotifikasi";
 import Notification from "../../assets/notification.svg";

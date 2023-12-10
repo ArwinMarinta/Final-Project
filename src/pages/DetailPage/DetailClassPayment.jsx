@@ -1,5 +1,5 @@
 import Leave from "../../assets/arrow_left.svg";
-import Header from "../../components/header";
+import Header from "../../components/Navbar/Header";
 import mastercard from "../../assets/mastercard_logo.svg";
 import visa from "../../assets/visa_logo.svg";
 import ameks from "../../assets/ameks_logo.svg";

@@ -1,6 +1,6 @@
 import CardKategori from "../../components/card/CardKategori";
 import CardCourse from "../../components/card/CardPopular";
-import Header from "../../components/header";
+import Header from "../../components/Navbar/Header";
 import PeopleHome from "../../assets/people_homepage.svg";
 import course from "../../data/DataCourse";
 import populer from "../../data/DataKursurPopuler";
@@ -97,6 +97,7 @@ const HomePage = () => {
               ))}
             </Carousel>
           </div>
+
           <div className=" drop-shadow-xl container mx-auto">
             <Carousel responsive={responsive}>
               {course.map((data) => (

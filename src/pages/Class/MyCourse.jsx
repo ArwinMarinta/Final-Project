@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import MyChecklist from "../../components/checklist/MyChecklist";
 import CardCourse from "../../components/card/CardCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/header";
+import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
 
