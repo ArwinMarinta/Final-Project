@@ -116,7 +116,7 @@ export const verify = (otp, navigate) => async () => {
         // Menunggu 3 detik sebelum navigasi ke halaman Login
         localStorage.removeItem("registeredEmail");
         navigate("/login");
-      }, 3500);
+      }, 3000);
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
