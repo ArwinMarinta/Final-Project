@@ -2,8 +2,6 @@ import CardKategori from "../../components/card/CardKategori";
 import CardCourse from "../../components/card/CardPopular";
 import Header from "../../components/Navbar/Header";
 import PeopleHome from "../../assets/people_homepage.svg";
-import course from "../../data/DataCourse";
-import populer from "../../data/DataKursurPopuler";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { responsive } from "../../utils/responsiveCarousel";
@@ -16,12 +14,17 @@ import { useEffect } from "react";
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { category } = useSelector((state) => state.course);
+  const { category, popular } = useSelector((state) => state.course);
 
   useEffect(() => {
     dispatch(getCategory());
     dispatch(getPopular());
   }, [dispatch]);
+
+  const handleLinkClick = () => {
+    // Panggil fungsi getPopular saat tautan diklik
+    dispatch(getPopular());
+  };
 
   return (
     <>
@@ -39,9 +42,13 @@ const HomePage = () => {
                 <h1>Belajar</h1>
                 <h1>dari Praktisi Terbaik!</h1>
               </div>
-              <button className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%]">
+              <Link
+                as={Link}
+                to="/course"
+                className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%] text-center"
+              >
                 IKUTI KELAS
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -51,13 +58,12 @@ const HomePage = () => {
           <div className="flex w-full flex-col pt-[26px] pb-[14px] gap-5 container">
             <div className="flex flex-row justify-between container">
               <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
-              <Link
-                as={Link}
-                to="/course"
+              <button
+                onClick={handleLinkClick}
                 className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
               >
                 Lihat Semua
-              </Link>
+              </button>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
@@ -84,10 +90,16 @@ const HomePage = () => {
 
           <div className="container">
             <Carousel responsive={responsive2}>
-              {populer.map((datas) => (
+              <Link
+                as={Link}
+                className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
+              >
+                All
+              </Link>
+              {category.map((datas) => (
                 <div key={datas.id} className="ml-1 mr-1">
                   <button className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 ">
-                    <div>{datas.popular}</div>
+                    <div>{datas.name}</div>
                   </button>
                 </div>
               ))}
@@ -96,7 +108,7 @@ const HomePage = () => {
 
           <div className=" drop-shadow-xl container mx-auto">
             <Carousel responsive={responsive}>
-              {course.map((data) => (
+              {popular.map((data) => (
                 <CardCourse key={data.id} data={data} />
               ))}
             </Carousel>

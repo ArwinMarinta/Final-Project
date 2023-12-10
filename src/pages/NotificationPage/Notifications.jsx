@@ -1,10 +1,23 @@
 import Navbar from "../../components/Navbar/Header";
 import Arrow from "../../assets/arrow_left.svg";
-import Data from "../../data/DataNotifikasi";
 import Notification from "../../assets/notification.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { NotificationUser } from "../../redux/actions/CourseActions";
 
-const notifications = () => {
+const Notifications = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { token } = useSelector((state) => state.auth);
+  const { notification } = useSelector((state) => state.course);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(NotificationUser(navigate, null, "/"));
+    }
+  }, [dispatch, navigate, token]);
   return (
     <>
       <Navbar />
@@ -26,25 +39,25 @@ const notifications = () => {
                   Notifikasi
                 </div>
                 <div className=" flex flex-col p-9 bg-white gap-4 w-full rounded-b-xl">
-                  {Data.map((datas) => (
-                    <div key={datas.id}>
+                  {notification.map((datas) => (
+                    <div key={datas?.id}>
                       <div className="flex flex-row container gap-2  justify-between">
                         <div className="flex flex-row gap-4 font-Montserrat">
                           <img src={Notification} />
                           <div className="flex flex-col ">
                             <h3 className="text-DARKBLUE05 font-normal text-xs">
-                              {datas.nama}
+                              {datas?.type}
                             </h3>
                             <p className="text-black font-semibold text-[10px]">
-                              {datas.message}
+                              {datas?.message}
                             </p>
                             <p className="text-DEEPGRAY text-[10px] font-normal">
-                              {datas.keterangan}
+                              {datas?.keterangan}
                             </p>
                           </div>
                         </div>
                         <div className="text-[10px] font-semibold text-DEEPGRAY">
-                          {datas.tanggal}
+                          {datas?.createdAt}
                         </div>
                       </div>
                     </div>
@@ -59,4 +72,4 @@ const notifications = () => {
   );
 };
 
-export default notifications;
+export default Notifications;

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Arrow from "../../assets/arrow_left.svg";
 import Header from "../../components/Navbar/Header";
@@ -7,23 +7,50 @@ import SettingIcon from "../../assets/setting.svg";
 import ShopIcon from "../../assets/shopping_card.svg";
 import LogoutIcon from "../../assets/log_out.svg";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/actions/AuthActions";
+import { ChangePasswordUser } from "../../redux/actions/AuthActions";
 
 const ChangePassword = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [changePassword, setChangePassword] = useState({
-    passwordOld: "",
-    passwordNew: "",
-    passwordConfNew: "",
+    oldPassword: "",
+    newPassword: "",
+    confPassword: "",
   });
   const [showPassword, setShowPassword] = useState({
-    passwordOld: false,
-    passwordNew: false,
-    passwordConfNew: false,
+    oldPassword: false,
+    newPassword: false,
+    confPassword: false,
   });
+
+  const { token } = useSelector((state) => state.auth);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (token) {
+      dispatch(
+        ChangePasswordUser(
+          changePassword.oldPassword,
+          changePassword.newPassword,
+          changePassword.confPassword
+        )
+      );
+    }
+  };
+
   const togglePassword = (field) => {
     setShowPassword((prevState) => ({
       ...prevState,
       [field]: !prevState[field],
     }));
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
   };
 
   return (
@@ -34,20 +61,55 @@ const ChangePassword = () => {
           <div className="bg-LightBlue5 h-[250px] drop-shadow-xl "></div>
           <div className="absolute  flex justify-center mt-6  top-0 left-0 right-0 bottom-0 ">
             <div className="container flex flex-col  ">
-              <Link
-                as={Link}
-                to="/"
-                className="container  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold"
-              >
-                <img src={Arrow} />
-                <p>Kembali ke Beranda</p>
-              </Link>
+              <div className="hidden lg:block">
+                <Link
+                  as={Link}
+                  to="/"
+                  className="container  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold"
+                >
+                  <img src={Arrow} />
+                  <p>Kembali ke Beranda</p>
+                </Link>
+              </div>
               <div className=" container flex flex-col  mt-4 drop-shadow-2xl ">
-                <div className="bg-DARKBLUE05 border-2 border-DARKBLUE05 rounded-t-2xl  text-white p-6 font-Montserrat font-bold text-xl text-center">
-                  Akun
+                <div className="hidden lg:block">
+                  <div className="bg-DARKBLUE05 border-2 border-DARKBLUE05 rounded-t-2xl  text-white p-6 font-Montserrat font-bold text-xl text-center">
+                    Akun
+                  </div>
+                </div>
+                <div className="lg:hidden">
+                  <div className="flex flex-row rounded-t-2xl  bg-NEUTRAL02 border-t-2 border-DARKBLUE05">
+                    <Link
+                      as={Link}
+                      to="/profile"
+                      className=" py-[24px] w-full border-l-2 rounded-tl-2xl border-r-2 border-DARKBLUE05 justify-center items-center flex"
+                    >
+                      <img src={EditeIcon} />
+                    </Link>
+                    <Link
+                      as={Link}
+                      to="/change-password"
+                      className="bg-NEUTRAL05 py-[24px] w-full  justify-center items-center flex  border-r-2 border-DARKBLUE05"
+                    >
+                      <img src={SettingIcon} />
+                    </Link>
+                    <Link
+                      as={Link}
+                      to="/history"
+                      className="py-[24px] w-full justify-center items-center flex  border-r-2 border-DARKBLUE05"
+                    >
+                      <img src={ShopIcon} />
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="py-[24px] w-full  justify-center items-center flex border-r-2 rounded-tr-2xl border-DARKBLUE05"
+                    >
+                      <img src={LogoutIcon} />
+                    </button>
+                  </div>
                 </div>
                 <div className=" flex flex-row gap-10 border-DARKBLUE05 border-2 px-6 py-4 rounded-b-2xl mb-12 bg-white">
-                  <div className="hidden lg:block lg:w-[40%] ">
+                  <div className="hidden lg:block lg:w-[40%] lg:pr-16 font-Montserrat">
                     <div className="flex flex-col ">
                       <Link
                         as={Link}
@@ -57,25 +119,39 @@ const ChangePassword = () => {
                         <img src={EditeIcon} />
                         <div>Profile Saya</div>
                       </Link>
-                      <Link className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-DARKBLUE05 ">
+                      <Link
+                        as={Link}
+                        to="/change-password"
+                        className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-DARKBLUE05 "
+                      >
                         <img src={SettingIcon} />
                         <div>Ubah Password</div>
                       </Link>
-                      <Link className="flex flex-row py-3 gap-2 border-b-2">
+                      <Link
+                        as={Link}
+                        to="/history"
+                        className="flex flex-row py-3 gap-2 border-b-2"
+                      >
                         <img src={ShopIcon} />
                         <div>Riwayat Pembelian</div>
                       </Link>
-                      <button className="flex flex-row py-3 gap-2 border-b-2">
+                      <button
+                        onClick={handleLogout}
+                        className="flex flex-row py-3 gap-2 border-b-2"
+                      >
                         <img src={LogoutIcon} />
                         <div>Keluar</div>
                       </button>
                     </div>
                   </div>
-                  <div className="flex flex-col lg:w-[60%] py-4 w-full gap-6 ">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col lg:w-[60%] py-4 w-full gap-6 lg:px-16 "
+                  >
                     <div className="font-bold font-Montserrat text-2xl text-center">
                       Ubah Password
                     </div>
-                    <form className="flex flex-col justify-center gap-4">
+                    <div className="flex flex-col justify-center gap-4">
                       <div className="flex flex-col">
                         <div className="flex justify-between items-center">
                           <label className="font-Poppins text-[15px] mb-[4px]">
@@ -88,12 +164,12 @@ const ChangePassword = () => {
                               showPassword.passwordOld ? "text" : "password"
                             }
                             className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem] "
-                            placeholder="Masukkan password"
+                            placeholder="********"
                             value={changePassword.passwordOld}
                             onChange={(e) => {
                               setChangePassword({
-                                ...ChangePassword,
-                                passwordOld: e.target.value,
+                                ...changePassword,
+                                oldPassword: e.target.value,
                               });
                             }}
                           />
@@ -122,12 +198,12 @@ const ChangePassword = () => {
                               showPassword.passwordNew ? "text" : "password"
                             }
                             className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem] "
-                            placeholder="Masukkan password"
+                            placeholder="********"
                             value={changePassword.passwordNew}
                             onChange={(e) => {
                               setChangePassword({
                                 ...changePassword,
-                                passwordNew: e.target.value,
+                                newPassword: e.target.value,
                               });
                             }}
                           />
@@ -156,12 +232,12 @@ const ChangePassword = () => {
                               showPassword.passwordConfNew ? "text" : "password"
                             }
                             className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem] "
-                            placeholder="Masukkan password"
+                            placeholder="********"
                             value={changePassword.passwordConfNew}
                             onChange={(e) => {
                               setChangePassword({
                                 ...changePassword,
-                                passwordConfNew: e.target.value,
+                                confPassword: e.target.value,
                               });
                             }}
                           />
@@ -177,12 +253,15 @@ const ChangePassword = () => {
                             )}
                           </button>
                         </div>
-                        <button className="bg-DARKBLUE05 text-white p-3 rounded-3xl mt-6">
-                          Simpan Profile Saya
+                        <button
+                          type="submit"
+                          className="bg-DARKBLUE05 text-white p-3 rounded-3xl mt-6"
+                        >
+                          Ubah Password
                         </button>
                       </div>
-                    </form>
-                  </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

@@ -17,6 +17,7 @@ import OtpPage from "./pages/OtpPage/Otp";
 import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
 import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
+import HistoryPage from "./pages/ProfilePage/Histori";
 // import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -27,7 +28,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/detail/course" element={<DetailPage />} />
+        <Route path="/detail/course/:courseId" element={<DetailPage />} />
         <Route path="/detail/payment" element={<DetailPaymentPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notification" element={<NotificationPage />} />
@@ -40,6 +41,7 @@ function App() {
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/history" element={<HistoryPage />} />
       </Routes>
       {/* <ToastContainer
         position="bottom-center"
