@@ -20,7 +20,7 @@ const Header = () => {
   return (
     <>
       <Desktop user={user} />
-      <Mobile />
+      <Mobile user={user} />
     </>
   );
 };
