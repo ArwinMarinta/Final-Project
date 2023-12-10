@@ -4,13 +4,13 @@ import Start from "../../assets/star.svg";
 import Time from "../../assets/time.svg";
 import PropTypes from "prop-types";
 
-const CardCourse = ({ data }) => {
+const CardCourse = ({ data, progress }) => {
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg  ">
-      <img src={data.Image} />
+      <img className="w-full h-[15vh]" src={data.imageUrl} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
-          <h3 className="text-DARKBLUE05">{data.nama}</h3>
+          <h3 className="text-DARKBLUE05">{data.category}</h3>
           <div className="flex flex-row gap-1">
             <img src={Start} />
             <p>{data.rating}</p>
@@ -20,10 +20,10 @@ const CardCourse = ({ data }) => {
           className="mt-1 font-Montserrat font-bold text-sm line-clamp-2 "
           style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
         >
-          {data.topic}
+          {data.title}
         </h3>
         <p className="my-1 font-Montserrat font-normal text-xs">
-          {data.mentor}
+          {data.instructor}
         </p>
         <div className="flex pb-2 justify-between">
           <span className=" font-semibold text-xs text-[#6148FF] flex gap-x-1">
@@ -31,14 +31,18 @@ const CardCourse = ({ data }) => {
           </span>
           <span className="font-semibold text-xs flex gap-x-1">
             <img src={Book} className="w-3" />
-            {data.modul}
+            {data.totalModule}
           </span>
           <span className="font-semibold text-xs flex gap-x-1">
             <img src={Time} className="w-3" />
-            {data.durasi}
+            {data.duration} jam
           </span>
         </div>
-        <div></div>
+        <div>
+          <button className="bg-blue-500 rounded-full px-12">
+            {progress.progress}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -46,6 +50,7 @@ const CardCourse = ({ data }) => {
 
 CardCourse.propTypes = {
   data: PropTypes.object,
+  progress: PropTypes.object,
 };
 
 export default CardCourse;
