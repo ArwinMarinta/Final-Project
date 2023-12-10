@@ -9,12 +9,12 @@ import { useParams } from "react-router-dom";
 const DetailPage = () => {
   const dispatch = useDispatch();
   const { courseDetail } = useSelector((state) => state.detail) || {};
+  const { user } = useSelector((state) => state.auth);
 
   const { courseId } = useParams();
 
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
-    // dispatch(getContentDetail(courseId));
   }, [dispatch, courseId]);
 
   // useEffect(() => {
@@ -23,7 +23,7 @@ const DetailPage = () => {
   return (
     <>
       <Header />
-      <Desktop courseDetail={courseDetail} />
+      <Desktop courseDetail={courseDetail} user={user} />
       <Mobile courseDetail={courseDetail} />
     </>
   );

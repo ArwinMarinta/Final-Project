@@ -29,13 +29,13 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/detail/course/:courseId" element={<DetailPage />} />
         <Route
           path="/detail/course/:courseId/module/:moduleId/content/:contentId"
           element={<DetailContent />}
         />
         <Route path="/detail/payment" element={<DetailPaymentPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />

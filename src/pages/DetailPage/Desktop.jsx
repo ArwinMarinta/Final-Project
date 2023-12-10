@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { RiShieldStarLine } from "react-icons/ri";
 import { RiBook2Line } from "react-icons/ri";
@@ -7,9 +7,16 @@ import { RiTimeFill } from "react-icons/ri";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BiSolidLock } from "react-icons/bi";
-import course from "../../data/DataCourse";
 
-const Desktop = ({ courseDetail, contentDetail }) => {
+const Desktop = ({ courseDetail, contentDetail, user }) => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = (courseId, moduleId, contentId) => {
+    navigate(
+      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+    );
+  };
+
   return (
     <>
       <div className="hidden sm:block">
@@ -62,7 +69,7 @@ const Desktop = ({ courseDetail, contentDetail }) => {
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-2xl bg-black"
-              src={contentDetail?.videoUrl}
+              src={`https://www.youtube.com/embed/${contentDetail?.videoUrl}`}
               title="YouTube video player"
               // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -105,9 +112,15 @@ const Desktop = ({ courseDetail, contentDetail }) => {
                     {courseDetail?.modules?.[moduleIndex]?.contents?.map(
                       (content, contentIndex) => (
                         <div className="" key={contentIndex}>
-                          <Link
-                            to={`module/${module?.moduleId}/content/${content.contentId}`}
-                            className="flex items-center justify-between py-1"
+                          <button
+                            onClick={() =>
+                              handleLinkClick(
+                                courseDetail?.courseId,
+                                module?.moduleId,
+                                content?.contentId
+                              )
+                            }
+                            className="flex items-center justify-between py-1 w-full"
                           >
                             <div className="flex items-center text-sm">
                               <span className="rounded-full bg-DARKBLUE04 text-sm font-medium py-1 px-3 mr-2.5">
@@ -119,12 +132,16 @@ const Desktop = ({ courseDetail, contentDetail }) => {
                             </div>
                             <span className="text-xl">
                               {content?.isDemo === true ? (
-                                <FaCirclePlay className="text-NEUTRAL02" />
+                                <FaCirclePlay
+                                  className={`${
+                                    user ? "text-ALERTGREEN" : "text-NEUTRAL02"
+                                  }`}
+                                />
                               ) : (
                                 <BiSolidLock className="text-black" />
                               )}
                             </span>
-                          </Link>
+                          </button>
                           <hr className="my-1" />
                         </div>
                       )
@@ -148,6 +165,10 @@ Desktop.propTypes = {
     level: PropTypes.string,
     totalModule: PropTypes.number,
     duration: PropTypes.number,
+    courseId: PropTypes.number,
+    requirements: PropTypes.string,
+    category: PropTypes.string,
+    groupDiscussion: PropTypes.string,
     modules: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -156,25 +177,17 @@ Desktop.propTypes = {
           PropTypes.shape({
             title: PropTypes.string,
             isDemo: PropTypes.bool,
+            contentId: PropTypes.number, // menambahkan contentId
             // Tambahkan prop lainnya sesuai kebutuhan
           })
         ),
       })
     ),
   }),
-  freeContents: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      isDemo: PropTypes.bool,
-      // Tambahkan prop lainnya sesuai kebutuhan
-    })
-  ),
-  premiumContents: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      isFree: PropTypes.bool, // Mengubah isFree dari isDemo sesuai dengan kebutuhan
-      // Tambahkan prop lainnya sesuai kebutuhan
-    })
-  ),
+  contentDetail: PropTypes.shape({
+    videoUrl: PropTypes.string, // Mengubah tipe prop videoUrl menjadi string
+  }),
+  user: PropTypes.bool, // menambahkan prop user dengan tipe boolean
 };
+
 export default Desktop;
