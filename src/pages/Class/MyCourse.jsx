@@ -1,31 +1,21 @@
-import { useState,useEffect } from "react";
-import Checklist from "../../components/checklist/Checklist";
+import { useState, useEffect } from "react";
+import MyChecklist from "../../components/checklist/MyChecklist";
 import CardCourse from "../../components/card/CardCourse";
-import course from "../../data/DataCourse";
 import Search from "../../assets/search.svg";
 import Header from "../../components/header";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getMyCourse } from "../../redux/actions/CourseActions";
 
 const MyCourse = () => {
-  const [typeButton, setTypeButton] = useState("");
+  const [status, setStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
-  const [hasil, setHasil] = useState([]);
+  const [myCourse, setMyCourse] = useState([]);
+  const { hasil } = useSelector((state) => state.course);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getCourse = async () => {
-      try {
-        const response = await axios.get(
-          `https://backend-production-6687.up.railway.app/api/v1/course`
-        );
-        const { data } = response;
-        setHasil(data.value);
-      } catch (errors) {
-        alert(errors?.message);
-      }
-    };
-    getCourse();
-  }, []);
+  const linkFilter = `user-courses`;
+
   const handleInputChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
@@ -35,20 +25,11 @@ const MyCourse = () => {
   };
 
   const handleClick = (value) => {
-    setTypeButton(value);
-    if (typeButton === null) {
-      setTypeButton(null);
-    }
-    if (value === "all") {
-      setTypeButton("all");
-    }
-    if (value === "inprogress") {
-      setTypeButton("inprogress");
-    }
-    if (value === "selesai") {
-      setTypeButton("selesai");
-    }
+    setStatus(value);
   };
+  useEffect(() => {
+    dispatch(getMyCourse());
+  }, []);
   return (
     <>
       <Header />
@@ -91,10 +72,22 @@ const MyCourse = () => {
             {/* bagian 2*/}
             <div className="md:flex  mt-6  justify-between gap-20">
               <div className="block md:hidden md:w-auto w-full">
-                {filter && <Checklist />}
+                {filter && (
+                  <MyChecklist
+                    setData={setMyCourse}
+                    linkFilter={linkFilter}
+                    hasil={hasil}
+                    typeButton={status}
+                  />
+                )}
               </div>
               <div className="hidden md:block w-72">
-                <Checklist />
+                <MyChecklist
+                  setData={setMyCourse}
+                  linkFilter={linkFilter}
+                  hasil={hasil}
+                  typeButton={status}
+                />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
                 <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh]">
@@ -118,7 +111,7 @@ const MyCourse = () => {
                   </button>
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
-                  {course
+                  {myCourse
                     .filter((item) => {
                       if (searchTerm === "") {
                         return item;
@@ -135,8 +128,13 @@ const MyCourse = () => {
                     })
 
                     .map((item) => (
-                      <div className="w-full" key={item.id}>
-                        <CardCourse key={item.id} data={item} />
+                      <div className="w-full" key={item.userCourseId}>
+                        <CardCourse
+                          key={item.id}
+                          data={item.courses}
+                          progress={item}
+                        />
+                        ;
                       </div>
                     ))}
                 </div>

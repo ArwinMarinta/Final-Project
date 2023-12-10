@@ -28,7 +28,7 @@ function App() {
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
-        <Route path="/course" element={<Course />} />
+        <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />
