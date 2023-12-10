@@ -61,7 +61,11 @@ const HomePage = () => {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
-                <CardKategori key={data.id} data={data} />
+                <>
+                  <Link as={Link} to={`/course/category=${data.slug}`}>
+                    <CardKategori key={data.category} data={data} />
+                  </Link>
+                </>
               ))}
             </div>
           </div>
