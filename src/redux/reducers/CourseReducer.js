@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   category: [],
   popular: [],
+  history: [],
+  notification: [],
   hasil: [],
   filter: [],
 };
@@ -17,6 +19,12 @@ const courseSlice = createSlice({
     setPopular: (state, action) => {
       state.popular = action.payload;
     },
+    setHistory: (state, action) => {
+      state.history = action.payload;
+    },
+    setNotification: (state, action) => {
+      state.notification = action.payload;
+    },
     setHasil: (state, action) => {
       state.hasil = action.payload;
     },
@@ -26,5 +34,13 @@ const courseSlice = createSlice({
   },
 });
 
-export const { setCategory, setPopular,setHasil,setFilter } = courseSlice.actions;
+export const {
+  setCategory,
+  setPopular,
+  setHistory,
+  setNotification,
+  setHasil,
+  setFilter,
+} = courseSlice.actions;
+
 export default courseSlice.reducer;

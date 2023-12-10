@@ -3,6 +3,8 @@ import { VITE_API_URL } from "../../config/config";
 import {
   setCategory,
   setPopular,
+  setHistory,
+  setNotification,
   setHasil,
   setFilter,
 } from "../reducers/CourseReducer";
@@ -22,7 +24,7 @@ export const getCategory = () => async (dispatch) => {
 
 export const getPopular = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${VITE_API_URL}/course?popular=true`);
+    const response = await axios.get(`${VITE_API_URL}/courses?popular=true`);
 
     const { value } = response.data;
 
@@ -31,6 +33,44 @@ export const getPopular = () => async (dispatch) => {
     if (axios.isAxiosError(error)) {
       alert(error.response.data.message);
     }
+  }
+};
+
+export const HistoryUser = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+    const response = await axios.get(`${VITE_API_URL}/orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { value } = response.data;
+    dispatch(setHistory(value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      alert(error.response.data.message);
+    }
+  }
+};
+
+export const NotificationUser = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+    const response = await axios.get(`${VITE_API_URL}/notifications`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { data } = response;
+
+    dispatch(setNotification(data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      alert(error.response.data.message);
+    }
+    alert(error.message);
   }
 };
 
@@ -54,19 +94,16 @@ export const filterData = () => async (dispatch) => {
   }
 };
 
-export const getMyCourse = () => async (dispatch,getState) => {
+export const getMyCourse = () => async (dispatch, getState) => {
   const { token } = getState().auth;
   try {
-    const response = await axios.get(
-      `${VITE_API_URL}/user-courses`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${VITE_API_URL}/user-courses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const coursesData = response.data.value;
-    dispatch(setHasil(coursesData))
+    dispatch(setHasil(coursesData));
   } catch (errors) {
     alert(errors?.message);
   }

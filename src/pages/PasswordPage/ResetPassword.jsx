@@ -2,18 +2,23 @@
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import logo from "../../assets/Belajar_white 2.svg";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ResetPasswordUser } from "../../redux/actions/AuthActions";
 
 const ResetPassword = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfimPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Email:", password);
-    console.log("Password:", confirmPassword);
+    dispatch(ResetPasswordUser(id, password, confPassword, navigate));
   };
 
   //fungsi show/hidden password
@@ -76,8 +81,8 @@ const ResetPassword = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem] "
                   placeholder="********"
-                  value={confirmPassword}
-                  onChange={(e) => setConfimPassword(e.target.value)}
+                  value={confPassword}
+                  onChange={(e) => setConfPassword(e.target.value)}
                 />
                 <button
                   type="button"
