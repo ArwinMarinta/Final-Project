@@ -1,45 +1,24 @@
 import { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 import Checklist from "../../components/checklist/Checklist";
 import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getCourse } from "../../redux/actions/CourseActions";
 
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
-  const [hasil, setHasil] = useState([]);
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const { hasil } = useSelector((state) => state.course);
+  // const { nameCourse } = useParams();
+  const linkFilter = `courses`;
 
-  const getItemsByName = (name) => {
-    if (name === "") {
-      return hasil.filter((item) => item.type);
-    } else {
-      return hasil.filter((item) => item.type === name);
-    }
-  };
   useEffect(() => {
-    const getCourse = async () => {
-      try {
-        const response = await axios.get(
-          `https://backend-production-6687.up.railway.app/api/v1/course?page=1&limit=15`
-        );
-        const { data } = response;
-        setHasil(data.value);
-        type(data);
-      } catch (errors) {
-        alert(errors?.message);
-      }
-    };
-    const type = (data) => {
-      if (typeButton === "") {
-        setData(data.value);
-      } else {
-        setData(getItemsByName(typeButton));
-      }
-    };
-    getCourse();
+    dispatch(getCourse());
   }, [typeButton]);
 
   const handleInputChange = (event) => {
@@ -100,6 +79,7 @@ const Course = () => {
                     hasil={hasil}
                     setData={setData}
                     typeButton={typeButton}
+                    linkFilter={linkFilter}
                   />
                 )}
               </div>
@@ -108,6 +88,7 @@ const Course = () => {
                   typeButton={typeButton}
                   hasil={hasil}
                   setData={setData}
+                  linkFilter={linkFilter}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
