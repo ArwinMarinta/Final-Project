@@ -134,7 +134,6 @@ const MyCourse = () => {
                           data={item.courses}
                           progress={item}
                         />
-                        ;
                       </div>
                     ))}
                 </div>

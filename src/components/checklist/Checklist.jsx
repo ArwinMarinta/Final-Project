@@ -26,6 +26,7 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       }
     });
   };
+
   const handleChecklist = (value) => {
     setSelectedCheckboxes((prevSelected) => {
       if (prevSelected.includes(value)) {
@@ -124,9 +125,6 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       navigateToCourses();
     }
   }, [
-    dispatch,
-    applyFilter,
-    navigateToCourses,
     selectedCheckboxes,
     selectedLevel,
     setData,
