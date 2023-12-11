@@ -11,7 +11,10 @@ const Otp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
-  const [resendTimer, setResendTimer] = useState(15); // Hitungan mundur awal
+  const [resendTimer, setResendTimer] = useState(20); // Hitungan mundur awal
+  const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState("");
+  const [alertstatus, setAlertStatus] = useState("");
   const email = localStorage.getItem("registeredEmail"); //ambil value email sebelumnya
 
   // fungsi merubah format email
@@ -35,12 +38,6 @@ const Otp = () => {
     setOtp(truncatedValue);
   };
 
-  const handleSubmitOtp = (e) => {
-    e.preventDefault();
-
-    dispatch(verify(otp, navigate));
-  };
-
   useEffect(() => {
     // Menunda hitungan mundur selama 3 detik sebelum dimulai
     const initialTimer = setTimeout(() => {
@@ -58,14 +55,35 @@ const Otp = () => {
     return () => clearTimeout(initialTimer);
   }, [resendTimer]);
 
+  const handleSubmitOtp = (e) => {
+    e.preventDefault();
+
+    dispatch(verify(otp, setIsLoading, setAlert, setAlertStatus, navigate));
+  };
+
   const handleResendOtp = () => {
     dispatch(resendOtp());
   };
 
+  useEffect(() => {
+    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
+    const hideAlert = () => {
+      setAlert(""); // Menghapus pesan alert
+    };
+
+    // Memulai timeout ketika alertMessage berubah
+    if (alert) {
+      const timeoutId = setTimeout(hideAlert, 3000);
+
+      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
+      return () => clearTimeout(timeoutId);
+    }
+  }, [alert]);
+
   return (
     <>
       <div className="flex min-h-screen bg-DARKBLUE04">
-        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
+        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] relative">
           <form onSubmit={handleSubmitOtp} className="w-full">
             <div className="flex">
               <Link to={"/register"}>
@@ -152,10 +170,21 @@ const Otp = () => {
             {/* Render the button only if email is present */}
             {email && (
               <button className="w-full font-Poppin text-[16px] font-medium bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03">
-                Simpan
+                {isLoading ? "Loading..." : "Simpan"}
               </button>
             )}
           </form>
+          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]">
+            {alert && (
+              <div
+                className={`py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center ${
+                  alertstatus ? "bg-ALERTGREEN" : "bg-ALERTRED"
+                }`}
+              >
+                {alert} !
+              </div>
+            )}
+          </div>
         </div>
         <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
           <img src={logo} alt="logo" />
