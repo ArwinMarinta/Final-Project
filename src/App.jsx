@@ -19,6 +19,7 @@ import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
 import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
 import HistoryPage from "./pages/ProfilePage/Histori";
+import Proctected from "./components/Protecd/Proctected";
 // import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -27,8 +28,22 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/register"
+          element={
+            <Proctected>
+              <RegisterPage />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Proctected>
+              <LoginPage />
+            </Proctected>
+          }
+        />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/detail/course/:courseId" element={<DetailPage />} />
         <Route
@@ -43,7 +58,14 @@ function App() {
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />
-        <Route path="/otp" element={<OtpPage />} />
+        <Route
+          path="/otp"
+          element={
+            <Proctected>
+              <OtpPage />
+            </Proctected>
+          }
+        />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/history" element={<HistoryPage />} />

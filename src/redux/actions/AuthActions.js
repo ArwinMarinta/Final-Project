@@ -180,25 +180,30 @@ export const verify =
     }
   };
 
-export const resendOtp = () => async () => {
-  try {
-    const registeredEmail = localStorage.getItem("registeredEmail");
-    const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
-      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
-    });
+export const resendOtp =
+  (setIsLoadingResend, setAlert, setAlertStatus) => async () => {
+    try {
+      setIsLoadingResend(true);
+      const registeredEmail = localStorage.getItem("registeredEmail");
+      const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
+        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+      });
 
-    // Jika suksess akan menampilkan respon
-    if (response.status === 200) {
-      alert(response.data.message);
+      // Jika suksess akan menampilkan respon
+      if (response.status === 200) {
+        setAlert(response.data.message);
+        setAlertStatus(true);
+        setIsLoadingResend(false);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setAlert(error?.response?.data?.message);
+        setAlertStatus(false);
+        setIsLoadingResend(false);
+      }
+      setIsLoadingResend(false);
     }
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      alert(error?.response?.data?.message);
-      return;
-    }
-    alert(error?.message);
-  }
-};
+  };
 
 export const ResetPasswordUser =
   (id, password, confPassword, navigate) => async () => {

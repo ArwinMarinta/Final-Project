@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 const Proctected = ({ children }) => {
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
-  //Menggunakan useSelector untuk mendapatkan nilai token dari state Redux di bawah properti "auth".
+  //Menggunakan useSelector untuk mendapatkan nilai token dari state Redux di atas properti "auth".
 
   useEffect(() => {
-    if (!token) {
-      navigate("/home");
+    if (token) {
+      navigate("/");
     }
   }, [token, navigate]);
 

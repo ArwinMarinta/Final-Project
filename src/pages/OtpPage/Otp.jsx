@@ -13,6 +13,7 @@ const Otp = () => {
   const [otp, setOtp] = useState("");
   const [resendTimer, setResendTimer] = useState(20); // Hitungan mundur awal
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingresend, setIsLoadingResend] = useState(false);
   const [alert, setAlert] = useState("");
   const [alertstatus, setAlertStatus] = useState("");
   const email = localStorage.getItem("registeredEmail"); //ambil value email sebelumnya
@@ -62,7 +63,7 @@ const Otp = () => {
   };
 
   const handleResendOtp = () => {
-    dispatch(resendOtp());
+    dispatch(resendOtp(setIsLoadingResend, setAlert, setAlertStatus));
   };
 
   useEffect(() => {
@@ -135,7 +136,7 @@ const Otp = () => {
                       onClick={() => handleResendOtp()}
                       className="font-Poppins text-[13px] text-ALERTRED font-bold underline mb-[20px] text-center cursor-pointer"
                     >
-                      Kirim Ulang OTP
+                      {isLoadingresend ? "Loading..." : "Kirim Ulang OTP"}
                     </button>
                   )}
                 </div>
