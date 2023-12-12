@@ -35,7 +35,7 @@ export const profile =
     try {
       let { token } = getState().auth;
 
-      const response = await axios.get(`${VITE_API_URL}/auth/profile`, {
+      const response = await axios.get(`${VITE_API_URL}/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

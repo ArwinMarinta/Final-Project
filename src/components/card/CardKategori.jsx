@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CardKategori = ({ data }) => {
   return (
-    <Link as={Link} to={"/course"}>
+    <Link as={Link} to={`/course/${data.slug}`}>
       <div className="flex flex-col justify-center px-1 ">
         <img src={data.urlPhoto} className="rounded-3xl" />
         <div className="text-black font-Montserrat font-semibold text-xs py-3 self-center">

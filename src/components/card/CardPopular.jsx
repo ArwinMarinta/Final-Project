@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const CardCourse = ({ data }) => {
   return (
     <div className="flex flex-col  bg-white rounded-2xl m-auto mr-1 ml-1  ">
-      <img src={data.Image} />
+      <img src={data.imageUrl} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
           <h3 className="text-DARKBLUE05">{data.nama}</h3>

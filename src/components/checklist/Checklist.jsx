@@ -1,12 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { filterData } from "../../redux/actions/CourseActions";
 import { VITE_API_URL } from "../../config/config";
 
-function Checklist({ hasil, setData, typeButton, linkFilter }) {
+function Checklist({
+  hasil,
+  setData,
+  typeButton,
+  linkFilter,
+  setEror,
+  nameCourse,
+  errors,
+}) {
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
   const dispatch = useDispatch();
@@ -61,8 +69,15 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       }
     });
   };
+  const handleAllLevel = () => {
+    setSelectedLevel([]);
+    handleLevel("Beginner");
+    handleLevel("Advanced");
+    handleLevel("Intermediate");
+  };
 
   const applyFilter = () => {
+    setEror();
     if (
       selectedCheckboxes.length === 0 &&
       selectedLevel.length === 0 &&
@@ -70,6 +85,7 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       typeCourse.length === 0
     ) {
       setData(hasil);
+      // navigate("/course");
     } else if (
       selectedCheckboxes.length === 0 &&
       typeButton &&
@@ -103,8 +119,10 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
       });
       const { data } = response;
       setData(data.value);
-    } catch (errors) {
-      alert(errors?.message);
+    } catch (error) {
+      if (error.response.status === 404) {
+        setEror("kelas yang di pilih tidak ada");
+      }
     }
   };
 
@@ -123,6 +141,9 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
     if (selectedCheckboxes.length > 0) {
       navigateToCourses();
     }
+    if (errors) {
+      setData([]);
+    }
   }, [
     selectedCheckboxes,
     selectedLevel,
@@ -130,6 +151,7 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
     hasil,
     typeCourse,
     linkFilter,
+    nameCourse,
   ]);
 
   return (
@@ -202,6 +224,7 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
             ref={(element) => {
               checkboxesRef.current.push(element);
             }}
+            onChange={() => handleAllLevel()}
           />
           <label className="font-Montserrat text-xs">Semua Level</label>
         </li>
@@ -242,12 +265,14 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
           <label className="font-Montserrat text-xs">Advanced Level</label>
         </li>
       </ul>
-      <button
-        onClick={unCheckAll}
-        className="rounded-lg text-red-600 font-Montserrat text-sm"
-      >
-        Hapus Filter
-      </button>
+      <Link to={"/course"} className="flex justify-center">
+        <button
+          onClick={unCheckAll}
+          className="rounded-lg text-red-600 font-Montserrat text-sm"
+        >
+          Hapus Filter
+        </button>
+      </Link>
     </div>
   );
 }
@@ -258,6 +283,9 @@ Checklist.propTypes = {
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
+  setEror: PropTypes.func,
+  errors: PropTypes.func,
+  nameCourse: PropTypes.string,
 };
 
 export default Checklist;
