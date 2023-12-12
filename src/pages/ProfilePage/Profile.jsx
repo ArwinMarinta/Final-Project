@@ -272,9 +272,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-<Link
-  as={Link}
-  to="/change-password"
-  className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat"
-/>;

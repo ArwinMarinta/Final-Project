@@ -20,8 +20,10 @@ import ChangePassword from "./pages/ProfilePage/ChangePassword";
 import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
 import HistoryPage from "./pages/ProfilePage/Histori";
 import Proctected from "./components/Protecd/Proctected";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import NoAccesToken from "./components/Protecd/NoAccesToken";
+import NotFound from "./pages/NotFound/NotFound";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -44,20 +46,56 @@ function App() {
             </Proctected>
           }
         />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <NoAccesToken>
+              <ProfilePage />
+            </NoAccesToken>
+          }
+        />
         <Route path="/detail/course/:courseId" element={<DetailPage />} />
         <Route
           path="/detail/course/:courseId/module/:moduleId/content/:contentId"
           element={<DetailContent />}
         />
-        <Route path="/detail/payment" element={<DetailPaymentPage />} />
-        <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
-        <Route path="/my-course" element={<MyCourse />} />
+        <Route
+          path="/detail/payment"
+          element={
+            <NoAccesToken>
+              <DetailPaymentPage />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/notification"
+          element={
+            <NoAccesToken>
+              <NotificationPage />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/reset-password/:token"
+          element={
+            <Proctected>
+              <ResetPasswordPage />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/my-course"
+          element={
+            <NoAccesToken>
+              <MyCourse />
+            </NoAccesToken>
+          }
+        />
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />
+        <Route path="*" element={<NotFound />} />
         <Route
           path="/otp"
           element={
@@ -66,13 +104,34 @@ function App() {
             </Proctected>
           }
         />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/history" element={<HistoryPage />} />
+        <Route
+          path="/verify-email"
+          element={
+            <Proctected>
+              <VerifyEmail />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <NoAccesToken>
+              <ChangePassword />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <NoAccesToken>
+              <HistoryPage />
+            </NoAccesToken>
+          }
+        />
       </Routes>
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-center"
-        autoClose={5000}
+        autoClose={500}
         limit={1}
         hideProgressBar={false}
         newestOnTop={false}
@@ -82,7 +141,7 @@ function App() {
         draggable
         pauseOnHover
         theme="light"
-      /> */}
+      />
     </BrowserRouter>
   );
 }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toastify } from "../../utils/toastify";
 import { VITE_API_URL } from "../../config/config";
 import {
   setCategory,
@@ -17,8 +18,15 @@ export const getCategory = () => async (dispatch) => {
     dispatch(setCategory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
     }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -31,8 +39,15 @@ export const getPopular = () => async (dispatch) => {
     dispatch(setPopular(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
     }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -49,8 +64,15 @@ export const HistoryUser = () => async (dispatch, getState) => {
     dispatch(setHistory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
     }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -68,9 +90,15 @@ export const NotificationUser = () => async (dispatch, getState) => {
     dispatch(setNotification(data.value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
     }
-    alert(error.message);
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -79,8 +107,17 @@ export const getCourse = () => async (dispatch) => {
     const response = await axios.get(`${VITE_API_URL}/courses?page=1&limit=15`);
     const { data } = response;
     dispatch(setHasil(data.value));
-  } catch (errors) {
-    alert(errors?.message);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
+    }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -89,8 +126,17 @@ export const filterData = () => async (dispatch) => {
     const response = await axios.get(`${VITE_API_URL}/course-categories`);
     const { data } = response;
     dispatch(setFilter(data.value));
-  } catch (errors) {
-    alert(errors?.message);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
+    }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
 
@@ -104,7 +150,16 @@ export const getMyCourse = () => async (dispatch, getState) => {
     });
     const coursesData = response.data.value;
     dispatch(setHasil(coursesData));
-  } catch (errors) {
-    alert(errors?.message);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
+    }
+    toastify({
+      message: error?.message,
+      type: "error",
+    });
   }
 };
