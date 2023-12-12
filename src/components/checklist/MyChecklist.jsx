@@ -176,6 +176,7 @@ function Checklist({ hasil, setData, typeButton, linkFilter }) {
           <label className="font-Montserrat text-xs">Paling Promo</label>
         </li>
       </ul>
+
       <p className="font-bold text-sm">Kategori</p>
       <ul>
         {filter.map((item) => (

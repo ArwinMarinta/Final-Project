@@ -37,7 +37,7 @@ function App() {
         />
         <Route path="/detail/payment" element={<DetailPaymentPage />} />
         <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />

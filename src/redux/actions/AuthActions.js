@@ -184,14 +184,15 @@ export const resendOtp = () => async () => {
 };
 
 export const ResetPasswordUser =
-  (id, password, confPassword, navigate) => async () => {
+  (token, password, confPassword, navigate) => async () => {
     try {
       await axios.post(`${VITE_API_URL}/auth/reset-password`, {
-        resetToken: id,
+        resetToken: token,
         password,
         confPassword,
       });
 
+      console.log(token);
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
