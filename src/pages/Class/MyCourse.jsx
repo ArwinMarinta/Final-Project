@@ -5,6 +5,7 @@ import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
+import { useNavigate } from "react-router-dom";
 
 const MyCourse = () => {
   const [status, setStatus] = useState("");
@@ -13,8 +14,9 @@ const MyCourse = () => {
   const [myCourse, setMyCourse] = useState([]);
   const { hasil } = useSelector((state) => state.course);
   const dispatch = useDispatch();
-
+  const [errors, setErrors] = useState();
   const linkFilter = `user-courses`;
+  const Navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -28,7 +30,7 @@ const MyCourse = () => {
     setStatus(value);
   };
   useEffect(() => {
-    dispatch(getMyCourse());
+    dispatch(getMyCourse(Navigate, setErrors, errors));
   }, []);
   return (
     <>
@@ -74,69 +76,79 @@ const MyCourse = () => {
               <div className="block md:hidden md:w-auto w-full">
                 {filter && (
                   <MyChecklist
-                    setData={setMyCourse}
+                    setMyCourse={setMyCourse}
                     linkFilter={linkFilter}
                     hasil={hasil}
-                    typeButton={status}
+                    status={status}
+                    setEror={setErrors}
+                    errors={errors}
                   />
                 )}
               </div>
               <div className="hidden md:block w-72">
                 <MyChecklist
-                  setData={setMyCourse}
+                  setMyCourse={setMyCourse}
                   linkFilter={linkFilter}
                   hasil={hasil}
-                  typeButton={status}
+                  status={status}
+                  setEror={setErrors}
+                  errors={errors}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
                 <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh]">
                   <button
                     className="rounded-2xl bg-white px-2 md:px-4 py-2 w-1/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
-                    onClick={() => handleClick(`all`)}
+                    onClick={() => handleClick(``)}
                   >
                     All
                   </button>
                   <button
                     className="rounded-2xl bg-white px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
-                    onClick={() => handleClick(`inprogress`)}
+                    onClick={() => handleClick(`In Progress`)}
                   >
                     Inprogress
                   </button>
                   <button
                     className="rounded-2xl bg-white px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
-                    onClick={() => handleClick(`selesai`)}
+                    onClick={() => handleClick(`Selesai`)}
                   >
                     Selesai
                   </button>
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
-                  {myCourse
-                    .filter((item) => {
-                      if (searchTerm === "") {
-                        return item;
-                      } else if (
-                        item.nama
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase()) ||
-                        item.topic
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
-                      ) {
-                        return item;
-                      }
-                    })
-
-                    .map((item) => (
-                      <div className="w-full" key={item.userCourseId}>
-                        <CardCourse
-                          key={item.id}
-                          data={item.courses}
-                          progress={item}
-                        />
-                        ;
-                      </div>
-                    ))}
+                  {errors && (
+                    <div className="w-full md:w-[200%]">
+                      <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
+                        {errors}
+                      </label>
+                    </div>
+                  )}
+                  {errors == null &&
+                    myCourse
+                      .filter((item) => {
+                        if (searchTerm === "") {
+                          return item;
+                        } else if (
+                          item.nama
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase()) ||
+                          item.topic
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return item;
+                        }
+                      })
+                      .map((item) => (
+                        <div className="w-full" key={item.userCourseId}>
+                          <CardCourse
+                            key={item.id}
+                            data={item.courses}
+                            progress={item}
+                          />
+                        </div>
+                      ))}
                 </div>
               </div>
             </div>
