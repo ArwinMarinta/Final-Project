@@ -22,16 +22,9 @@ const HomePage = () => {
     dispatch(getPopular());
   }, [dispatch]);
 
-  const filterCourses = (category) => {
-    if (!Array.isArray(popular)) {
-      return [];
-    }
-
-    if (category === "All") {
-      return popular;
-    } else {
-      return popular.filter((course) => course.category === category);
-    }
+  const handleLinkClick = () => {
+    // Panggil fungsi getPopular saat tautan diklik
+    dispatch(getPopular());
   };
 
   return (
@@ -67,7 +60,7 @@ const HomePage = () => {
             <div className="flex flex-row justify-between container">
               <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
               <button
-                // onClick={handleLinkClick}
+                onClick={handleLinkClick}
                 className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
               >
                 Lihat Semua
@@ -75,11 +68,11 @@ const HomePage = () => {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
-                // <div key={data.id}>
-                // {/* <Link as={Link} to={`/course/category=${data.slug}`}> */}
-                <CardKategori key={data.id} data={data} />
-                // {/* </Link> */}
-                // </div>
+                <>
+                  <Link as={Link} to={`/course/category=${data.slug}`}>
+                    <CardKategori key={data.category} data={data} />
+                  </Link>
+                </>
               ))}
             </div>
           </div>
@@ -101,24 +94,16 @@ const HomePage = () => {
           </div>
 
           <div className="container">
-            <Carousel
-              responsive={responsive2}
-              key={selectedCategory}
-              // className="bg-blue-500 "
-            >
-              {/* <div className="flex flex-row bg-red-500 items-center "> */}
-              <button
-                onClick={() => setSelectedCategory("All")}
+            <Carousel responsive={responsive2}>
+              <Link
+                as={Link}
                 className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
               >
                 All
-              </button>
+              </Link>
               {category.map((datas) => (
-                <div key={datas.id} className="ml-1 mr-1 ">
-                  <button
-                    onClick={() => setSelectedCategory(datas.name)}
-                    className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
-                  >
+                <div key={datas.id} className="ml-1 mr-1">
+                  <button className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 ">
                     <div>{datas.name}</div>
                   </button>
                 </div>
@@ -129,7 +114,7 @@ const HomePage = () => {
 
           <div className=" drop-shadow-xl container mx-auto">
             <Carousel responsive={responsive}>
-              {filterCourses(selectedCategory).map((data) => (
+              {popular.map((data) => (
                 <CardCourse key={data.id} data={data} />
               ))}
             </Carousel>

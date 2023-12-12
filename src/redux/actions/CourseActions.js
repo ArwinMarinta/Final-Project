@@ -3,6 +3,8 @@ import { VITE_API_URL } from "../../config/config";
 import {
   setCategory,
   setPopular,
+  setHistory,
+  setNotification,
   setHasil,
   setFilter,
 } from "../reducers/CourseReducer";
@@ -34,14 +36,52 @@ export const getPopular = () => async (dispatch) => {
   }
 };
 
-export const getCourse = (setError) => async (dispatch) => {
+export const HistoryUser = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+    const response = await axios.get(`${VITE_API_URL}/orders`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { value } = response.data;
+    dispatch(setHistory(value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      alert(error.response.data.message);
+    }
+  }
+};
+
+export const NotificationUser = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+    const response = await axios.get(`${VITE_API_URL}/notifications`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { data } = response;
+
+    dispatch(setNotification(data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      alert(error.response.data.message);
+    }
+    alert(error.message);
+  }
+};
+
+export const getCourse = (setErrors) => async (dispatch) => {
   try {
     const response = await axios.get(`${VITE_API_URL}/courses?page=1&limit=15`);
     const { data } = response;
     dispatch(setHasil(data.value));
   } catch (error) {
     if (error.response.status === 404) {
-      setError("Tidak ada kelas yang diambil");
+      setErrors("Tidak ada kelas yang diambil");
     }
   }
 };

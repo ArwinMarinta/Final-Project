@@ -77,6 +77,9 @@ function Checklist({
   };
 
   const applyFilter = () => {
+    if (errors) {
+      setData([]);
+    }
     setEror();
     if (
       selectedCheckboxes.length === 0 &&
@@ -140,9 +143,6 @@ function Checklist({
     dispatch(filterData());
     if (selectedCheckboxes.length > 0) {
       navigateToCourses();
-    }
-    if (errors) {
-      setData([]);
     }
   }, [
     selectedCheckboxes,

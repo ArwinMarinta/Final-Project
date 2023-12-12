@@ -4,6 +4,7 @@ import { useState } from "react";
 import logo from "../../assets/Belajar_white 2.svg";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/AuthActions";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -12,12 +13,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Email:", email);
-  //   console.log("Password:", password);
-  // };
+  const [alert, setAlert] = useState("");
+  // const [alertStatus, setAlertStatus] = useState(false);
 
   //fungsi show/hidden password
   const togglePassword = () => {
@@ -25,15 +22,26 @@ const Login = () => {
   };
 
   //animasi loading setelah button submit diklik
-  const handleClick = () => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 3000);
-  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    dispatch(login(email, password, navigate));
+    dispatch(login(email, password, setIsLoading, setAlert, navigate));
   };
+
+  useEffect(() => {
+    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
+    const hideAlert = () => {
+      setAlert(""); // Menghapus pesan alert
+    };
+
+    // Memulai timeout ketika alertMessage berubah
+    if (alert) {
+      const timeoutId = setTimeout(hideAlert, 2500);
+
+      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
+      return () => clearTimeout(timeoutId);
+    }
+  }, [alert]);
 
   return (
     <>
@@ -41,8 +49,8 @@ const Login = () => {
         <img src={logo} alt="logo" className="w-60 h-60" />
       </div> */}
       <div className="flex min-h-screen bg-DARKBLUE04 ">
-        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
-          <form onSubmit={handleLogin} className="w-full ">
+        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] relative ">
+          <form onSubmit={handleLogin} className="w-full  ">
             <h1 className="text-[24px] font-bold text-DARKBLUE05 font-Montserrat mb-8">
               Masuk
             </h1>
@@ -93,7 +101,6 @@ const Login = () => {
               </div>
             </div>
             <button
-              onClick={handleClick}
               type="submit"
               className="w-full font-Poppins bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03"
             >
@@ -109,6 +116,13 @@ const Login = () => {
               >
                 Daftar di sini
               </Link>
+            </div>
+            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]  ">
+              {alert && (
+                <div className="py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center bg-ALERTRED">
+                  {alert}!
+                </div>
+              )}
             </div>
           </form>
         </div>

@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 
 const CardCourse = ({ data }) => {
   return (
-    <div className="flex flex-col  bg-white rounded-2xl m-auto mr-1 ml-1  ">
+    <div className="flex flex-col  bg-white rounded-2xl m-auto mr-1 ml-1 cursor-pointer ">
       <img src={data.imageUrl} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
-          <h3 className="text-DARKBLUE05">{data.nama}</h3>
+          <h3 className="text-DARKBLUE05">{data.category}</h3>
           <div className="flex flex-row gap-1">
             <img src={Start} />
             <p>{data.rating}</p>
@@ -20,10 +20,10 @@ const CardCourse = ({ data }) => {
           className="mt-1 font-Montserrat font-bold text-sm line-clamp-2 "
           style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}
         >
-          {data.topic}
+          {data.description}
         </h3>
         <p className="mt-1 font-Montserrat font-normal text-xs">
-          {data.mentor}
+          {data.instructor}
         </p>
         <div className="flex flex-row justify-between font-Montserrat text-xs mt-2 font-normal">
           <div className="flex flex-row gap-1">
@@ -32,10 +32,10 @@ const CardCourse = ({ data }) => {
           </div>
           <div className="flex flex-row gap-1">
             <img src={Book} />
-            <p>{data.modul}</p>
+            <p>{data.totalModule}</p>
           </div>
           <div>
-            <p>{data.durasi}</p>
+            <p>{data.duration}</p>
           </div>
         </div>
         <div>
@@ -46,7 +46,7 @@ const CardCourse = ({ data }) => {
             </div>
             <div className="flex flex-row gap-1">
               <p>Rp</p>
-              {data.harga}
+              {data.totalPrice}
             </div>
           </button>
         </div>
