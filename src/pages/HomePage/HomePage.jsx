@@ -10,10 +10,11 @@ import "../../utils/CssConfig.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory, getPopular } from "../../redux/actions/CourseActions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const { category, popular } = useSelector((state) => state.course);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ const HomePage = () => {
                   </button>
                 </div>
               ))}
+              {/* </div> */}
             </Carousel>
           </div>
 

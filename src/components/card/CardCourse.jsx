@@ -38,10 +38,13 @@ const CardCourse = ({ data, progress }) => {
             {data.duration} jam
           </span>
         </div>
-        <div>
+        <div className="flex row justify-between">
           <button className="bg-blue-500 rounded-full px-12">
             {progress.progress}
           </button>
+          <p className="text-gray-500 text-sm">
+            {progress.status}
+          </p>
         </div>
       </div>
     </div>

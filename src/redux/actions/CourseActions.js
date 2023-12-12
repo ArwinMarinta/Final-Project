@@ -74,13 +74,15 @@ export const NotificationUser = () => async (dispatch, getState) => {
   }
 };
 
-export const getCourse = () => async (dispatch) => {
+export const getCourse = (setErrors) => async (dispatch) => {
   try {
     const response = await axios.get(`${VITE_API_URL}/courses?page=1&limit=15`);
     const { data } = response;
     dispatch(setHasil(data.value));
-  } catch (errors) {
-    alert(errors?.message);
+  } catch (error) {
+    if (error.response.status === 404) {
+      setErrors("Tidak ada kelas yang diambil");
+    }
   }
 };
 
@@ -94,17 +96,26 @@ export const filterData = () => async (dispatch) => {
   }
 };
 
-export const getMyCourse = () => async (dispatch, getState) => {
-  const { token } = getState().auth;
-  try {
-    const response = await axios.get(`${VITE_API_URL}/user-courses`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const coursesData = response.data.value;
-    dispatch(setHasil(coursesData));
-  } catch (errors) {
-    alert(errors?.message);
-  }
-};
+export const getMyCourse =
+  (Navigate, setError, errors) => async (dispatch, getState) => {
+    const { token } = getState().auth;
+    try {
+      const response = await axios.get(`${VITE_API_URL}/user-courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const coursesData = response.data.value;
+      if (errors) {
+        dispatch(setHasil([]));
+      } else if (errors == null) {
+        dispatch(setHasil(coursesData));
+      }
+    } catch (error) {
+      if (error.response.status === 500) {
+        setError("Silahkan login untuk melihat kelas yang diambil");
+      } else if (error.response.status === 404) {
+        setError("Tidak ada kelas yang diambil");
+      }
+    }
+  };
