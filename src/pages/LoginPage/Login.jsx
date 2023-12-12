@@ -36,7 +36,7 @@ const Login = () => {
 
     // Memulai timeout ketika alertMessage berubah
     if (alert) {
-      const timeoutId = setTimeout(hideAlert, 2000);
+      const timeoutId = setTimeout(hideAlert, 2500);
 
       // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
       return () => clearTimeout(timeoutId);
@@ -119,8 +119,8 @@ const Login = () => {
             </div>
             <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]  ">
               {alert && (
-                <div className="py-2 flex justify-center w-full px-2 font-Poppins text-sm font-medium rounded-lg text-center bg-red-600">
-                  {alert}
+                <div className="py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center bg-ALERTRED">
+                  {alert}!
                 </div>
               )}
             </div>
