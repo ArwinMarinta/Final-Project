@@ -3,11 +3,14 @@ import Book from "../../assets/book.svg";
 import Start from "../../assets/star.svg";
 import Time from "../../assets/time.svg";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const CardCourse = ({ data, progress }) => {
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg  ">
-      <img className="w-full h-[15vh]" src={data.imageUrl} />
+      <Link to={`/detail/course/${data.courseId}`}>
+        <img className="w-full h-[15vh]" src={data.imageUrl} />
+      </Link>
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
           <h3 className="text-DARKBLUE05">{data.category}</h3>
@@ -42,9 +45,7 @@ const CardCourse = ({ data, progress }) => {
           <button className="bg-blue-500 rounded-full px-12">
             {progress.progress}
           </button>
-          <p className="text-gray-500 text-sm">
-            {progress.status}
-          </p>
+          <p className="text-gray-500 text-sm">{progress.status}</p>
         </div>
       </div>
     </div>

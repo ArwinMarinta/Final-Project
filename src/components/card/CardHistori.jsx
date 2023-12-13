@@ -10,7 +10,7 @@ const CardHistori = ({ data }) => {
 
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg  w-full">
-      <img src={data.id} />
+      <img src={courses.imageUrl} className="w-full max-h-56" />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
           <h3 className="text-DARKBLUE05">{courses.category}</h3>

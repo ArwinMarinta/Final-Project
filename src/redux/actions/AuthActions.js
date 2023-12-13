@@ -2,6 +2,7 @@ import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
 import { setContentDetail } from "../reducers/DetailReducer";
+import { toastify } from "../../utils/toastify";
 
 // import { toastify } from "../../utils/toastify";
 
@@ -34,6 +35,10 @@ export const login =
         }
       }
       setIsLoading(false);
+      toastify({
+        message: error?.message,
+        type: "Error",
+      });
     }
     setIsLoading(false);
   };
@@ -44,7 +49,8 @@ export const logout = () => (dispatch) => {
 };
 
 export const profile =
-  (navigate, navigatePathSuccess) => async (dispatch, getState) => {
+  (navigate, navigatePathSuccess, navigatePathError) =>
+  async (dispatch, getState) => {
     try {
       let { token } = getState().auth;
 
@@ -65,18 +71,22 @@ export const profile =
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // If token is not valid
-        // if (error.response.status === 401) {
-        //   dispatch(logout());
-        //   // if navigatePathError params is false/null/undefined, it will not executed
-        //   if (navigatePathError) navigate(navigatePathError);
-        //   console.log("eror 401");
-        //   return;
-        // }
-        alert(error?.response?.data?.message);
-        return;
+        if (error.response.status === 401) {
+          dispatch(logout());
+          // if navigatePathError params is false/null/undefined, it will not executed
+          if (navigatePathError) navigate(navigatePathError);
+          // console.log("eror 401");
+          return;
+        }
+        toastify({
+          message: error?.response?.data?.message,
+          type: "error",
+        });
       }
-
-      alert(error?.message);
+      toastify({
+        message: error?.message,
+        type: "error",
+      });
     }
   };
 
@@ -206,14 +216,15 @@ export const resendOtp =
   };
 
 export const ResetPasswordUser =
-  (id, password, confPassword, navigate) => async () => {
+  (token, password, confPassword, navigate) => async () => {
     try {
       await axios.post(`${VITE_API_URL}/auth/reset-password`, {
-        resetToken: id,
+        resetToken: token,
         password,
         confPassword,
       });
 
+      // console.log(token);
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -228,7 +239,7 @@ export const ChangePasswordUser =
     try {
       let { token } = getState().auth;
       // console.log(passwordOld);
-      await axios.post(
+      const response = await axios.post(
         `${VITE_API_URL}/auth/change-password`,
         {
           oldPassword,
@@ -241,11 +252,22 @@ export const ChangePasswordUser =
           },
         }
       );
+
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
+      // toastify({
+      //   message: error.message,
+      //   type: "error",
+      // });
     }
   };
 
@@ -253,7 +275,7 @@ export const UpdateProfile =
   (name, email, phone, city, country) => async (_, getState) => {
     try {
       let { token } = getState().auth;
-      await axios.put(
+      const response = await axios.put(
         `${VITE_API_URL}/profile`,
         {
           name,
@@ -268,11 +290,24 @@ export const UpdateProfile =
           },
         }
       );
+
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
+      // toastify({
+      //   message: error.message,
+      //   type: "error",
+      // });
+
+      // alert(error.message);
     }
   };
 

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { ResetPasswordUser } from "../../redux/actions/AuthActions";
 
 const ResetPassword = () => {
-  const { id } = useParams();
+  const { token } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
@@ -18,9 +18,9 @@ const ResetPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(ResetPasswordUser(id, password, confPassword, navigate));
+    dispatch(ResetPasswordUser(token, password, confPassword, navigate));
   };
-
+  console.log(token);
   //fungsi show/hidden password
   const togglePassword = () => {
     setShowPassword(!showPassword);
