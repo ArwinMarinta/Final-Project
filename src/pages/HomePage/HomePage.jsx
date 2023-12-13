@@ -53,7 +53,7 @@ const HomePage = () => {
               </div>
               <Link
                 as={Link}
-                to="/course/:nameCourse"
+                to="/course"
                 className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%] text-center"
               >
                 IKUTI KELAS
@@ -67,12 +67,12 @@ const HomePage = () => {
           <div className="flex w-full flex-col pt-[26px] pb-[14px] gap-5 container">
             <div className="flex flex-row justify-between container">
               <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
-              <button
-                // onClick={handleLinkClick}
+              <Link
+                to="/course"
                 className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
               >
                 Lihat Semua
-              </button>
+              </Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (

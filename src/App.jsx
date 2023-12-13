@@ -59,39 +59,13 @@ function App() {
           path="/detail/course/:courseId/module/:moduleId/content/:contentId"
           element={<DetailContent />}
         />
-        <Route
-          path="/detail/payment"
-          element={
-            <NoAccesToken>
-              <DetailPaymentPage />
-            </NoAccesToken>
-          }
-        />
-        <Route
-          path="/notification"
-          element={
-            <NoAccesToken>
-              <NotificationPage />
-            </NoAccesToken>
-          }
-        />
-        <Route
-          path="/reset-password/:token"
-          element={
-            <Proctected>
-              <ResetPasswordPage />
-            </Proctected>
-          }
-        />
-        <Route
-          path="/my-course"
-          element={
-            <NoAccesToken>
-              <MyCourse />
-            </NoAccesToken>
-          }
-        />
+        <Route path="/detail/payment" element={<DetailPaymentPage />} />
+        <Route path="/notification" element={<NotificationPage />} />
+        <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
+        <Route path="/my-course" element={<MyCourse />} />
+        <Route path="/my-course/:nameCourse" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
+        <Route path="/course" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />

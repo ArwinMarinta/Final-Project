@@ -22,7 +22,7 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
       <div className="hidden sm:block">
         <div className="bg-DARKBLUE04">
           <div className="container mx-auto py-5">
-            <Link to={""} className="flex items-center w-max">
+            <Link to="/course" className="flex items-center w-max">
               <FaArrowLeft />
               <span className="font-bold pl-2.5">Kelas Lainnya</span>
             </Link>

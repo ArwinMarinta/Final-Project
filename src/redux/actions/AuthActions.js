@@ -224,7 +224,7 @@ export const ResetPasswordUser =
         confPassword,
       });
 
-      console.log(token);
+      // console.log(token);
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
