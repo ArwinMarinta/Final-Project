@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   courseDetail: [],
   contentDetail: [],
+  error: null,
 };
 
 const detailSlice = createSlice({
@@ -16,8 +17,12 @@ const detailSlice = createSlice({
     setContentDetail: (state, action) => {
       state.contentDetail = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.payload; // Set pesan error ke state error
+    },
   },
 });
 
-export const { setCourseDetail, setContentDetail } = detailSlice.actions;
+export const { setCourseDetail, setContentDetail, setError } =
+  detailSlice.actions;
 export default detailSlice.reducer;

@@ -4,8 +4,9 @@ import Mobile from "../Mobile";
 import { useSelector, useDispatch } from "react-redux";
 import { getCourseDetail } from "../../../redux/actions/DetailActions";
 import { getContentDetail } from "../../../redux/actions/AuthActions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CourseDetail from "../../../components/PopUp/CourseDetail";
 
 const DetailContent = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const DetailContent = () => {
 
   return (
     <>
+      <CourseDetail courseDetail={courseDetail} />
+
       <Header />
       <Desktop
         courseDetail={courseDetail}

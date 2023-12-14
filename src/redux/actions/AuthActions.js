@@ -1,7 +1,8 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-import { setContentDetail } from "../reducers/DetailReducer";
+import { setContentDetail, setError } from "../reducers/DetailReducer";
+// import { setPopUpCourseDetail } from "../reducers/PopUpReducer";
 
 // import { toastify } from "../../utils/toastify";
 
@@ -294,13 +295,15 @@ export const getContentDetail =
 
       const { value } = response.data;
       const data = value;
-      console.log("axios true");
-      console.log(data);
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("axios false");
-        alert(error.response.data.message);
+        if (error.response.status === 401) {
+          dispatch(setError(error.response.data.message));
+        }
+        if (error.response.status === 403) {
+          dispatch(setError(error.response.data.message));
+        }
       }
     }
   };

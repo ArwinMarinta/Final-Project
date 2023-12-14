@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { RiShieldStarLine } from "react-icons/ri";
@@ -10,6 +11,8 @@ import { BiSolidLock } from "react-icons/bi";
 
 const Desktop = ({ courseDetail, contentDetail, user }) => {
   const navigate = useNavigate();
+
+  const video = contentDetail?.videoUrl;
 
   const handleLinkClick = (courseId, moduleId, contentId) => {
     navigate(
@@ -69,7 +72,7 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-2xl bg-black"
-              src={`https://www.youtube.com/embed/${contentDetail?.videoUrl}`}
+              src={`https://www.youtube.com/embed/${video}`}
               title="YouTube video player"
               // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -113,13 +116,15 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
                       (content, contentIndex) => (
                         <div className="" key={contentIndex}>
                           <button
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.preventDefault();
                               handleLinkClick(
                                 courseDetail?.courseId,
                                 module?.moduleId,
-                                content?.contentId
-                              )
-                            }
+                                content?.contentId,
+                                e
+                              );
+                            }}
                             className="flex items-center justify-between py-1 w-full"
                           >
                             <div className="flex items-center text-sm">
