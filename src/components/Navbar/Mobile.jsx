@@ -63,7 +63,7 @@ const Mobile = ({ user }) => {
             >
               <Link as={Link} to="/" className="flex flex-row ">
                 <SiCodechef className="text-3xl" />
-                <p className="text-xl font-bold">ngodingCoy</p>
+                <p className="text-xl font-bold">iLearnTech</p>
               </Link>
               <div className="flex flex-row gap-4 mr-[7px]">
                 {user ? (

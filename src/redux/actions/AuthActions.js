@@ -2,9 +2,7 @@ import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
 import { setContentDetail, setError } from "../reducers/DetailReducer";
-// import { setPopUpCourseDetail } from "../reducers/PopUpReducer";
-
-// import { toastify } from "../../utils/toastify";
+import { toastify } from "../../utils/toastify";
 
 export const login =
   (email, password, setIsLoading, setAlert, navigate) => async (dispatch) => {
@@ -35,6 +33,10 @@ export const login =
         }
       }
       setIsLoading(false);
+      toastify({
+        message: error?.message,
+        type: "Error",
+      });
     }
     setIsLoading(false);
   };
@@ -45,7 +47,8 @@ export const logout = () => (dispatch) => {
 };
 
 export const profile =
-  (navigate, navigatePathSuccess) => async (dispatch, getState) => {
+  (navigate, navigatePathSuccess, navigatePathError) =>
+  async (dispatch, getState) => {
     try {
       let { token } = getState().auth;
 
@@ -66,18 +69,22 @@ export const profile =
     } catch (error) {
       if (axios.isAxiosError(error)) {
         // If token is not valid
-        // if (error.response.status === 401) {
-        //   dispatch(logout());
-        //   // if navigatePathError params is false/null/undefined, it will not executed
-        //   if (navigatePathError) navigate(navigatePathError);
-        //   console.log("eror 401");
-        //   return;
-        // }
-        alert(error?.response?.data?.message);
-        return;
+        if (error.response.status === 401) {
+          dispatch(logout());
+          // if navigatePathError params is false/null/undefined, it will not executed
+          if (navigatePathError) navigate(navigatePathError);
+          // console.log("eror 401");
+          return;
+        }
+        toastify({
+          message: error?.response?.data?.message,
+          type: "error",
+        });
       }
-
-      alert(error?.message);
+      toastify({
+        message: error?.message,
+        type: "error",
+      });
     }
   };
 
@@ -105,8 +112,20 @@ export const RequestPassword =
   };
 
 export const register =
-  (name, email, phone, password, confPassword, navigate) => async () => {
+  (
+    name,
+    email,
+    phone,
+    password,
+    confPassword,
+    setIsLoading,
+    setAlert,
+    setAlertStatus,
+    navigate
+  ) =>
+  async () => {
     try {
+      setIsLoading(true);
       const response = await axios.post(`${VITE_API_URL}/auth/register`, {
         name,
         email,
@@ -121,78 +140,89 @@ export const register =
         // Menyimpan email ke dalam localStorage
         localStorage.setItem("registeredEmail", email);
 
-        alert(response.data.message); // Menampilkan pesan dari respons API
+        setAlert(response.data.message); // Menampilkan pesan dari respons API
+        setAlertStatus(true);
         setTimeout(() => {
           // Menunggu 3 detik sebelum navigasi ke halaman OTP
           navigate("/otp");
         }, 3000);
       }
-      // else {
-      //   alert("Registrasi Gagal!, Mohon Coba Lagi!");
-      // }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        setAlert(error.response.data.message);
+        setAlertStatus(false);
+        setIsLoading(false);
       }
+      setIsLoading(false);
     }
   };
 
-export const verify = (otp, navigate) => async () => {
-  try {
-    const registeredEmail = localStorage.getItem("registeredEmail");
-    console.log("Registered Email:", registeredEmail);
-    const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
-      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
-      otp,
-    });
+export const verify =
+  (otp, setIsLoading, setAlert, setAlertStatus, navigate) => async () => {
+    try {
+      setIsLoading(true);
+      const registeredEmail = localStorage.getItem("registeredEmail");
+      console.log("Registered Email:", registeredEmail);
+      const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
+        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+        otp,
+      });
 
-    // Check for successful registration
-    if (response.status === 200) {
-      alert(response.data.message);
-      setTimeout(() => {
-        // Menunggu 3 detik sebelum navigasi ke halaman Login
-        localStorage.removeItem("registeredEmail");
-        navigate("/login");
-      }, 3500);
+      // Check for successful registration
+      if (response.status === 200) {
+        setAlert(response.data.message);
+        setAlertStatus(true);
+        setTimeout(() => {
+          // Menunggu 3 detik sebelum navigasi ke halaman Login
+          localStorage.removeItem("registeredEmail");
+          navigate("/login");
+        }, 3000);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setAlert(error?.response?.data?.message);
+        setAlertStatus(false);
+        setIsLoading(false);
+      }
+      setIsLoading(false);
     }
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      alert(error?.response?.data?.message);
-      return;
-    }
-    alert(error?.message);
-  }
-};
+  };
 
-export const resendOtp = () => async () => {
-  try {
-    const registeredEmail = localStorage.getItem("registeredEmail");
-    const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
-      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
-    });
+export const resendOtp =
+  (setIsLoadingResend, setAlert, setAlertStatus) => async () => {
+    try {
+      setIsLoadingResend(true);
+      const registeredEmail = localStorage.getItem("registeredEmail");
+      const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
+        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+      });
 
-    // Jika suksess akan menampilkan respon
-    if (response.status === 200) {
-      alert(response.data.message);
+      // Jika suksess akan menampilkan respon
+      if (response.status === 200) {
+        setAlert(response.data.message);
+        setAlertStatus(true);
+        setIsLoadingResend(false);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setAlert(error?.response?.data?.message);
+        setAlertStatus(false);
+        setIsLoadingResend(false);
+      }
+      setIsLoadingResend(false);
     }
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      alert(error?.response?.data?.message);
-      return;
-    }
-    alert(error?.message);
-  }
-};
+  };
 
 export const ResetPasswordUser =
-  (id, password, confPassword, navigate) => async () => {
+  (token, password, confPassword, navigate) => async () => {
     try {
       await axios.post(`${VITE_API_URL}/auth/reset-password`, {
-        resetToken: id,
+        resetToken: token,
         password,
         confPassword,
       });
 
+      // console.log(token);
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -207,7 +237,7 @@ export const ChangePasswordUser =
     try {
       let { token } = getState().auth;
       // console.log(passwordOld);
-      await axios.post(
+      const response = await axios.post(
         `${VITE_API_URL}/auth/change-password`,
         {
           oldPassword,
@@ -220,11 +250,22 @@ export const ChangePasswordUser =
           },
         }
       );
+
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
+      // toastify({
+      //   message: error.message,
+      //   type: "error",
+      // });
     }
   };
 
@@ -232,7 +273,7 @@ export const UpdateProfile =
   (name, email, phone, city, country) => async (_, getState) => {
     try {
       let { token } = getState().auth;
-      await axios.put(
+      const response = await axios.put(
         `${VITE_API_URL}/profile`,
         {
           name,
@@ -247,11 +288,24 @@ export const UpdateProfile =
           },
         }
       );
+
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
+      // toastify({
+      //   message: error.message,
+      //   type: "error",
+      // });
+
+      // alert(error.message);
     }
   };
 
@@ -295,14 +349,16 @@ export const getContentDetail =
 
       const { value } = response.data;
       const data = value;
+      dispatch(setError(null));
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        dispatch(setContentDetail(null));
         if (error.response.status === 401) {
           dispatch(setError(error.response.data.message));
         }
         if (error.response.status === 403) {
-          dispatch(setError(error.response.data.message));
+          dispatch(setError(error?.response?.data?.message));
         }
       }
     }

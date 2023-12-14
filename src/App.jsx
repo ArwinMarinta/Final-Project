@@ -19,17 +19,42 @@ import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
 import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
 import HistoryPage from "./pages/ProfilePage/Histori";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import Proctected from "./components/Protecd/Proctected";
+import NoAccesToken from "./components/Protecd/NoAccesToken";
+import NotFound from "./pages/NotFound/NotFound";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+
+        <Route
+          path="/register"
+          element={
+            <Proctected>
+              <RegisterPage />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Proctected>
+              <LoginPage />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <NoAccesToken>
+              <ProfilePage />
+            </NoAccesToken>
+          }
+        />
         <Route path="/detail/course/:courseId" element={<DetailPage />} />
         <Route
           path="/detail/course/:courseId/module/:moduleId/content/:contentId"
@@ -39,18 +64,49 @@ function App() {
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
+        <Route path="/my-course/:nameCourse" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
+        <Route path="/course" element={<Course />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />
-        <Route path="/otp" element={<OtpPage />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/history" element={<HistoryPage />} />
+        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/otp"
+          element={
+            <Proctected>
+              <OtpPage />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            <Proctected>
+              <VerifyEmail />
+            </Proctected>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <NoAccesToken>
+              <ChangePassword />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <NoAccesToken>
+              <HistoryPage />
+            </NoAccesToken>
+          }
+        />
       </Routes>
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-center"
-        autoClose={5000}
+        autoClose={500}
         limit={1}
         hideProgressBar={false}
         newestOnTop={false}
@@ -60,7 +116,7 @@ function App() {
         draggable
         pauseOnHover
         theme="light"
-      /> */}
+      />
     </BrowserRouter>
   );
 }

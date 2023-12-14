@@ -12,7 +12,10 @@ const DetailContent = () => {
   const dispatch = useDispatch();
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { contentDetail } = useSelector((state) => state.detail) || {};
+  const error = useSelector((state) => state.detail.error); // Gunakan state yang berisi pesan error
   const { user, token } = useSelector((state) => state.auth);
+
+  const [showPopUp, setShowPopUp] = useState(true);
 
   const { courseId } = useParams();
   const { contentId } = useParams();
@@ -27,13 +30,22 @@ const DetailContent = () => {
 
   return (
     <>
-      <CourseDetail courseDetail={courseDetail} />
+      {error && showPopUp && (
+        <CourseDetail
+          courseDetail={courseDetail}
+          showPopUp={showPopUp}
+          setShowPopUp={setShowPopUp}
+          error={error}
+        />
+      )}
 
       <Header />
       <Desktop
         courseDetail={courseDetail}
         contentDetail={contentDetail}
         user={user}
+        setShowPopUp={setShowPopUp}
+        // handleShowPopUp={handleShowPopUp}
       />
       <Mobile courseDetail={courseDetail} contentDetail={contentDetail} />
     </>

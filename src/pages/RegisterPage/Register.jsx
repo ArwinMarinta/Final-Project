@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import logo from "../../assets/Belajar_white 2.svg";
@@ -18,6 +18,9 @@ const Register = () => {
   const [confPassword, setConfPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passworderror, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState("");
+  const [alertstatus, setAlertStatus] = useState("");
 
   const validateNomor = (e) => {
     const inputValue = e.target.value;
@@ -54,18 +57,6 @@ const Register = () => {
     passwordValidation(password, event.target.value);
   };
 
-  const handleRegis = (e) => {
-    e.preventDefault();
-
-    // console.log("nama:", name);
-    // console.log("Email:", email);
-    // // localStorage.setItem("email", email);
-    // console.log("nomor:", phone);
-    // console.log("Password:", password);
-    // console.log("Konfirm Password:", confPassword);
-    dispatch(register(name, email, phone, password, confPassword, navigate));
-  };
-
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -74,9 +65,42 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleRegis = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      register(
+        name,
+        email,
+        phone,
+        password,
+        confPassword,
+        setIsLoading,
+        setAlert,
+        setAlertStatus,
+        navigate
+      )
+    );
+  };
+
+  useEffect(() => {
+    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
+    const hideAlert = () => {
+      setAlert(""); // Menghapus pesan alert
+    };
+
+    // Memulai timeout ketika alertMessage berubah
+    if (alert) {
+      const timeoutId = setTimeout(hideAlert, 3000);
+
+      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
+      return () => clearTimeout(timeoutId);
+    }
+  }, [alert]);
+
   return (
     <div className="flex min-h-screen bg-DARKBLUE04">
-      <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[128px] ">
+      <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[128px] relative">
         <form onSubmit={handleRegis} className="w-full">
           <h1 className="text-[28px] font-Montserrat font-bold text-DARKBLUE05 mb-8">
             Daftar
@@ -86,7 +110,7 @@ const Register = () => {
               <label className="font-Poppins text-[14px] mb-[4px]">Nama</label>
               <input
                 type="text"
-                className="border w-full py-3 px-4 rounded-2xl"
+                className="border w-full py-2 px-3 rounded-2xl"
                 placeholder="Nama Lengkap"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -96,7 +120,7 @@ const Register = () => {
               <label className="font-Poppins text-[14px] mb-[4px]">Email</label>
               <input
                 type="email"
-                className="border w-full py-3 px-4 rounded-2xl"
+                className="border w-full py-2 px-3 rounded-2xl"
                 placeholder="Contoh: johndoe@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -109,7 +133,7 @@ const Register = () => {
               <input
                 type="tel"
                 pattern="[0-9+]+"
-                className="border w-full py-3 px-4 rounded-2xl appearance-none"
+                className="border w-full py-2 px-3 rounded-2xl appearance-none"
                 placeholder="+62, contohnya 6281...."
                 value={phone}
                 onChange={validateNomor}
@@ -125,7 +149,7 @@ const Register = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem]"
+                  className="border w-full py-2 px-3 rounded-2xl pr-[3.5rem]"
                   placeholder="Masukkan password"
                   value={password}
                   onChange={handlePasswordMatch}
@@ -165,7 +189,7 @@ const Register = () => {
               <div className="relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
-                  className="border w-full py-3 px-4 rounded-2xl pr-[3.5rem]"
+                  className="border w-full py-2 px-3 rounded-2xl pr-[3.5rem]"
                   placeholder="Masukkan konfirmasi password"
                   value={confPassword}
                   onChange={handleConfirmPasswordMatch}
@@ -192,8 +216,11 @@ const Register = () => {
               </div>
             </div>
           </div>
-          <button className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-10 hover:bg-DARKBLUE03">
-            Daftar
+          <button
+            type="submit"
+            className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-10 hover:bg-DARKBLUE03"
+          >
+            {isLoading ? "Loading..." : "Daftar"}
           </button>
           <div className="flex justify-center items-center gap-2 mt-6">
             <h1 className="font-Poppins text-[14px] font-normal">
@@ -205,6 +232,17 @@ const Register = () => {
             >
               Masuk di sini
             </Link>
+          </div>
+          <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]">
+            {alert && (
+              <div
+                className={`py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center ${
+                  alertstatus ? "bg-ALERTGREEN" : "bg-ALERTRED"
+                }`}
+              >
+                {alert} !
+              </div>
+            )}
           </div>
         </form>
       </div>

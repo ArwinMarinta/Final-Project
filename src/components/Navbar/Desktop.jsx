@@ -39,7 +39,7 @@ const Desktop = ({ user }) => {
         <div className="container flex justify-between mx-auto py-4 bg-DARKBLUE05">
           <NavLink to="/" className="flex gap-2">
             <SiCodechef className="text-4xl" />
-            <p className="text-2xl font-bold">ngodingCoy</p>
+            <p className="text-2xl font-bold">iLearnTech</p>
           </NavLink>
 
           <form action="search" onSubmit={onSubmitHandler}>

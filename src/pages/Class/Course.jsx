@@ -6,6 +6,7 @@ import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourse } from "../../redux/actions/CourseActions";
+import { useParams } from "react-router-dom";
 
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
@@ -14,11 +15,12 @@ const Course = () => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const { hasil } = useSelector((state) => state.course);
-  // const { nameCourse } = useParams();
+  const { nameCourse } = useParams();
   const linkFilter = `courses`;
+  const [errors, setErrors] = useState();
 
   useEffect(() => {
-    dispatch(getCourse());
+    dispatch(getCourse(setErrors));
   }, [typeButton]);
 
   const handleInputChange = (event) => {
@@ -80,6 +82,9 @@ const Course = () => {
                     setData={setData}
                     typeButton={typeButton}
                     linkFilter={linkFilter}
+                    setEror={setErrors}
+                    nameCourse={nameCourse}
+                    errors={errors}
                   />
                 )}
               </div>
@@ -89,6 +94,9 @@ const Course = () => {
                   hasil={hasil}
                   setData={setData}
                   linkFilter={linkFilter}
+                  setEror={setErrors}
+                  nameCourse={nameCourse}
+                  errors={errors}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
@@ -116,26 +124,34 @@ const Course = () => {
                   </button>
                 </div>
                 <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
-                  {data
-                    .filter((item) => {
-                      if (searchTerm === "") {
-                        return item;
-                      } else if (
-                        item.title
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase()) ||
-                        item.category
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
-                      ) {
-                        return item;
-                      }
-                    })
-                    .map((item) => (
-                      <div className=" w-full " key={item.id}>
-                        <CardPickCourse key={item.id} data={item} />
-                      </div>
-                    ))}
+                  {errors && (
+                    <div className="w-full md:w-[200%]">
+                      <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
+                        {errors}
+                      </label>
+                    </div>
+                  )}
+                  {errors == null &&
+                    data
+                      .filter((item) => {
+                        if (searchTerm === "") {
+                          return item;
+                        } else if (
+                          item.title
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase()) ||
+                          item.category
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())
+                        ) {
+                          return item;
+                        }
+                      })
+                      .map((item) => (
+                        <div className=" w-full " key={item.id}>
+                          <CardPickCourse key={item.id} data={item} />
+                        </div>
+                      ))}
                 </div>
               </div>
             </div>

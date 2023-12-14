@@ -9,7 +9,7 @@ import { BiLogoTelegram } from "react-icons/bi";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BiSolidLock } from "react-icons/bi";
 
-const Desktop = ({ courseDetail, contentDetail, user }) => {
+const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
   const navigate = useNavigate();
 
   const video = contentDetail?.videoUrl;
@@ -25,7 +25,7 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
       <div className="hidden sm:block">
         <div className="bg-DARKBLUE04">
           <div className="container mx-auto py-5">
-            <Link to={""} className="flex items-center w-max">
+            <Link to="/course" className="flex items-center w-max">
               <FaArrowLeft />
               <span className="font-bold pl-2.5">Kelas Lainnya</span>
             </Link>
@@ -124,6 +124,7 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
                                 content?.contentId,
                                 e
                               );
+                              setShowPopUp(true);
                             }}
                             className="flex items-center justify-between py-1 w-full"
                           >
