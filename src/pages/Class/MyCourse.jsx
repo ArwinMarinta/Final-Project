@@ -91,19 +91,25 @@ const MyCourse = () => {
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
                 <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh]">
                   <button
-                    className="rounded-2xl bg-white px-2 md:px-4 py-2 w-1/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
+                      status == "" ? "bg-[#6148FF] text-white" : "bg-white"
+                    }`}
                     onClick={() => handleClick(``)}
                   >
                     All
-                  </button>
+                  </button>   
                   <button
-                    className="rounded-2xl bg-white px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
+                      status == "In Progress" ? "bg-[#6148FF] text-white" : "bg-white"
+                    }`}
                     onClick={() => handleClick(`In Progress`)}
                   >
                     Inprogress
                   </button>
                   <button
-                    className="rounded-2xl bg-white px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
+                      status == "Selesai" ? "bg-[#6148FF] text-white" : "bg-white"
+                    }`}
                     onClick={() => handleClick(`Selesai`)}
                   >
                     Selesai
