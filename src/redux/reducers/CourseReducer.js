@@ -7,6 +7,11 @@ const initialState = {
   notification: [],
   hasil: [],
   filter: [],
+  data: [],
+  errors: "",
+  page: [],
+  totalPage: [],
+  myCourse: [],
 };
 
 const courseSlice = createSlice({
@@ -31,6 +36,21 @@ const courseSlice = createSlice({
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
+    setData: (state, action) => {
+      state.data = action.payload;
+    },
+    setErrors: (state, action) => {
+      state.errors = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setTotalPage: (state, action) => {
+      state.totalPage = action.payload;
+    },
+    setMyCourse: (state, action) => {
+      state.myCourse = action.payload;
+    },
   },
 });
 
@@ -41,6 +61,11 @@ export const {
   setNotification,
   setHasil,
   setFilter,
+  setData,
+  setErrors,
+  setPage,
+  setTotalPage,
+  setMyCourse,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

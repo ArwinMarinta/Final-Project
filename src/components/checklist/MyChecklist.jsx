@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { filterData } from "../../redux/actions/CourseActions";
-import { VITE_API_URL } from "../../config/config";
+import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
 import { useNavigate } from "react-router-dom";
+import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
+function MyChecklist({ hasil, status }) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
+  const { errors } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
@@ -36,15 +36,15 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
   };
   const navigateToCourses = () => {
     const categoryParams = selectedCategory
-      .map((category) => `category=${category}`)
+      .map((category) => `${category}`)
       .join("&");
-    const levelParams = selectedLevel
-      .map((level) => `level=${level}`)
-      .join("&");
-    // navigate(`/course/${categoryParams}`);
-    const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
+    // const levelParams = selectedLevel
+    //   .map((level) => `level=${level}`)
+    //   .join("&");
+    navigate(`/my-course/${categoryParams}`);
+    // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
 
-    navigate(`/my-course/${queryParams}`);
+    // navigate(`/my-course/${queryParams}`);
   };
 
   const handleLevel = (value) => {
@@ -66,50 +66,27 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
   };
 
   const applyFilter = () => {
-    setEror();
+    dispatch(setErrors());
     if (
       selectedCategory.length === 0 &&
       status == `` &&
       typeCourse.length === 0 &&
       selectedLevel.length === 0
     ) {
-      myCheckbox(hasil);
+      handlemyCheckbox(hasil);
     } else if (selectedCategory.length > 0) {
-      myCheckbox(selectedCategory);
+      handlemyCheckbox();
     } else if (selectedLevel.length > 0) {
-      myCheckbox(selectedLevel);
+      handlemyCheckbox();
     } else if (typeCourse.length > 0) {
-      myCheckbox(typeCourse);
+      handlemyCheckbox();
     } else if (status) {
-      myCheckbox(status);
+      handlemyCheckbox();
     }
   };
-  const myCheckbox = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.get(`${VITE_API_URL}/user-courses`, {
-        params: {
-          learningStatus: status,
-          category: selectedCategory,
-          level: selectedLevel,
-          ...typeCourse.reduce((acc, value) => {
-            acc[value] = true;
-            return acc;
-          }, {}),
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const coursesData = response.data.value;
-        setMyCourse(coursesData);
-    } catch (error) {
-      if (error.response.status === 404) {
-        setEror("kelas yang di pilih tidak ada");
-      }
-    }
+  const handlemyCheckbox = () => {
+    dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
   };
-
   const unCheckAll = () => {
     checkboxesRef.current.forEach((checkbox) => {
       checkbox.checked = false;
@@ -124,11 +101,12 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
     dispatch(filterData());
     if (selectedCategory.length > 0) {
       navigateToCourses();
-    } else if (selectedCategory.length === 0) {
-      navigate("/my-course");
-    }
-    if (errors){
-      setMyCourse([])
+    } 
+    // else if (selectedCategory.length === 0) {
+    //   navigate("/my-course");
+    // }
+    if (errors) {
+      dispatch(setMyCourse([]));
     }
   }, [selectedCategory, selectedLevel, setMyCourse, hasil, typeCourse, status]);
 
@@ -254,15 +232,12 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
   );
 }
 MyChecklist.propTypes = {
-  setMyCourse: PropTypes.func,
   setHasil: PropTypes.func,
   hasil: PropTypes.array,
   status: PropTypes.string,
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
-  setEror: PropTypes.func,
-  errors: PropTypes.func,
 };
 
 export default MyChecklist;

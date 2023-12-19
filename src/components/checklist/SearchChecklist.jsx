@@ -1,28 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { checkbox, filterData } from "../../redux/actions/CourseActions";
+import { filterData, searchCheckbox } from "../../redux/actions/CourseActions";
 import typeCourseData from "../../data/TypeCourseData";
 import { setData, setErrors } from "../../redux/reducers/CourseReducer";
 
-function Checklist({
-  // hasil,
-  typeButton,
-  linkFilter,
-  nameCourse,
-  setAutoPage,
-  pageNumber,
-  setPageNumber,
-  setLoading,
-}) {
-  const navigate = useNavigate();
+function SearchChecklist({ typeButton, nameCourse, setAutoPage, setLoading }) {
   const checkboxesRef = useRef([]);
-  const { filter } = useSelector((state) => state.course);
-  const { errors } = useSelector((state) => state.course);
   const { data } = useSelector((state) => state.course);
-  const { totalPage } = useSelector((state) => state.course);
+  const { errors } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
@@ -54,18 +42,18 @@ function Checklist({
     });
   };
 
-  const navigateToCourses = () => {
-    const categoryParams = selectedCheckboxes
-      .map((category) => `${category}`)
-      .join("&");
-    // const levelParams = selectedLevel
-    //   .map((level) => `level=${level}`)
-    //   .join("&");
-    navigate(`/course/${categoryParams}`);
-    // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
+  // const navigateToCourses = () => {
+  //   const categoryParams = selectedCheckboxes
+  //     .map((category) => `${category}`)
+  //     .join("&");
+  //   // const levelParams = selectedLevel
+  //   //   .map((level) => `level=${level}`)
+  //   //   .join("&");
+  //   navigate(`/course/${categoryParams}`);
+  //   // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
 
-    // navigate(`/course/${queryParams}`);
-  };
+  //   // navigate(`/course/${queryParams}`);
+  // };
 
   const handleLevel = (value) => {
     setSelectedLevel((prevSelected) => {
@@ -95,9 +83,6 @@ function Checklist({
   };
 
   const applyFilter = () => {
-    // if (selectedCheckboxes.length === 0) {
-    //   navigate("/course");
-    // }
     dispatch(setErrors());
     if (nameCourse && !autoChecklist) {
       handlenamecourse();
@@ -105,7 +90,6 @@ function Checklist({
     }
     if (errors) {
       dispatch(setData([]));
-      setAutoPage(true);
     }
     if (
       selectedCheckboxes.length === 0 &&
@@ -113,8 +97,6 @@ function Checklist({
       typeButton === "" &&
       typeCourse.length === 0
     ) {
-      handlecheckbox();
-      dispatch(setData(data));
       setAutoPage(false);
       // navigate("/course");
     } else if (
@@ -123,7 +105,8 @@ function Checklist({
       selectedLevel.length === 0 &&
       typeCourse.length === 0
     ) {
-      handlecheckbox();
+      const filter = data.filter((item) => item.type === typeButton);
+      dispatch(setData(filter));
     } else if (selectedCheckboxes.length > 0) {
       handlecheckbox();
     } else if (selectedLevel.length > 0) {
@@ -139,16 +122,8 @@ function Checklist({
     setTimeout(() => {
       setLoading(false);
     }, 700);
-    dispatch(
-      checkbox(
-        typeButton,
-        selectedCheckboxes,
-        selectedLevel,
-        typeCourse,
-        linkFilter,
-        pageNumber
-      )
-    );
+    setAutoPage(true);
+    dispatch(searchCheckbox(typeButton, selectedLevel, typeCourse, nameCourse));
   };
 
   const unCheckAll = () => {
@@ -161,25 +136,15 @@ function Checklist({
   };
 
   useEffect(() => {
-    if (selectedCheckboxes.length > 0) {
-      navigateToCourses();
-    }
-    if (pageNumber == null || pageNumber > totalPage) {
-      setPageNumber(1);
-    }
     applyFilter();
     dispatch(filterData());
   }, [
     selectedCheckboxes,
     selectedLevel,
-    // setData,
-    // hasil,
+    setData,
     typeCourse,
-    // linkFilter,
-    // nameCourse,
+    nameCourse,
     typeButton,
-    pageNumber,
-    totalPage,
   ]);
 
   return (
@@ -201,23 +166,6 @@ function Checklist({
               onChange={() => handleTypeCourse(item.id)}
             />
             <label className="font-Montserrat text-xs">{item.label}</label>
-          </li>
-        ))}
-      </ul>
-      <p className="font-bold text-sm">Kategori</p>
-      <ul>
-        {filter.map((item) => (
-          <li className="flex flex-row gap-y-9 gap-x-3 " key={item.id}>
-            <input
-              type="checkbox"
-              className="border-inherit rounded-lg"
-              ref={(element) => {
-                checkboxesRef.current.push(element);
-              }}
-              checked={selectedCheckboxes.includes(item.slug)}
-              onChange={() => handleChecklist(item.slug)}
-            />
-            <label className="font-Montserrat text-xs">{item.name}</label>
           </li>
         ))}
       </ul>
@@ -282,18 +230,14 @@ function Checklist({
     </div>
   );
 }
-Checklist.propTypes = {
-  setHasil: PropTypes.func,
-  setLoading: PropTypes.func,
-  hasil: PropTypes.array,
+SearchChecklist.propTypes = {
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
   errors: PropTypes.func,
   nameCourse: PropTypes.string,
   setAutoPage: PropTypes.func,
-  setPageNumber: PropTypes.func,
-  pageNumber: PropTypes.number,
+  setLoading: PropTypes.func,
 };
 
-export default Checklist;
+export default SearchChecklist;

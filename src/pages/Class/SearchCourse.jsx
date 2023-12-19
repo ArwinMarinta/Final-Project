@@ -1,14 +1,13 @@
 import { useState } from "react";
-// import { useParams } from "react-router-dom";
-import Checklist from "../../components/checklist/Checklist";
 import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
+import SearchChecklist from "../../components/checklist/SearchChecklist";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
-const Course = () => {
+const SearchCourse = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
@@ -18,16 +17,8 @@ const Course = () => {
   const [loading, setLoading] = useState(true);
 
   const { nameCourse } = useParams();
-  const linkFilter = `courses`;
   const [pageNumber, setPageNumber] = useState();
   const [autoPage, setAutoPage] = useState(false);
-
-  // useEffect(() => {
-  //   if (pageNumber == null) {
-  //     setPageNumber(1);
-  //   }
-  //   dispatch(getCourse(pageNumber));
-  // }, [typeButton, pageNumber]);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -83,27 +74,21 @@ const Course = () => {
             <div className="md:flex mt-5  justify-between gap-20">
               <div className="block md:hidden md:w-auto w-full">
                 {filter && (
-                  <Checklist
+                  <SearchChecklist
                     hasil={hasil}
                     typeButton={typeButton}
-                    linkFilter={linkFilter}
                     nameCourse={nameCourse}
                     setAutoPage={setAutoPage}
-                    pageNumber={pageNumber}
-                    setPageNumber={setPageNumber}
                     setLoading={setLoading}
                   />
                 )}
               </div>
               <div className="hidden md:block w-72 ">
-                <Checklist
+                <SearchChecklist
                   typeButton={typeButton}
                   hasil={hasil}
-                  linkFilter={linkFilter}
                   nameCourse={nameCourse}
                   setAutoPage={setAutoPage}
-                  pageNumber={pageNumber}
-                  setPageNumber={setPageNumber}
                   setLoading={setLoading}
                 />
               </div>
@@ -142,7 +127,7 @@ const Course = () => {
                   </button>
                 </div>
                 {loading ? (
-                  <LoadingSpinner/>
+                  <LoadingSpinner />
                 ) : (
                   <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
@@ -189,4 +174,4 @@ const Course = () => {
   );
 };
 
-export default Course;
+export default SearchCourse;

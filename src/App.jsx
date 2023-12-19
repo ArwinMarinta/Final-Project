@@ -24,6 +24,7 @@ import NoAccesToken from "./components/Protecd/NoAccesToken";
 import NotFound from "./pages/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SearchCourse from "./pages/Class/SearchCourse";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
         <Route path="/my-course/:nameCourse" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/search-course/:nameCourse" element={<SearchCourse />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />

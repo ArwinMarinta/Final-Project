@@ -5,18 +5,16 @@ import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
-import { useNavigate } from "react-router-dom";
 
 const MyCourse = () => {
   const [status, setStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
-  const [myCourse, setMyCourse] = useState([]);
   const { hasil } = useSelector((state) => state.course);
+  const { myCourse } = useSelector((state) => state.course);
+  const { errors } = useSelector((state) => state.course);
   const dispatch = useDispatch();
-  const [errors, setErrors] = useState();
   const linkFilter = `user-courses`;
-  const Navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -31,7 +29,7 @@ const MyCourse = () => {
   };
 
   useEffect(() => {
-    dispatch(getMyCourse(Navigate, setErrors, errors));
+    dispatch(getMyCourse(errors));
   }, [status]);
   return (
     <>
@@ -77,23 +75,17 @@ const MyCourse = () => {
               <div className="block md:hidden md:w-auto w-full">
                 {filter && (
                   <MyChecklist
-                    setMyCourse={setMyCourse}
                     linkFilter={linkFilter}
                     hasil={hasil}
                     status={status}
-                    setEror={setErrors}
-                    errors={errors}
                   />
                 )}
               </div>
               <div className="hidden md:block w-72">
                 <MyChecklist
-                  setMyCourse={setMyCourse}
                   linkFilter={linkFilter}
                   hasil={hasil}
                   status={status}
-                  setEror={setErrors}
-                  errors={errors}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
@@ -128,13 +120,11 @@ const MyCourse = () => {
                   {errors == null &&
                     myCourse
                       .filter((item) => {
+                        const data = item.courses;
                         if (searchTerm === "") {
                           return item;
                         } else if (
-                          item.name
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase()) ||
-                          item.topic
+                          data.category
                             .toLowerCase()
                             .includes(searchTerm.toLowerCase())
                         ) {
