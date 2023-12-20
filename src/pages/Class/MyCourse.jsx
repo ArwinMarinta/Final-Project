@@ -36,8 +36,8 @@ const MyCourse = () => {
       <Header />
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
         <div className="container">
-          <div className="container mx-auto  w-auto">
-            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50 h-14 min-h-fullbg-white/30 backdrop-blur">
+          <div className="container mx-auto w-auto">
+            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50 h-14 min-h-full  backdrop-blur">
               <h1
                 style={{
                   fontFamily: `montserrat`,
@@ -48,7 +48,7 @@ const MyCourse = () => {
               </h1>
 
               <div className="md:w-auto">
-                <div className=" border-blue-600 md:w-200 w-full   hidden md:block">
+                <div className=" border-blue-600 md:w-200 w-full  hidden md:block">
                   <form className="relative flex flex-row">
                     <input
                       type="search"

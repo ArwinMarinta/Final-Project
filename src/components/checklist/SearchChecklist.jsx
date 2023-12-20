@@ -222,6 +222,7 @@ function SearchChecklist({ typeButton, nameCourse, setAutoPage, setLoading }) {
       <Link to={"/course"} className="flex justify-center">
         <button
           onClick={unCheckAll}
+    
           className="rounded-lg text-red-600 font-Montserrat text-sm"
         >
           Hapus Filter

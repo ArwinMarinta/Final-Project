@@ -46,7 +46,7 @@ const Course = () => {
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
         <div className="container w-full">
           <div className=" mx-auto container w-auto">
-            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50  h-14 min-h-fullbg-white/30 backdrop-blur">
+            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50  h-14 min-h-full backdrop-blur">
               <h1
                 style={{
                   fontFamily: `montserrat`,
