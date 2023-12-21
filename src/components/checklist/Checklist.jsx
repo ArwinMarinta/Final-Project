@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { filterData } from "../../redux/actions/CourseActions";
 import { VITE_API_URL } from "../../config/config";
+import typeCourseData from "../../data/TypeCourseData";
 
 function Checklist({
   hasil,
@@ -34,6 +35,7 @@ function Checklist({
       }
     });
   };
+
   const handleChecklist = (value) => {
     setSelectedCheckboxes((prevSelected) => {
       if (prevSelected.includes(value)) {
@@ -45,6 +47,7 @@ function Checklist({
       }
     });
   };
+
   const navigateToCourses = () => {
     const categoryParams = selectedCheckboxes
       .map((category) => `category=${category}`)
@@ -107,6 +110,7 @@ function Checklist({
       checkbox(typeButton);
     }
   };
+
   const checkbox = async () => {
     try {
       const response = await axios.get(`${VITE_API_URL}/${linkFilter}`, {
@@ -161,42 +165,20 @@ function Checklist({
     >
       <p className="font-bold text-sm">Filter</p>
       <ul>
-        <li className="flex flex-row gap-3">
-          <input
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            checked={typeCourse.includes("latest")}
-            onChange={() => handleTypeCourse("latest")}
-          />
-          <label className="font-Montserrat text-xs">Paling Baru</label>
-        </li>
-        <li className="flex flex-row gap-3">
-          <input
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            checked={typeCourse.includes("popular")}
-            onChange={() => handleTypeCourse("popular")}
-          />
-          <label className="font-Montserrat text-xs">Paling Populer</label>
-        </li>
-        <li className="flex flex-row gap-3">
-          <input
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            checked={typeCourse.includes("promo")}
-            onChange={() => handleTypeCourse("promo")}
-          />
-          <label className="font-Montserrat text-xs">Paling Promo</label>
-        </li>
+        {typeCourseData.map((item) => (
+          <li key={item.id} className="flex flex-row gap-3">
+            <input
+              ref={(element) => {
+                checkboxesRef.current.push(element);
+              }}
+              type="checkbox"
+              className="border-inherit rounded-lg"
+              checked={typeCourse.includes(item.id)}
+              onChange={() => handleTypeCourse(item.id)}
+            />
+            <label className="font-Montserrat text-xs">{item.label}</label>
+          </li>
+        ))}
       </ul>
       <p className="font-bold text-sm">Kategori</p>
       <ul>

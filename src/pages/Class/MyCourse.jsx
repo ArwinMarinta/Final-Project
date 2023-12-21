@@ -29,9 +29,10 @@ const MyCourse = () => {
   const handleClick = (value) => {
     setStatus(value);
   };
+
   useEffect(() => {
     dispatch(getMyCourse(Navigate, setErrors, errors));
-  }, []);
+  }, [status]);
   return (
     <>
       <Header />
@@ -130,7 +131,7 @@ const MyCourse = () => {
                         if (searchTerm === "") {
                           return item;
                         } else if (
-                          item.nama
+                          item.name
                             .toLowerCase()
                             .includes(searchTerm.toLowerCase()) ||
                           item.topic

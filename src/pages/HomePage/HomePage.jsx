@@ -20,11 +20,19 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getCategory());
     dispatch(getPopular());
+    setSelectedCategory("All");
   }, [dispatch]);
 
-  const handleLinkClick = () => {
-    // Panggil fungsi getPopular saat tautan diklik
-    dispatch(getPopular());
+  const filterCourses = (category) => {
+    if (!Array.isArray(popular)) {
+      return [];
+    }
+
+    if (category === "All") {
+      return popular;
+    } else {
+      return popular.filter((course) => course.category === category);
+    }
   };
 
   return (
@@ -45,7 +53,7 @@ const HomePage = () => {
               </div>
               <Link
                 as={Link}
-                to="/course/:nameCourse"
+                to="/course"
                 className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%] text-center"
               >
                 IKUTI KELAS
@@ -59,20 +67,20 @@ const HomePage = () => {
           <div className="flex w-full flex-col pt-[26px] pb-[14px] gap-5 container">
             <div className="flex flex-row justify-between container">
               <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
-              <button
-                onClick={handleLinkClick}
+              <Link
+                to="/course"
                 className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
               >
                 Lihat Semua
-              </button>
+              </Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
               {category.map((data) => (
-                <>
-                  <Link as={Link} to={`/course/category=${data.slug}`}>
-                    <CardKategori key={data.category} data={data} />
-                  </Link>
-                </>
+                // <div key={data.id}>
+                // {/* <Link as={Link} to={`/course/category=${data.slug}`}> */}
+                <CardKategori key={data.id} data={data} />
+                // {/* </Link> */}
+                // </div>
               ))}
             </div>
           </div>
@@ -93,28 +101,34 @@ const HomePage = () => {
             </Link>
           </div>
 
-          <div className="container">
-            <Carousel responsive={responsive2}>
-              <Link
-                as={Link}
-                className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
-              >
-                All
-              </Link>
-              {category.map((datas) => (
-                <div key={datas.id} className="ml-1 mr-1">
-                  <button className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 ">
-                    <div>{datas.name}</div>
-                  </button>
-                </div>
-              ))}
-              {/* </div> */}
-            </Carousel>
-          </div>
+          {category.length > 0 && (
+            <div className="container">
+              <Carousel responsive={responsive2}>
+                {/* <div className="flex flex-row bg-red-500 items-center "> */}
+                <button
+                  onClick={() => setSelectedCategory("All")}
+                  className=" rounded-2xl w-full font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
+                >
+                  All
+                </button>
+                {category.map((datas) => (
+                  <div key={datas.id} className="ml-1 mr-1 ">
+                    <button
+                      onClick={() => setSelectedCategory(datas.name)}
+                      className=" rounded-2xl w-full  px-2 font-Montserrat font-bold text-xs bg-LightBlue5 py-2 whitespace-nowrap text-center line-clamp-2 "
+                    >
+                      <div>{datas.name}</div>
+                    </button>
+                  </div>
+                ))}
+                {/* </div> */}
+              </Carousel>
+            </div>
+          )}
 
           <div className=" drop-shadow-xl container mx-auto">
             <Carousel responsive={responsive}>
-              {popular.map((data) => (
+              {filterCourses(selectedCategory).map((data) => (
                 <CardCourse key={data.id} data={data} />
               ))}
             </Carousel>
