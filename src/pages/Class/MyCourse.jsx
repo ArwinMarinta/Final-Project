@@ -5,6 +5,7 @@ import Search from "../../assets/search.svg";
 import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
+import LoadingSpinner from "../../components/loading/LoadingSpinner";
 
 const MyCourse = () => {
   const [status, setStatus] = useState("");
@@ -15,6 +16,7 @@ const MyCourse = () => {
   const { errors } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const linkFilter = `user-courses`;
+  const [loading, setLoading] = useState(true);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -78,6 +80,7 @@ const MyCourse = () => {
                     linkFilter={linkFilter}
                     hasil={hasil}
                     status={status}
+                    setLoading={setLoading}
                   />
                 )}
               </div>
@@ -86,6 +89,7 @@ const MyCourse = () => {
                   linkFilter={linkFilter}
                   hasil={hasil}
                   status={status}
+                  setLoading={setLoading}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
@@ -97,10 +101,12 @@ const MyCourse = () => {
                     onClick={() => handleClick(``)}
                   >
                     All
-                  </button>   
+                  </button>
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      status == "In Progress" ? "bg-[#6148FF] text-white" : "bg-white"
+                      status == "In Progress"
+                        ? "bg-[#6148FF] text-white"
+                        : "bg-white"
                     }`}
                     onClick={() => handleClick(`In Progress`)}
                   >
@@ -108,45 +114,51 @@ const MyCourse = () => {
                   </button>
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      status == "Selesai" ? "bg-[#6148FF] text-white" : "bg-white"
+                      status == "Selesai"
+                        ? "bg-[#6148FF] text-white"
+                        : "bg-white"
                     }`}
                     onClick={() => handleClick(`Selesai`)}
                   >
                     Selesai
                   </button>
                 </div>
-                <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
-                  {errors && (
-                    <div className="w-full md:w-[200%]">
-                      <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
-                        {errors}
-                      </label>
-                    </div>
-                  )}
-                  {errors == null &&
-                    myCourse
-                      .filter((item) => {
-                        const data = item.courses;
-                        if (searchTerm === "") {
-                          return item;
-                        } else if (
-                          data.category
-                            .toLowerCase()
-                            .includes(searchTerm.toLowerCase())
-                        ) {
-                          return item;
-                        }
-                      })
-                      .map((item) => (
-                        <div className="w-full" key={item.userCourseId}>
-                          <CardCourse
-                            key={item.id}
-                            data={item.courses}
-                            progress={item}
-                          />
-                        </div>
-                      ))}
-                </div>
+                {loading ? (
+                  <LoadingSpinner />
+                ) : (
+                  <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
+                    {errors && (
+                      <div className="w-full md:w-[200%]">
+                        <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
+                          {errors}
+                        </label>
+                      </div>
+                    )}
+                    {errors == null &&
+                      myCourse
+                        .filter((item) => {
+                          const data = item.courses;
+                          if (searchTerm === "") {
+                            return item;
+                          } else if (
+                            data.category
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
+                          ) {
+                            return item;
+                          }
+                        })
+                        .map((item) => (
+                          <div className="w-full" key={item.userCourseId}>
+                            <CardCourse
+                              key={item.id}
+                              data={item.courses}
+                              progress={item}
+                            />
+                          </div>
+                        ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

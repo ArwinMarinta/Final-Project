@@ -5,7 +5,7 @@ import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
 import { useNavigate } from "react-router-dom";
 import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, status }) {
+function MyChecklist({ hasil, status ,setLoading,}) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
@@ -85,6 +85,10 @@ function MyChecklist({ hasil, status }) {
     }
   };
   const handlemyCheckbox = () => {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 700);
     dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
   };
   const unCheckAll = () => {
@@ -238,6 +242,7 @@ MyChecklist.propTypes = {
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
+  setLoading: PropTypes.bool,
 };
 
 export default MyChecklist;
