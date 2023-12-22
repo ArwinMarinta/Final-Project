@@ -94,7 +94,7 @@ const HomePage = () => {
             <h2 className="font-bold text-xl">Kursus Populer</h2>
             <Link
               as={Link}
-              to="/course"
+              to="/course/populer"
               className="font-extrabold text-xs text-DARKBLUE05 self-center"
             >
               Lihat Semua

@@ -23,7 +23,7 @@ const Desktop = ({ user }) => {
       // Jika input kosong, arahkan ke halaman beranda atau URL yang sesuai.
       navigate("/");
     } else {
-      const searchUrl = `/search?query=${searchQuery}`;
+      const searchUrl = `/search-course/${searchQuery}`;
       navigate(searchUrl);
     }
   };
