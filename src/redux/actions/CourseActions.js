@@ -191,3 +191,26 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
     // });
   }
 };
+
+export const putProgress = (userCourseId, contentId) => async (_, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    await axios.put(
+      `${VITE_API_URL}/learning-progress/${userCourseId}/contents/${contentId}`,
+      {
+        userCourseId: Number(userCourseId),
+        contentId: Number(contentId),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};

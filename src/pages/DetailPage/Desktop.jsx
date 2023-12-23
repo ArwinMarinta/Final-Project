@@ -1,24 +1,20 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { RiShieldStarLine } from "react-icons/ri";
-import { RiBook2Line } from "react-icons/ri";
-import { RiTimeFill } from "react-icons/ri";
-import { BiLogoTelegram } from "react-icons/bi";
-import { FaCirclePlay } from "react-icons/fa6";
-import { BiSolidLock } from "react-icons/bi";
+import { RiShieldStarLine, RiBook2Line, RiTimeFill } from "react-icons/ri";
+import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
+import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 
-const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
-  const navigate = useNavigate();
-
+const Desktop = ({
+  courseDetail,
+  contentDetail,
+  checkCourse,
+  courseProgress,
+  handleLinkClick,
+  checkFinishContent,
+}) => {
   const video = contentDetail?.videoUrl;
-
-  const handleLinkClick = (courseId, moduleId, contentId) => {
-    navigate(
-      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
-    );
-  };
+  const isDemo = contentDetail?.isDemo;
 
   return (
     <>
@@ -72,7 +68,11 @@ const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-2xl bg-black"
-              src={`https://www.youtube.com/embed/${video}`}
+              src={`${
+                checkCourse?.status === "success"
+                  ? ` https://www.youtube.com/embed/${video}`
+                  : `${isDemo ? `https://www.youtube.com/embed/${video}` : ""} `
+              }`}
               title="YouTube video player"
               // frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -87,9 +87,9 @@ const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
                 Kelas ini ditujukan untuk
               </h3>
               <ul className="list-decimal list-inside">
-                {courseDetail?.requirements?.map((requirement, index) => (
+                {courseDetail?.requirements?.map((requirements, index) => (
                   <li key={index} className="pl-2 py-1">
-                    {requirement?.requirements}
+                    {requirements?.requirement}
                   </li>
                 ))}
               </ul>
@@ -100,7 +100,20 @@ const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
             style={{ flex: "1" }}
           >
             <div className="py-5 px-6">
-              <h3 className=" font-bold">Materi Belajar</h3>
+              <div className="flex justify-between flex-wrap">
+                <h3 className=" font-bold">Materi Belajar</h3>
+                <div className="w-1/2 flex items-center bg-gray-200 rounded-full dark:bg-gray-700 h-full">
+                  <p
+                    className="bg-DARKBLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-blue-100 align-middle leading-none rounded-full h-full pl-4"
+                    style={{
+                      width: `${courseProgress?.learningProgress ?? "0"}%`,
+                    }}
+                  >
+                    {courseProgress?.learningProgress}
+                    {"% "}completed
+                  </p>
+                </div>
+              </div>
               <div className="pt-2.5">
                 {courseDetail.modules?.map((module, moduleIndex) => (
                   <>
@@ -116,15 +129,13 @@ const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
                       (content, contentIndex) => (
                         <div className="" key={contentIndex}>
                           <button
-                            onClick={(e) => {
-                              e.preventDefault();
+                            onClick={() => {
                               handleLinkClick(
                                 courseDetail?.courseId,
                                 module?.moduleId,
                                 content?.contentId,
-                                e
+                                contentDetail?.userCourseId
                               );
-                              setShowPopUp(true);
                             }}
                             className="flex items-center justify-between py-1 w-full"
                           >
@@ -137,14 +148,28 @@ const Desktop = ({ courseDetail, contentDetail, user, setShowPopUp }) => {
                               </span>
                             </div>
                             <span className="text-xl">
-                              {content?.isDemo === true ? (
-                                <FaCirclePlay
-                                  className={`${
-                                    user ? "text-ALERTGREEN" : "text-NEUTRAL02"
-                                  }`}
-                                />
+                              {checkCourse?.status === "success" ? (
+                                <>
+                                  {checkFinishContent === "success" ? (
+                                    <FaCircleCheck
+                                      className={"text-DARKBLUE05"}
+                                    />
+                                  ) : (
+                                    <FaCirclePlay
+                                      className={"text-ALERTGREEN"}
+                                    />
+                                  )}
+                                </>
                               ) : (
-                                <BiSolidLock className="text-black" />
+                                <>
+                                  {content?.isDemo ? (
+                                    <FaCirclePlay
+                                      className={"text-ALERTGREEN"}
+                                    />
+                                  ) : (
+                                    <BiSolidLock className={"text-black"} />
+                                  )}
+                                </>
                               )}
                             </span>
                           </button>
@@ -172,7 +197,11 @@ Desktop.propTypes = {
     totalModule: PropTypes.number,
     duration: PropTypes.number,
     courseId: PropTypes.number,
-    requirements: PropTypes.string,
+    requirements: PropTypes.arrayOf(
+      PropTypes.shape({
+        requirement: PropTypes.string,
+      })
+    ),
     category: PropTypes.string,
     groupDiscussion: PropTypes.string,
     modules: PropTypes.arrayOf(
@@ -183,17 +212,26 @@ Desktop.propTypes = {
           PropTypes.shape({
             title: PropTypes.string,
             isDemo: PropTypes.bool,
-            contentId: PropTypes.number, // menambahkan contentId
-            // Tambahkan prop lainnya sesuai kebutuhan
+            contentId: PropTypes.number,
+            videoUrl: PropTypes.string,
           })
         ),
       })
     ),
   }),
   contentDetail: PropTypes.shape({
-    videoUrl: PropTypes.string, // Mengubah tipe prop videoUrl menjadi string
+    videoUrl: PropTypes.string,
+    isDemo: PropTypes.bool,
+    userCourseId: PropTypes.number,
   }),
-  user: PropTypes.bool, // menambahkan prop user dengan tipe boolean
+  checkCourse: PropTypes.shape({
+    status: PropTypes.string,
+  }),
+  courseProgress: PropTypes.shape({
+    learningProgress: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }),
+  handleLinkClick: PropTypes.func.isRequired,
+  checkFinishContent: PropTypes.string,
 };
 
 export default Desktop;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-import { setContentDetail, setError } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
 
 export const login =
@@ -333,33 +332,3 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
     alert(error.message);
   }
 };
-
-export const getContentDetail =
-  (courseId, moduleId, contentId) => async (dispatch, getState) => {
-    try {
-      let { token } = getState().auth;
-      const response = await axios.get(
-        `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const { value } = response.data;
-      const data = value;
-      dispatch(setError(null));
-      dispatch(setContentDetail(data));
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        dispatch(setContentDetail(null));
-        if (error.response.status === 401) {
-          dispatch(setError(error.response.data.message));
-        }
-        if (error.response.status === 403) {
-          dispatch(setError(error?.response?.data?.message));
-        }
-      }
-    }
-  };
