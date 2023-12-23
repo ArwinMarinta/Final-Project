@@ -32,9 +32,7 @@ const CardPickCourse = ({ data }) => {
   const handleCourseFree = async (event, courseID) => {
     event.preventDefault();
     dispatch(getCourseFree(courseID));
-    console.log(courseID);
   };
-  console.log(handleCourseFree);
 
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg mx-1 ">
