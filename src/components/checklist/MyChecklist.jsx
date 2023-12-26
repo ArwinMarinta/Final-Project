@@ -84,6 +84,7 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
       myCheckbox(status);
     }
   };
+
   const myCheckbox = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -102,7 +103,7 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
         },
       });
       const coursesData = response.data.value;
-        setMyCourse(coursesData);
+      setMyCourse(coursesData);
     } catch (error) {
       if (error.response.status === 404) {
         setEror("kelas yang di pilih tidak ada");
@@ -127,8 +128,8 @@ function MyChecklist({ hasil, setMyCourse, status, setEror, errors }) {
     } else if (selectedCategory.length === 0) {
       navigate("/my-course");
     }
-    if (errors){
-      setMyCourse([])
+    if (errors) {
+      setMyCourse([]);
     }
   }, [selectedCategory, selectedLevel, setMyCourse, hasil, typeCourse, status]);
 

@@ -295,6 +295,9 @@ export const UpdateProfile =
         message: response.data.message,
         type: "success",
       });
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 1000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toastify({
@@ -328,6 +331,13 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
         },
       }
     );
+    // toastify({
+    //   message: response.data.message,
+    //   type: "success",
+    // });
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1000);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       alert(error.response.data.message);
