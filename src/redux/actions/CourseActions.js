@@ -217,6 +217,29 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   }
 };
 
+export const putProgress = (userCourseId, contentId) => async (_, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    await axios.put(
+      `${VITE_API_URL}/learning-progress/${userCourseId}/contents/${contentId}`,
+      {
+        userCourseId: Number(userCourseId),
+        contentId: Number(contentId),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+
 export const checkbox =
   (
     typeButton,
@@ -248,7 +271,7 @@ export const checkbox =
       for (let index = 1; index <= data.totalPage; index++) {
         pageArray.push(index);
       }
-      dispatch(setTotalPage(data.totalPage))
+      dispatch(setTotalPage(data.totalPage));
       dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 404) {
@@ -256,6 +279,7 @@ export const checkbox =
       }
     }
   };
+
 export const searchCheckbox =
   (typeButton, selectedLevel, typeCourse, nameCourse) => async (dispatch) => {
     try {
@@ -280,6 +304,7 @@ export const searchCheckbox =
       }
     }
   };
+
 export const myCheckbox =
   (status, selectedCategory, selectedLevel, typeCourse) =>
   async (dispatch, getState) => {

@@ -1,21 +1,18 @@
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { RiShieldStarLine } from "react-icons/ri";
-import { RiBook2Line } from "react-icons/ri";
-import { RiTimeFill } from "react-icons/ri";
-import { BiLogoTelegram } from "react-icons/bi";
-import { FaCirclePlay } from "react-icons/fa6";
-import { BiSolidLock } from "react-icons/bi";
+import { RiShieldStarLine, RiBook2Line, RiTimeFill } from "react-icons/ri";
+import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
+import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 
-const Desktop = ({ courseDetail, contentDetail, user }) => {
-  const navigate = useNavigate();
-
-  const handleLinkClick = (courseId, moduleId, contentId) => {
-    navigate(
-      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
-    );
-  };
+const Desktop = ({
+  courseDetail,
+  contentDetail,
+  checkCourse,
+  handleLinkClick,
+}) => {
+  const video = contentDetail?.videoUrl;
+  const isDemo = contentDetail?.isDemo;
 
   return (
     <>
@@ -69,9 +66,13 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-2xl bg-black"
-              src={`https://www.youtube.com/embed/${contentDetail?.videoUrl}`}
+              src={`${
+                // checkCourse?.status === "success"?
+                // ` https://www.youtube.com/embed/${video}`:
+                `${isDemo ? `https://www.youtube.com/embed/${video}` : ""} `
+              }`}
               title="YouTube video player"
-              // frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
@@ -84,9 +85,9 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
                 Kelas ini ditujukan untuk
               </h3>
               <ul className="list-decimal list-inside">
-                {courseDetail?.requirements?.map((requirement, index) => (
+                {courseDetail?.requirements?.map((requirements, index) => (
                   <li key={index} className="pl-2 py-1">
-                    {requirement?.requirements}
+                    {requirements?.requirement}
                   </li>
                 ))}
               </ul>
@@ -97,9 +98,26 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
             style={{ flex: "1" }}
           >
             <div className="py-5 px-6">
-              <h3 className=" font-bold">Materi Belajar</h3>
+              <div className="flex justify-between flex-wrap">
+                <h3 className=" font-bold">Materi Belajar</h3>
+                {courseDetail?.userCourseId === null ? (
+                  ""
+                ) : (
+                  <div className="w-1/2 flex items-center bg-gray-200 rounded-full dark:bg-gray-700 h-full">
+                    <p
+                      className="bg-DARKBLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-blue-100 align-middle leading-none rounded-full h-full pl-4"
+                      style={{
+                        width: `${courseDetail?.learningProgress ?? "0"}%`,
+                      }}
+                    >
+                      {courseDetail?.learningProgress}
+                      {"% "}completed
+                    </p>
+                  </div>
+                )}
+              </div>
               <div className="pt-2.5">
-                {courseDetail.modules?.map((module, moduleIndex) => (
+                {courseDetail?.modules?.map((module, moduleIndex) => (
                   <>
                     <div className="flex gap-4 justify-between text-sm w-full mt-5 mb-3">
                       <span className="text-DARKBLUE05 font-bold ">
@@ -113,13 +131,15 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
                       (content, contentIndex) => (
                         <div className="" key={contentIndex}>
                           <button
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.preventDefault();
                               handleLinkClick(
                                 courseDetail?.courseId,
                                 module?.moduleId,
-                                content?.contentId
-                              )
-                            }
+                                content?.contentId,
+                                contentDetail?.userCourseId
+                              );
+                            }}
                             className="flex items-center justify-between py-1 w-full"
                           >
                             <div className="flex items-center text-sm">
@@ -131,14 +151,28 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
                               </span>
                             </div>
                             <span className="text-xl">
-                              {content?.isDemo === true ? (
-                                <FaCirclePlay
-                                  className={`${
-                                    user ? "text-ALERTGREEN" : "text-NEUTRAL02"
-                                  }`}
-                                />
+                              {checkCourse?.status === "success" ? (
+                                <>
+                                  {content?.isFinished ? (
+                                    <FaCircleCheck
+                                      className={"text-DARKBLUE05"}
+                                    />
+                                  ) : (
+                                    <FaCirclePlay
+                                      className={"text-ALERTGREEN"}
+                                    />
+                                  )}
+                                </>
                               ) : (
-                                <BiSolidLock className="text-black" />
+                                <>
+                                  {content?.isDemo ? (
+                                    <FaCirclePlay
+                                      className={"text-ALERTGREEN"}
+                                    />
+                                  ) : (
+                                    <BiSolidLock className={"text-black"} />
+                                  )}
+                                </>
                               )}
                             </span>
                           </button>
@@ -166,7 +200,13 @@ Desktop.propTypes = {
     totalModule: PropTypes.number,
     duration: PropTypes.number,
     courseId: PropTypes.number,
-    requirements: PropTypes.string,
+    userCourseId: PropTypes.number,
+    learningProgress: PropTypes.number,
+    requirements: PropTypes.arrayOf(
+      PropTypes.shape({
+        requirement: PropTypes.string,
+      })
+    ),
     category: PropTypes.string,
     groupDiscussion: PropTypes.string,
     modules: PropTypes.arrayOf(
@@ -177,17 +217,23 @@ Desktop.propTypes = {
           PropTypes.shape({
             title: PropTypes.string,
             isDemo: PropTypes.bool,
-            contentId: PropTypes.number, // menambahkan contentId
-            // Tambahkan prop lainnya sesuai kebutuhan
+            contentId: PropTypes.number,
+            videoUrl: PropTypes.string,
+            isFinished: PropTypes.bool,
           })
         ),
       })
     ),
   }),
   contentDetail: PropTypes.shape({
-    videoUrl: PropTypes.string, // Mengubah tipe prop videoUrl menjadi string
+    videoUrl: PropTypes.string,
+    isDemo: PropTypes.bool,
+    userCourseId: PropTypes.number,
   }),
-  user: PropTypes.bool, // menambahkan prop user dengan tipe boolean
+  checkCourse: PropTypes.shape({
+    status: PropTypes.string,
+  }),
+  handleLinkClick: PropTypes.func.isRequired,
 };
 
 export default Desktop;

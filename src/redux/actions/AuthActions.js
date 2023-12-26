@@ -1,10 +1,7 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-import { setContentDetail } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
-
-// import { toastify } from "../../utils/toastify";
 
 export const login =
   (email, password, setIsLoading, setAlert, navigate) => async (dispatch) => {
@@ -335,29 +332,3 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
     alert(error.message);
   }
 };
-
-export const getContentDetail =
-  (courseId, moduleId, contentId) => async (dispatch, getState) => {
-    try {
-      let { token } = getState().auth;
-      const response = await axios.get(
-        `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      const { value } = response.data;
-      const data = value;
-      console.log("axios true");
-      console.log(data);
-      dispatch(setContentDetail(data));
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log("axios false");
-        alert(error.response.data.message);
-      }
-    }
-  };

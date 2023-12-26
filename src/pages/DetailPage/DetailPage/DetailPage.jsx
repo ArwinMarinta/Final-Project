@@ -2,29 +2,48 @@ import Header from "../../../components/Navbar/Header";
 import Desktop from "../Desktop";
 import Mobile from "../Mobile";
 import { useSelector, useDispatch } from "react-redux";
-import { getCourseDetail } from "../../../redux/actions/DetailActions";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { putProgress } from "../../../redux/actions/CourseActions";
+import {
+  getCourseDetail,
+  getCheckCourse,
+} from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
   const { courseDetail } = useSelector((state) => state.detail) || {};
-  const { user } = useSelector((state) => state.auth);
+  const { checkCourse } = useSelector((state) => state.detail);
 
   const { courseId } = useParams();
 
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
+    dispatch(getCheckCourse(courseId));
   }, [dispatch, courseId]);
 
-  // useEffect(() => {
-  // }, [dispatch, courseId]);
+  const navigate = useNavigate();
+
+  const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
+    dispatch(putProgress(userCourseId, contentId));
+    navigate(
+      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+    );
+  };
 
   return (
     <>
       <Header />
-      <Desktop courseDetail={courseDetail} user={user} />
-      <Mobile courseDetail={courseDetail} />
+      <Desktop
+        courseDetail={courseDetail}
+        checkCourse={checkCourse}
+        handleLinkClick={handleLinkClick}
+      />
+      <Mobile
+        courseDetail={courseDetail}
+        checkCourse={checkCourse}
+        handleLinkClick={handleLinkClick}
+      />
     </>
   );
 };

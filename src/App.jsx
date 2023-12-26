@@ -31,6 +31,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route
           path="/register"
           element={
