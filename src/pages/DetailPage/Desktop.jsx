@@ -9,9 +9,7 @@ const Desktop = ({
   courseDetail,
   contentDetail,
   checkCourse,
-  courseProgress,
   handleLinkClick,
-  checkFinishContent,
 }) => {
   const video = contentDetail?.videoUrl;
   const isDemo = contentDetail?.isDemo;
@@ -69,12 +67,12 @@ const Desktop = ({
             <iframe
               className="w-full aspect-video rounded-2xl bg-black"
               src={`${
-                checkCourse?.status === "success"
-                  ? ` https://www.youtube.com/embed/${video}`
-                  : `${isDemo ? `https://www.youtube.com/embed/${video}` : ""} `
+                // checkCourse?.status === "success"?
+                // ` https://www.youtube.com/embed/${video}`:
+                `${isDemo ? `https://www.youtube.com/embed/${video}` : ""} `
               }`}
               title="YouTube video player"
-              // frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
@@ -102,20 +100,24 @@ const Desktop = ({
             <div className="py-5 px-6">
               <div className="flex justify-between flex-wrap">
                 <h3 className=" font-bold">Materi Belajar</h3>
-                <div className="w-1/2 flex items-center bg-gray-200 rounded-full dark:bg-gray-700 h-full">
-                  <p
-                    className="bg-DARKBLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-blue-100 align-middle leading-none rounded-full h-full pl-4"
-                    style={{
-                      width: `${courseProgress?.learningProgress ?? "0"}%`,
-                    }}
-                  >
-                    {courseProgress?.learningProgress}
-                    {"% "}completed
-                  </p>
-                </div>
+                {courseDetail?.userCourseId === null ? (
+                  ""
+                ) : (
+                  <div className="w-1/2 flex items-center bg-gray-200 rounded-full dark:bg-gray-700 h-full">
+                    <p
+                      className="bg-DARKBLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-blue-100 align-middle leading-none rounded-full h-full pl-4"
+                      style={{
+                        width: `${courseDetail?.learningProgress ?? "0"}%`,
+                      }}
+                    >
+                      {courseDetail?.learningProgress}
+                      {"% "}completed
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="pt-2.5">
-                {courseDetail.modules?.map((module, moduleIndex) => (
+                {courseDetail?.modules?.map((module, moduleIndex) => (
                   <>
                     <div className="flex gap-4 justify-between text-sm w-full mt-5 mb-3">
                       <span className="text-DARKBLUE05 font-bold ">
@@ -129,7 +131,8 @@ const Desktop = ({
                       (content, contentIndex) => (
                         <div className="" key={contentIndex}>
                           <button
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.preventDefault();
                               handleLinkClick(
                                 courseDetail?.courseId,
                                 module?.moduleId,
@@ -150,7 +153,7 @@ const Desktop = ({
                             <span className="text-xl">
                               {checkCourse?.status === "success" ? (
                                 <>
-                                  {checkFinishContent === "success" ? (
+                                  {content?.isFinished ? (
                                     <FaCircleCheck
                                       className={"text-DARKBLUE05"}
                                     />
@@ -197,6 +200,8 @@ Desktop.propTypes = {
     totalModule: PropTypes.number,
     duration: PropTypes.number,
     courseId: PropTypes.number,
+    userCourseId: PropTypes.number,
+    learningProgress: PropTypes.number,
     requirements: PropTypes.arrayOf(
       PropTypes.shape({
         requirement: PropTypes.string,
@@ -214,6 +219,7 @@ Desktop.propTypes = {
             isDemo: PropTypes.bool,
             contentId: PropTypes.number,
             videoUrl: PropTypes.string,
+            isFinished: PropTypes.bool,
           })
         ),
       })
@@ -227,11 +233,7 @@ Desktop.propTypes = {
   checkCourse: PropTypes.shape({
     status: PropTypes.string,
   }),
-  courseProgress: PropTypes.shape({
-    learningProgress: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  }),
   handleLinkClick: PropTypes.func.isRequired,
-  checkFinishContent: PropTypes.string,
 };
 
 export default Desktop;

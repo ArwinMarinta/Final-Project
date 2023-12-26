@@ -8,21 +8,18 @@ import { putProgress } from "../../../redux/actions/CourseActions";
 import {
   getCourseDetail,
   getCheckCourse,
-  getCourseProgress,
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { checkCourse } = useSelector((state) => state.detail);
-  const { courseProgress } = useSelector((state) => state.detail);
 
   const { courseId } = useParams();
 
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
     dispatch(getCheckCourse(courseId));
-    dispatch(getCourseProgress(courseId));
   }, [dispatch, courseId]);
 
   const navigate = useNavigate();
@@ -40,13 +37,11 @@ const DetailPage = () => {
       <Desktop
         courseDetail={courseDetail}
         checkCourse={checkCourse}
-        courseProgress={courseProgress}
         handleLinkClick={handleLinkClick}
       />
       <Mobile
         courseDetail={courseDetail}
         checkCourse={checkCourse}
-        courseProgress={courseProgress}
         handleLinkClick={handleLinkClick}
       />
     </>

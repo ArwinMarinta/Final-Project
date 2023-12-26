@@ -14,8 +14,6 @@ import {
   getCourseDetail,
   getCheckCourse,
   getContentDetail,
-  getCourseProgress,
-  getCheckFinishContent,
 } from "../../../redux/actions/DetailActions";
 
 const DetailContent = () => {
@@ -25,26 +23,29 @@ const DetailContent = () => {
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { contentDetail } = useSelector((state) => state.detail) || {};
   const { checkCourse } = useSelector((state) => state.detail);
-  const { courseProgress } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
-  const { checkFinishContent } = useSelector((state) => state.detail);
 
-  const [showPopUp, setShowPopUp] = useState(true);
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const { courseId } = useParams();
   const { contentId } = useParams();
   const { moduleId } = useParams();
-  const userCourse = courseProgress?.userCourseId;
+  const userCourse = DetailContent?.userCourseId;
 
   const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
     dispatch(resetContentDetail());
-    if (contentDetail === null) {
+    if (contentDetail === null || contentDetail.length == 0) {
       setShowPopUp(true);
     }
     dispatch(putProgress(userCourseId, contentId));
     navigate(
       `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
     );
+    if (token) {
+      dispatch(getContentDetail(courseId, moduleId, contentId, true));
+    } else {
+      dispatch(getContentDetail(courseId, moduleId, contentId, false));
+    }
   };
 
   const handleClosePopUp = () => {
@@ -53,15 +54,14 @@ const DetailContent = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(getCourseDetail(courseId));
-      dispatch(getContentDetail(courseId, moduleId, contentId));
-      dispatch(getCourseProgress(courseId));
+      dispatch(getCourseDetail(courseId, true));
+      dispatch(getContentDetail(courseId, moduleId, contentId, true));
       dispatch(getCheckCourse(courseId));
-      dispatch(getCheckFinishContent(userCourse, contentId));
+    } else {
+      dispatch(getCourseDetail(courseId, false));
+      dispatch(getContentDetail(courseId, moduleId, contentId, false));
     }
   }, [dispatch, courseId, moduleId, contentId, userCourse, token]);
-
-  console.log(checkFinishContent);
 
   return (
     <>
@@ -107,16 +107,12 @@ const DetailContent = () => {
         courseDetail={courseDetail}
         contentDetail={contentDetail}
         checkCourse={checkCourse}
-        courseProgress={courseProgress}
-        checkFinishContent={checkFinishContent}
         handleLinkClick={handleLinkClick}
       />
       <Mobile
         courseDetail={courseDetail}
         contentDetail={contentDetail}
         checkCourse={checkCourse}
-        courseProgress={courseProgress}
-        checkFinishContent={checkFinishContent}
         handleLinkClick={handleLinkClick}
       />
     </>

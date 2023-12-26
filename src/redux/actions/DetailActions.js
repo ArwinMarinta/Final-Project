@@ -5,36 +5,55 @@ import {
   setCheckCourse,
   setContentDetail,
   setError,
-  setCourseProgress,
 } from "../reducers/DetailReducer";
 import {} from "../reducers/DetailReducer";
 
-export const getCourseDetail = (courseId) => async (dispatch) => {
-  try {
-    const response = await axios.get(`${VITE_API_URL}/courses/${courseId}`);
-
-    const { value } = response.data;
-    const data = value;
-    dispatch(setCourseDetail(data));
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
-    }
-  }
-};
-
-export const getContentDetail =
-  (courseId, moduleId, contentId) => async (dispatch, getState) => {
+export const getCourseDetail =
+  (courseId, isLoggedIn) => async (dispatch, getState) => {
     try {
+      let response;
       let { token } = getState().auth;
-      const response = await axios.get(
-        `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`,
-        {
+
+      if (isLoggedIn) {
+        response = await axios.get(`${VITE_API_URL}/courses/${courseId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
-      );
+        });
+      } else {
+        response = await axios.get(`${VITE_API_URL}/courses/${courseId}`);
+      }
+
+      const { value } = response.data;
+      const data = value;
+      dispatch(setCourseDetail(data));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response.data.message);
+      }
+    }
+  };
+
+export const getContentDetail =
+  (courseId, moduleId, contentId, isLoggedIn) => async (dispatch, getState) => {
+    try {
+      let response;
+      let { token } = getState().auth;
+
+      if (isLoggedIn) {
+        response = await axios.get(
+          `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } else {
+        response = await axios.get(
+          `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`
+        );
+      }
 
       const { value } = response.data;
       const data = value;
@@ -52,24 +71,6 @@ export const getContentDetail =
       }
     }
   };
-
-export const getCourseProgress = (courseId) => async (dispatch, getState) => {
-  try {
-    let { token } = getState().auth;
-    const response = await axios.get(`${VITE_API_URL}/courses/${courseId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const { value } = response.data;
-    const data = value;
-    dispatch(setCourseProgress(data));
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      alert(error?.response?.data?.message);
-    }
-  }
-};
 
 export const getCheckCourse = (courseId) => async (dispatch, getState) => {
   try {
@@ -90,24 +91,3 @@ export const getCheckCourse = (courseId) => async (dispatch, getState) => {
     dispatch(setCheckCourse(null));
   }
 };
-
-export const getCheckFinishContent =
-  (userCourseId, contentId) => async (dispatch, getState) => {
-    try {
-      let { token } = getState().auth;
-
-      const response = await axios.get(
-        `${VITE_API_URL}/learning-progress/${userCourseId}/contents/${contentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = response.data;
-      console.log(data);
-      dispatch(setCheckCourse(data));
-    } catch (error) {
-      console.log("axios error");
-    }
-  };
