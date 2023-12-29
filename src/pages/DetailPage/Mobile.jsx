@@ -1,16 +1,23 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { RiShieldStarLine } from "react-icons/ri";
-import { RiBook2Line } from "react-icons/ri";
-import { RiTimeFill } from "react-icons/ri";
-import { BiLogoTelegram } from "react-icons/bi";
-import { FaCirclePlay } from "react-icons/fa6";
+import { RiShieldStarLine, RiBook2Line, RiTimeFill } from "react-icons/ri";
+import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
+import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 import { GoStarFill } from "react-icons/go";
-import { BiSolidLock } from "react-icons/bi";
 
-const Mobile = ({ courseDetail }) => {
+const Mobile = ({
+  courseDetail,
+  contentDetail,
+  checkCourse,
+  courseProgress,
+  handleLinkClick,
+  checkFinishContent,
+}) => {
   const [shift, setShift] = useState(true);
+
+  const video = contentDetail?.videoUrl;
+  const isDemo = contentDetail?.isDemo;
 
   const handleAboutClass = () => {
     setShift(true);
@@ -23,10 +30,14 @@ const Mobile = ({ courseDetail }) => {
     <>
       <div className="sm:hidden">
         <iframe
-          className="w-full aspect-video"
-          src="https://www.youtube.com/embed/AgG-VMJ_TJg?si=n0jgthUuzfdmAQos"
+          className="w-full aspect-video bg-black"
+          src={`${
+            checkCourse?.status === "success"
+              ? ` https://www.youtube.com/embed/${video}`
+              : `${isDemo ? `https://www.youtube.com/embed/${video}` : ""} `
+          }`}
           title="YouTube video player"
-          frameBorder="0"
+          // frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
         ></iframe>
@@ -70,7 +81,7 @@ const Mobile = ({ courseDetail }) => {
           </div>
         </div>
 
-        <div className="flex justify-around w-full">
+        <div className="flex justify-around w-full mb-5">
           <button
             onClick={handleAboutClass}
             className={` ${
@@ -106,44 +117,37 @@ const Mobile = ({ courseDetail }) => {
             </div>
             <div>
               <h3 className="text-xl font-medium">Tentang Kelas</h3>
-              <p className="indent-8">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem
-                exercitationem ea libero alias. Aperiam cumque autem a, quisquam
-                quibusdam laudantium corrupti, iste saepe pariatur dolor minima
-                illo? Mollitia in cumque praesentium qui doloribus optio
-                assumenda minima eos hic molestias earum beatae, animi
-                voluptatibus, quidem eius voluptas dolorem, quibusdam quam
-                reiciendis velit temporibus ut. Cum quia, placeat, explicabo
-                quas odit quaerat libero nobis soluta excepturi, quidem
-                voluptatum vel. Atque cumque tempora placeat? Eaque ad ipsa sit
-                minima facere, accusamus eos, quo mollitia debitis delectus,
-                omnis doloribus vel. Sapiente quae beatae perspiciatis suscipit,
-                neque saepe consequuntur officiis dolorem recusandae
-                temporibaboriosam eum quos.
-              </p>
+              <p className="indent-8">{courseDetail?.description}</p>
             </div>
             <div>
               <h3 className="text-xl font-medium mt-8 mb-2.5">
                 Kelas ini ditujukan untuk
               </h3>
               <ul className="list-decimal list-inside">
-                <li className="pl-2 py-1">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed,
-                  fuga!
-                </li>
-                <li className="pl-2 py-1">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem,
-                  iusto.
-                </li>
-                <li className="pl-2 py-1">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Molestias, nostrum!
-                </li>
+                {courseDetail?.requirements?.map((requirements, index) => (
+                  <li key={index} className="pl-2 py-1">
+                    {requirements?.requirement}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         ) : (
           <div>
+            <div className="container flex justify-between flex-wrap">
+              <h3 className=" font-bold">Materi Belajar</h3>
+              <div className="w-1/2 flex items-center bg-gray-200 rounded-full dark:bg-gray-700 h-full">
+                <p
+                  className="bg-DARKBLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-blue-100 align-middle leading-none rounded-full h-full pl-4"
+                  style={{
+                    width: `${courseProgress?.learningProgress ?? "0"}%`,
+                  }}
+                >
+                  {courseProgress?.learningProgress}
+                  {"% "}completed
+                </p>
+              </div>
+            </div>
             <div className="container pt-2.5">
               {courseDetail.modules?.map((module, moduleIndex) => (
                 <>
@@ -158,7 +162,17 @@ const Mobile = ({ courseDetail }) => {
                   {courseDetail?.modules?.[moduleIndex]?.contents?.map(
                     (content, contentIndex) => (
                       <div className="" key={contentIndex}>
-                        <Link className="flex items-center justify-between py-1">
+                        <button
+                          onClick={() => {
+                            handleLinkClick(
+                              courseDetail?.courseId,
+                              module?.moduleId,
+                              content?.contentId,
+                              contentDetail?.userCourseId
+                            );
+                          }}
+                          className="flex items-center justify-between py-1 w-full"
+                        >
                           <div className="flex items-center text-sm">
                             <span className="rounded-full bg-DARKBLUE04 text-sm font-medium py-1 px-3 mr-2.5">
                               {contentIndex + 1}
@@ -168,13 +182,27 @@ const Mobile = ({ courseDetail }) => {
                             </span>
                           </div>
                           <span className="text-xl">
-                            {content?.isDemo === true ? (
-                              <FaCirclePlay className="text-NEUTRAL02" />
+                            {checkCourse?.status === "success" ? (
+                              <>
+                                {checkFinishContent === "success" ? (
+                                  <FaCircleCheck
+                                    className={"text-DARKBLUE05"}
+                                  />
+                                ) : (
+                                  <FaCirclePlay className={"text-ALERTGREEN"} />
+                                )}
+                              </>
                             ) : (
-                              <BiSolidLock className="text-black" />
+                              <>
+                                {content?.isDemo ? (
+                                  <FaCirclePlay className={"text-ALERTGREEN"} />
+                                ) : (
+                                  <BiSolidLock className={"text-black"} />
+                                )}
+                              </>
                             )}
                           </span>
-                        </Link>
+                        </button>
                         <hr className="my-1" />
                       </div>
                     )
@@ -191,6 +219,7 @@ const Mobile = ({ courseDetail }) => {
 
 Mobile.propTypes = {
   courseDetail: PropTypes.shape({
+    courseId: PropTypes.number,
     title: PropTypes.string,
     description: PropTypes.string,
     instructor: PropTypes.string,
@@ -198,6 +227,11 @@ Mobile.propTypes = {
     totalModule: PropTypes.number,
     duration: PropTypes.number,
     rating: PropTypes.number,
+    requirements: PropTypes.arrayOf(
+      PropTypes.shape({
+        requirement: PropTypes.string,
+      })
+    ),
     modules: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -206,26 +240,24 @@ Mobile.propTypes = {
           PropTypes.shape({
             title: PropTypes.string,
             isDemo: PropTypes.bool,
-            // Tambahkan prop lainnya sesuai kebutuhan
           })
         ),
       })
     ),
   }),
-  freeContents: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      isDemo: PropTypes.bool,
-      // Tambahkan prop lainnya sesuai kebutuhan
-    })
-  ),
-  premiumContents: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      isFree: PropTypes.bool, // Mengubah isFree dari isDemo sesuai dengan kebutuhan
-      // Tambahkan prop lainnya sesuai kebutuhan
-    })
-  ),
+  contentDetail: PropTypes.shape({
+    videoUrl: PropTypes.string,
+    isDemo: PropTypes.bool,
+    userCourseId: PropTypes.number,
+  }),
+  checkCourse: PropTypes.shape({
+    status: PropTypes.string,
+  }),
+  courseProgress: PropTypes.shape({
+    learningProgress: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  }),
+  handleLinkClick: PropTypes.func.isRequired,
+  checkFinishContent: PropTypes.string,
 };
 
 export default Mobile;

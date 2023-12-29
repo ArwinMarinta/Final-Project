@@ -38,6 +38,10 @@ export default {
         LightBlue5: "#EBF3FC",
         LightBlue4: "#489CFF",
         DEEPGRAY: "#8A8A8A",
+        YELLOW05: "#FFBE05",
+        YELLOW04: "#FFFCF2",
+        BLUE05: "#1E3A5F",
+        WHITE05: "#FDFDFD",
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],

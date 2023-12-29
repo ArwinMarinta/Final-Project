@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-import { setContentDetail } from "../reducers/DetailReducer";
+// import { setContentDetail } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
 
 // import { toastify } from "../../utils/toastify";
@@ -78,15 +78,11 @@ export const profile =
           // console.log("eror 401");
           return;
         }
-        toastify({
-          message: error?.response?.data?.message,
-          type: "error",
-        });
       }
-      toastify({
-        message: error?.message,
-        type: "error",
-      });
+      // toastify({
+      //   message: error?.message,
+      //   type: "error",
+      // });
     }
   };
 
@@ -305,12 +301,6 @@ export const UpdateProfile =
           type: "error",
         });
       }
-      // toastify({
-      //   message: error.message,
-      //   type: "error",
-      // });
-
-      // alert(error.message);
     }
   };
 
@@ -346,28 +336,34 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
   }
 };
 
-export const getContentDetail =
-  (courseId, moduleId, contentId) => async (dispatch, getState) => {
+export const registerLoginWithGoogleAction =
+  (accessToken, navigate) => async (dispatch) => {
     try {
-      let { token } = getState().auth;
-      const response = await axios.get(
-        `${VITE_API_URL}/courses/${courseId}/modules/${moduleId}/contents/${contentId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = JSON.stringify({
+        access_token: accessToken,
+      });
 
-      const { value } = response.data;
-      const data = value;
-      console.log("axios true");
-      console.log(data);
-      dispatch(setContentDetail(data));
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${VITE_API_URL}/auth/google`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      const { token } = response.data.data;
+
+      dispatch(setToken(token));
+
+      navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("axios false");
         alert(error.response.data.message);
+        return;
       }
+      alert(error.message);
     }
   };

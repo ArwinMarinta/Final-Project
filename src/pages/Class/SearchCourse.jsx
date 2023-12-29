@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
-import MyChecklist from "../../components/checklist/MyChecklist";
-import CardCourse from "../../components/card/CardCourse";
+import { useState } from "react";
+import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyCourse } from "../../redux/actions/CourseActions";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Pagination from "../../components/pagination/Pagination";
+import SearchChecklist from "../../components/checklist/SearchChecklist";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
-
-const MyCourse = () => {
-  const [status, setStatus] = useState("");
+const SearchCourse = () => {
+  const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(false);
   const { hasil } = useSelector((state) => state.course);
-  const { myCourse } = useSelector((state) => state.course);
+  const { data } = useSelector((state) => state.course);
   const { errors } = useSelector((state) => state.course);
-  const dispatch = useDispatch();
-  const linkFilter = `user-courses`;
   const [loading, setLoading] = useState(true);
+
+  const { nameCourse } = useParams();
+  const [pageNumber, setPageNumber] = useState();
+  const [autoPage, setAutoPage] = useState(false);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -26,34 +28,30 @@ const MyCourse = () => {
   };
 
   const handleClick = (value) => {
-    setStatus(value);
+    setTypeButton(value);
   };
-
-  useEffect(() => {
-    dispatch(getMyCourse(errors));
-  }, [status]);
   return (
     <>
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
-        <div className="container">
-          <div className="container mx-auto w-auto">
-            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50 h-14 min-h-full  backdrop-blur">
+        <div className="container w-full">
+          <div className=" mx-auto container w-auto">
+            <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50  h-14 min-h-fullbg-white/30 backdrop-blur">
               <h1
                 style={{
                   fontFamily: `montserrat`,
                 }}
-                className="text-2xl font-bold "
+                className="text-2xl font-bold"
               >
-                Kelas Berjalan
+                Topik Kelas
               </h1>
 
               <div className="md:w-auto">
-                <div className=" border-blue-600 md:w-200 w-full  hidden md:block">
-                  <form className="relative flex flex-row">
+                <div className="border-DARKBLUE05 w-full hidden md:block">
+                  <div className="flex flex-row">
                     <input
                       type="search"
                       placeholder="Cari Kelas"
-                      className="w-full outline-none focus:outline-none px-4 py-[6px] border-2 rounded-2xl border-[#6148FF]"
+                      className="w-full outline-none  px-4 py-[6px] border-2 rounded-2xl border-[#6148FF]"
                       value={searchTerm}
                       onChange={handleInputChange}
                     />
@@ -63,62 +61,67 @@ const MyCourse = () => {
                     >
                       <img src={Search} />
                     </button>
-                  </form>
+                  </div>
                 </div>
-                <div className="md:hidden text-blue-400 hover:text-blue-600">
+                <div className="md:hidden text-blue-400 hover:text-blue-600 text-md">
                   <button onClick={addFilter}>filter....</button>
                 </div>
               </div>
             </div>
             {/* bagian 2*/}
-            <div className="md:flex  mt-6  justify-between gap-20">
+            <div className="md:flex mt-5  justify-between gap-20">
               <div className="block md:hidden md:w-auto w-full">
                 {filter && (
-                  <MyChecklist
-                    linkFilter={linkFilter}
+                  <SearchChecklist
                     hasil={hasil}
-                    status={status}
+                    typeButton={typeButton}
+                    nameCourse={nameCourse}
+                    setAutoPage={setAutoPage}
                     setLoading={setLoading}
                   />
                 )}
               </div>
-              <div className="hidden md:block w-72">
-                <MyChecklist
-                  linkFilter={linkFilter}
+              <div className="hidden md:block w-72 ">
+                <SearchChecklist
+                  typeButton={typeButton}
                   hasil={hasil}
-                  status={status}
+                  nameCourse={nameCourse}
+                  setAutoPage={setAutoPage}
                   setLoading={setLoading}
                 />
               </div>
-              <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
-                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh]">
+              <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
+                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] ">
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      status == "" ? "bg-[#6148FF] text-white" : "bg-white"
+                      typeButton == "" ? "bg-[#6148FF] text-white" : "bg-white"
                     }`}
+                    style={{ fontFamily: `montserrat` }}
                     onClick={() => handleClick(``)}
                   >
                     All
                   </button>
                   <button
-                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      status == "In Progress"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400  ${
+                      typeButton == "Premium"
                         ? "bg-[#6148FF] text-white"
                         : "bg-white"
                     }`}
-                    onClick={() => handleClick(`In Progress`)}
+                    style={{ fontFamily: `montserrat` }}
+                    onClick={() => handleClick(`Premium`)}
                   >
-                    Inprogress
+                    Kelas Premium
                   </button>
                   <button
-                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      status == "Selesai"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400  ${
+                      typeButton == "Free"
                         ? "bg-[#6148FF] text-white"
                         : "bg-white"
                     }`}
-                    onClick={() => handleClick(`Selesai`)}
+                    style={{ fontFamily: `montserrat` }}
+                    onClick={() => handleClick(`Free`)}
                   >
-                    Selesai
+                    Kelas Gratis
                   </button>
                 </div>
                 {loading ? (
@@ -133,13 +136,15 @@ const MyCourse = () => {
                       </div>
                     )}
                     {errors == null &&
-                      myCourse
+                      data
                         .filter((item) => {
-                          const data = item.courses;
                           if (searchTerm === "") {
                             return item;
                           } else if (
-                            data.category
+                            item.title
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()) ||
+                            item.category
                               .toLowerCase()
                               .includes(searchTerm.toLowerCase())
                           ) {
@@ -147,16 +152,17 @@ const MyCourse = () => {
                           }
                         })
                         .map((item) => (
-                          <div className="w-full" key={item.userCourseId}>
-                            <CardCourse
-                              key={item.id}
-                              data={item.courses}
-                              progress={item}
-                            />
+                          <div className=" w-full " key={item.id}>
+                            <CardPickCourse key={item.id} data={item} />
                           </div>
                         ))}
                   </div>
                 )}
+                <Pagination
+                  autoPage={autoPage}
+                  setPageNumber={setPageNumber}
+                  pageNumber={pageNumber}
+                />
               </div>
             </div>
           </div>
@@ -166,4 +172,4 @@ const MyCourse = () => {
   );
 };
 
-export default MyCourse;
+export default SearchCourse;

@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import OTPInput from "react-otp-input";
-import { MdOutlineArrowBack } from "react-icons/md";
-import logo from "../../assets/Belajar_white 2.svg";
 import { useState, useEffect } from "react";
 import { resendOtp, verify } from "../../redux/actions/AuthActions";
 
@@ -83,17 +81,12 @@ const Otp = () => {
 
   return (
     <>
-      <div className="flex min-h-screen bg-DARKBLUE04">
-        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] relative">
-          <form onSubmit={handleSubmitOtp} className="w-full">
-            <div className="flex">
-              <Link to={"/register"}>
-                <MdOutlineArrowBack
-                  className="mt-[10px] transition duration-300 transform hover:scale-150 hover:text-DARKBLUE03"
-                  style={{ fontSize: "24px" }}
-                />
-              </Link>
-            </div>
+      <div className="flex min-h-screen bg-WHITE05 justify-center">
+        <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] relative ">
+          <form
+            onSubmit={handleSubmitOtp}
+            className="w-full border-2 rounded-lg shadow-xl px-6 py-6 bg-YELLOW04"
+          >
             <div>
               <h1 className="text-[26px] font-bold text-DARKBLUE05 my-5 sm:pl-8 lg:pl-8">
                 Masukkan OTP
@@ -170,7 +163,7 @@ const Otp = () => {
 
             {/* Render the button only if email is present */}
             {email && (
-              <button className="w-full font-Poppin text-[16px] font-medium bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03">
+              <button className="w-full font-Poppin text-[16px] font-semibold bg-YELLOW05  text-white py-[10px] rounded-xl mt-5 ">
                 {isLoading ? "Loading..." : "Simpan"}
               </button>
             )}
@@ -186,9 +179,6 @@ const Otp = () => {
               </div>
             )}
           </div>
-        </div>
-        <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
-          <img src={logo} alt="logo" />
         </div>
       </div>
     </>

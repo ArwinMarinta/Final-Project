@@ -1,28 +1,34 @@
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { filterData } from "../../redux/actions/CourseActions";
-import { VITE_API_URL } from "../../config/config";
+import { checkbox, filterData } from "../../redux/actions/CourseActions";
 import typeCourseData from "../../data/TypeCourseData";
+import { setData, setErrors } from "../../redux/reducers/CourseReducer";
 
 function Checklist({
-  hasil,
-  setData,
+  // hasil,
   typeButton,
   linkFilter,
-  setEror,
   nameCourse,
-  errors,
+  setAutoPage,
+  pageNumber,
+  setPageNumber,
+  setLoading,
 }) {
+  const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
+  const { errors } = useSelector((state) => state.course);
+  const { data } = useSelector((state) => state.course);
+  const { totalPage } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
   const [typeCourse, setTypeCourse] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [autoChecklist, setAutoChecklist] = useState(false);
 
   const handleTypeCourse = (value) => {
     setTypeCourse((prevSelected) => {
@@ -50,15 +56,15 @@ function Checklist({
 
   const navigateToCourses = () => {
     const categoryParams = selectedCheckboxes
-      .map((category) => `category=${category}`)
+      .map((category) => `${category}`)
       .join("&");
-    const levelParams = selectedLevel
-      .map((level) => `level=${level}`)
-      .join("&");
-    // navigate(`/course/${categoryParams}`);
-    const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
+    // const levelParams = selectedLevel
+    //   .map((level) => `level=${level}`)
+    //   .join("&");
+    navigate(`/course/${categoryParams}`);
+    // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
 
-    navigate(`/course/${queryParams}`);
+    // navigate(`/course/${queryParams}`);
   };
 
   const handleLevel = (value) => {
@@ -78,19 +84,38 @@ function Checklist({
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
+  const handlenamecourse = () => {
+    if (nameCourse == "populer") {
+      setTypeCourse([]);
+      handleTypeCourse("popular");
+    } else {
+      setSelectedCheckboxes([]);
+      handleChecklist(nameCourse);
+    }
+  };
 
   const applyFilter = () => {
-    if (errors) {
-      setData([]);
+    // if (selectedCheckboxes.length === 0) {
+    //   navigate("/course");
+    // }
+    dispatch(setErrors());
+    if (nameCourse && !autoChecklist) {
+      handlenamecourse();
+      setAutoChecklist(true);
     }
-    setEror();
+    if (errors) {
+      dispatch(setData([]));
+      setAutoPage(true);
+    }
     if (
       selectedCheckboxes.length === 0 &&
       selectedLevel.length === 0 &&
       typeButton === "" &&
       typeCourse.length === 0
     ) {
-      setData(hasil);
+      handlecheckbox();
+      dispatch(setData(data));
+      setAutoPage(false);
       // navigate("/course");
     } else if (
       selectedCheckboxes.length === 0 &&
@@ -98,39 +123,32 @@ function Checklist({
       selectedLevel.length === 0 &&
       typeCourse.length === 0
     ) {
-      const filter = hasil.filter((item) => item.type === typeButton);
-      setData(filter);
+      handlecheckbox();
     } else if (selectedCheckboxes.length > 0) {
-      checkbox(selectedCheckboxes);
+      handlecheckbox();
     } else if (selectedLevel.length > 0) {
-      checkbox(selectedLevel);
+      handlecheckbox();
     } else if (typeCourse.length > 0) {
-      checkbox(typeCourse);
+      handlecheckbox();
     } else if (typeButton) {
-      checkbox(typeButton);
+      handlecheckbox();
     }
   };
-
-  const checkbox = async () => {
-    try {
-      const response = await axios.get(`${VITE_API_URL}/${linkFilter}`, {
-        params: {
-          type: typeButton,
-          category: selectedCheckboxes,
-          level: selectedLevel,
-          ...typeCourse.reduce((acc, value) => {
-            acc[value] = true;
-            return acc;
-          }, {}),
-        },
-      });
-      const { data } = response;
-      setData(data.value);
-    } catch (error) {
-      if (error.response.status === 404) {
-        setEror("kelas yang di pilih tidak ada");
-      }
-    }
+  const handlecheckbox = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 700);
+    dispatch(
+      checkbox(
+        typeButton,
+        selectedCheckboxes,
+        selectedLevel,
+        typeCourse,
+        linkFilter,
+        pageNumber
+      )
+    );
   };
 
   const unCheckAll = () => {
@@ -143,19 +161,21 @@ function Checklist({
   };
 
   useEffect(() => {
-    applyFilter();
-    dispatch(filterData());
     if (selectedCheckboxes.length > 0) {
       navigateToCourses();
     }
+    if (pageNumber == null || pageNumber > totalPage) {
+      setPageNumber(1);
+    }
+    applyFilter();
+    dispatch(filterData());
   }, [
     selectedCheckboxes,
     selectedLevel,
-    setData,
-    hasil,
     typeCourse,
-    linkFilter,
-    nameCourse,
+    typeButton,
+    pageNumber,
+    totalPage,
   ]);
 
   return (
@@ -259,15 +279,17 @@ function Checklist({
   );
 }
 Checklist.propTypes = {
-  setData: PropTypes.func,
   setHasil: PropTypes.func,
+  setLoading: PropTypes.func,
   hasil: PropTypes.array,
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
-  setEror: PropTypes.func,
   errors: PropTypes.func,
   nameCourse: PropTypes.string,
+  setAutoPage: PropTypes.func,
+  setPageNumber: PropTypes.func,
+  pageNumber: PropTypes.number,
 };
 
 export default Checklist;

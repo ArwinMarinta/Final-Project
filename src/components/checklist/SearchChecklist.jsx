@@ -1,28 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
-import { useNavigate } from "react-router-dom";
-import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
+import { filterData, searchCheckbox } from "../../redux/actions/CourseActions";
+import typeCourseData from "../../data/TypeCourseData";
+import { setData, setErrors } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, status, setLoading }) {
-  const navigate = useNavigate();
+function SearchChecklist({ typeButton, nameCourse, setAutoPage, setLoading }) {
   const checkboxesRef = useRef([]);
-  const { filter } = useSelector((state) => state.course);
+  const { data } = useSelector((state) => state.course);
   const { errors } = useSelector((state) => state.course);
   const dispatch = useDispatch();
-  const [selectedCategory, setSelectedCheckboxes] = useState([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
   const [typeCourse, setTypeCourse] = useState([]);
+  // const navigate = useNavigate();
+  const [autoChecklist, setAutoChecklist] = useState(false);
+
   const handleTypeCourse = (value) => {
     setTypeCourse((prevSelected) => {
       if (prevSelected.includes(value)) {
+        // If value is already in the array, remove it
         return prevSelected.filter((item) => item !== value);
       } else {
+        // Otherwise, add it to the array
         return [...prevSelected, value];
       }
     });
   };
+
   const handleChecklist = (value) => {
     setSelectedCheckboxes((prevSelected) => {
       if (prevSelected.includes(value)) {
@@ -34,12 +41,19 @@ function MyChecklist({ hasil, status, setLoading }) {
       }
     });
   };
-  const navigateToCourses = () => {
-    const categoryParams = selectedCategory
-      .map((category) => `${category}`)
-      .join("&");
-    navigate(`/my-course/${categoryParams}`);
-  };
+
+  // const navigateToCourses = () => {
+  //   const categoryParams = selectedCheckboxes
+  //     .map((category) => `${category}`)
+  //     .join("&");
+  //   // const levelParams = selectedLevel
+  //   //   .map((level) => `level=${level}`)
+  //   //   .join("&");
+  //   navigate(`/course/${categoryParams}`);
+  //   // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
+
+  //   // navigate(`/course/${queryParams}`);
+  // };
 
   const handleLevel = (value) => {
     setSelectedLevel((prevSelected) => {
@@ -58,33 +72,60 @@ function MyChecklist({ hasil, status, setLoading }) {
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
+  const handlenamecourse = () => {
+    if (nameCourse == "populer") {
+      setTypeCourse([]);
+      handleTypeCourse("popular");
+    } else {
+      setSelectedCheckboxes([]);
+      handleChecklist(nameCourse);
+    }
+  };
 
   const applyFilter = () => {
     dispatch(setErrors());
+    if (nameCourse && !autoChecklist) {
+      handlenamecourse();
+      setAutoChecklist(true);
+    }
+    if (errors) {
+      dispatch(setData([]));
+    }
     if (
-      selectedCategory.length === 0 &&
-      status == `` &&
-      typeCourse.length === 0 &&
-      selectedLevel.length === 0
+      selectedCheckboxes.length === 0 &&
+      selectedLevel.length === 0 &&
+      typeButton === "" &&
+      typeCourse.length === 0
     ) {
-      handlemyCheckbox(hasil);
-    } else if (selectedCategory.length > 0) {
-      handlemyCheckbox();
+      setAutoPage(false);
+      // navigate("/course");
+    } else if (
+      selectedCheckboxes.length === 0 &&
+      typeButton &&
+      selectedLevel.length === 0 &&
+      typeCourse.length === 0
+    ) {
+      const filter = data.filter((item) => item.type === typeButton);
+      dispatch(setData(filter));
+    } else if (selectedCheckboxes.length > 0) {
+      handlecheckbox();
     } else if (selectedLevel.length > 0) {
-      handlemyCheckbox();
+      handlecheckbox();
     } else if (typeCourse.length > 0) {
-      handlemyCheckbox();
-    } else if (status) {
-      handlemyCheckbox();
+      handlecheckbox();
+    } else if (typeButton) {
+      handlecheckbox();
     }
   };
-  const handlemyCheckbox = () => {
+  const handlecheckbox = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 700);
-    dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
+    setAutoPage(true);
+    dispatch(searchCheckbox(typeButton, selectedLevel, typeCourse, nameCourse));
   };
+
   const unCheckAll = () => {
     checkboxesRef.current.forEach((checkbox) => {
       checkbox.checked = false;
@@ -97,13 +138,14 @@ function MyChecklist({ hasil, status, setLoading }) {
   useEffect(() => {
     applyFilter();
     dispatch(filterData());
-    if (selectedCategory.length > 0) {
-      navigateToCourses();
-    }
-    if (errors) {
-      dispatch(setMyCourse([]));
-    }
-  }, [selectedCategory, selectedLevel, setMyCourse, hasil, typeCourse, status]);
+  }, [
+    selectedCheckboxes,
+    selectedLevel,
+    setData,
+    typeCourse,
+    nameCourse,
+    typeButton,
+  ]);
 
   return (
     <div
@@ -112,58 +154,18 @@ function MyChecklist({ hasil, status, setLoading }) {
     >
       <p className="font-bold text-sm">Filter</p>
       <ul>
-        <li className="flex flex-row gap-3">
-          <input
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            checked={typeCourse.includes("latest")}
-            onChange={() => handleTypeCourse("latest")}
-          />
-          <label className="font-Montserrat text-xs">Paling Baru</label>
-        </li>
-        <li className="flex flex-row gap-3">
-          <input
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            checked={typeCourse.includes("popular")}
-            onChange={() => handleTypeCourse("popular")}
-          />
-          <label className="font-Montserrat text-xs">Paling Populer</label>
-        </li>
-        <li className="flex flex-row gap-3">
-          <input
-            type="checkbox"
-            className="border-inherit rounded-lg"
-            ref={(element) => {
-              checkboxesRef.current.push(element);
-            }}
-            checked={typeCourse.includes("promo")}
-            onChange={() => handleTypeCourse("promo")}
-          />
-          <label className="font-Montserrat text-xs">Paling Promo</label>
-        </li>
-      </ul>
-
-      <p className="font-bold text-sm">Kategori</p>
-      <ul>
-        {filter.map((item) => (
-          <li className="flex flex-row gap-y-9 gap-x-3 " key={item.id}>
+        {typeCourseData.map((item) => (
+          <li key={item.id} className="flex flex-row gap-3">
             <input
-              type="checkbox"
-              className="border-inherit rounded-lg"
               ref={(element) => {
                 checkboxesRef.current.push(element);
               }}
-              checked={selectedCategory.includes(item.slug)}
-              onChange={() => handleChecklist(item.slug)}
+              type="checkbox"
+              className="border-inherit rounded-lg"
+              checked={typeCourse.includes(item.id)}
+              onChange={() => handleTypeCourse(item.id)}
             />
-            <label className="font-Montserrat text-xs">{item.name}</label>
+            <label className="font-Montserrat text-xs">{item.label}</label>
           </li>
         ))}
       </ul>
@@ -217,23 +219,26 @@ function MyChecklist({ hasil, status, setLoading }) {
           <label className="font-Montserrat text-xs">Advanced Level</label>
         </li>
       </ul>
-      <button
-        onClick={unCheckAll}
-        className="rounded-lg text-red-600 font-Montserrat text-sm"
-      >
-        Hapus Filter
-      </button>
+      <Link to={"/course"} className="flex justify-center">
+        <button
+          onClick={unCheckAll}
+    
+          className="rounded-lg text-red-600 font-Montserrat text-sm"
+        >
+          Hapus Filter
+        </button>
+      </Link>
     </div>
   );
 }
-MyChecklist.propTypes = {
-  setHasil: PropTypes.func,
-  hasil: PropTypes.array,
-  status: PropTypes.string,
+SearchChecklist.propTypes = {
   data: PropTypes.array,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
-  setLoading: PropTypes.bool,
+  errors: PropTypes.func,
+  nameCourse: PropTypes.string,
+  setAutoPage: PropTypes.func,
+  setLoading: PropTypes.func,
 };
 
-export default MyChecklist;
+export default SearchChecklist;

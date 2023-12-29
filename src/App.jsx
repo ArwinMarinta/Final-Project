@@ -6,7 +6,7 @@ import RegisterPage from "./pages/RegisterPage/Register";
 import LoginPage from "./pages/LoginPage/Login";
 import DetailPage from "./pages/DetailPage/DetailPage/DetailPage";
 import ProfilePage from "./pages/ProfilePage/Profile";
-import NotificationPage from "./pages/NotificationPage/notifications";
+import NotificationPage from "./pages/NotificationPage/Notifications";
 import ResetPasswordPage from "./pages/PasswordPage/ResetPassword";
 import MyCourse from "./pages/Class/MyCourse";
 import Course from "./pages/Class/Course";
@@ -24,12 +24,16 @@ import NoAccesToken from "./components/Protecd/NoAccesToken";
 import NotFound from "./pages/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SearchCourse from "./pages/Class/SearchCourse";
+import Header from "./components/Navbar/Header";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route
           path="/register"
           element={
@@ -66,6 +70,7 @@ function App() {
         <Route path="/my-course/:nameCourse" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/search-course/:nameCourse" element={<SearchCourse />} />
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />

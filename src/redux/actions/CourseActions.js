@@ -8,6 +8,11 @@ import {
   setNotification,
   setHasil,
   setFilter,
+  setData,
+  setErrors,
+  setPage,
+  setMyCourse,
+  setTotalPage,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -18,15 +23,8 @@ export const getCategory = () => async (dispatch) => {
     dispatch(setCategory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -39,15 +37,8 @@ export const getPopular = () => async (dispatch) => {
     dispatch(setPopular(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -64,15 +55,8 @@ export const HistoryUser = () => async (dispatch, getState) => {
     dispatch(setHistory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -90,26 +74,48 @@ export const NotificationUser = () => async (dispatch, getState) => {
     dispatch(setNotification(data.value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
-export const getCourse = (setErrors) => async (dispatch) => {
+export const getCourse = (pageNumber) => async (dispatch) => {
   try {
-    const response = await axios.get(`${VITE_API_URL}/courses?page=1&limit=15`);
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?page=${pageNumber}`
+    );
     const { data } = response;
     dispatch(setHasil(data.value));
+    const pageArray = [];
+    for (let index = 1; index <= data.totalPage; index++) {
+      pageArray.push(index);
+    }
+    dispatch(setPage(pageArray));
   } catch (error) {
     if (error.response.status === 404) {
-      setErrors("Tidak ada kelas yang diambil");
+      dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+export const getSearchCourse = (pageNumber, nameCourse) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?search=${nameCourse}`
+    );
+    const { data } = response;
+    dispatch(setData(data.value));
+    const pageArray = [];
+    for (let index = 1; index <= data.totalPage; index++) {
+      pageArray.push(index);
+    }
+    dispatch(setPage(pageArray));
+  } catch (error) {
+    if (error.response.status === 404) {
+      dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error.response.data.message);
     }
   }
 };
@@ -133,29 +139,28 @@ export const filterData = () => async (dispatch) => {
   }
 };
 
-export const getMyCourse =
-  (Navigate, setError, errors) => async (dispatch, getState) => {
-    const { token } = getState().auth;
-    try {
-      const response = await axios.get(`${VITE_API_URL}/user-courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const coursesData = response.data.value;
-      if (errors) {
-        dispatch(setHasil([]));
-      } else if (errors == null) {
-        dispatch(setHasil(coursesData));
-      }
-    } catch (error) {
-      if (error.response.status === 500) {
-        setError("Silahkan login untuk melihat kelas yang diambil");
-      } else if (error.response.status === 404) {
-        setError("Tidak ada kelas yang diambil");
-      }
+export const getMyCourse = (errors) => async (dispatch, getState) => {
+  const { token } = getState().auth;
+  try {
+    const response = await axios.get(`${VITE_API_URL}/user-courses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const coursesData = response.data.value;
+    if (errors) {
+      dispatch(setHasil([]));
+    } else if (errors == null) {
+      dispatch(setHasil(coursesData));
     }
-  };
+  } catch (error) {
+    if (error.response.status === 500) {
+      dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
+    } else if (error.response.status === 404) {
+      dispatch(setErrors("Tidak ada kelas yang diambil"));
+    }
+  }
+};
 
 export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   try {
@@ -185,9 +190,121 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
         type: "error",
       });
     }
-    // toastify({
-    //   message: error?.message,
-    //   type: "error",
-    // });
   }
 };
+
+export const putProgress = (userCourseId, contentId) => async (_, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    await axios.put(
+      `${VITE_API_URL}/learning-progress/${userCourseId}/contents/${contentId}`,
+      {
+        userCourseId: Number(userCourseId),
+        contentId: Number(contentId),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+
+export const checkbox =
+  (
+    typeButton,
+    selectedCheckboxes,
+    selectedLevel,
+    typeCourse,
+    linkFilter,
+    pageNumber
+  ) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/${linkFilter}?page=${pageNumber}`,
+        {
+          params: {
+            type: typeButton,
+            category: selectedCheckboxes,
+            level: selectedLevel,
+            ...typeCourse.reduce((acc, value) => {
+              acc[value] = true;
+              return acc;
+            }, {}),
+          },
+        }
+      );
+      const { data } = response;
+      dispatch(setData(data.value));
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setTotalPage(data.totalPage));
+      dispatch(setPage(pageArray));
+    } catch (error) {
+      if (error.response.status === 404) {
+        dispatch(setErrors("kelas yang di pilih tidak ada"));
+      }
+    }
+  };
+
+export const searchCheckbox =
+  (typeButton, selectedLevel, typeCourse, nameCourse) => async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/courses?search=${nameCourse}`,
+        {
+          params: {
+            type: typeButton,
+            level: selectedLevel,
+            ...typeCourse.reduce((acc, value) => {
+              acc[value] = true;
+              return acc;
+            }, {}),
+          },
+        }
+      );
+      const { data } = response;
+      dispatch(setData(data.value));
+    } catch (error) {
+      if (error.response.status === 404) {
+        dispatch(setErrors("kelas yang di pilih tidak ada"));
+      }
+    }
+  };
+
+export const myCheckbox =
+  (status, selectedCategory, selectedLevel, typeCourse) =>
+  async (dispatch, getState) => {
+    let { token } = getState().auth;
+    try {
+      const response = await axios.get(`${VITE_API_URL}/user-courses`, {
+        params: {
+          learningStatus: status,
+          category: selectedCategory,
+          level: selectedLevel,
+          ...typeCourse.reduce((acc, value) => {
+            acc[value] = true;
+            return acc;
+          }, {}),
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const coursesData = response.data.value;
+      dispatch(setMyCourse(coursesData));
+    } catch (error) {
+      if (error.response.status === 404) {
+        dispatch(setErrors("kelas yang di pilih tidak ada"));
+      }
+    }
+  };
