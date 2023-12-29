@@ -1,12 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "node_modules/flowbite-react/lib/esm/**/*.js",
+  ],
   theme: {
     extend: {
       container: {
         padding: {
           DEFAULT: "1rem",
           sm: "2rem",
+          md: "2rem",
           lg: "4rem",
           xl: "5rem",
           "2xl": "6rem",
@@ -14,7 +19,7 @@ export default {
       },
       colors: {
         DARKBLUE05: "#6148FF",
-        // DARKBLUE04: "#6148FF",
+        DARKBLUE04: "#EBF3FC",
         DARKBLUE03: "#489CFF",
         DARKBLUE02: "#D0B7E6",
         DARKBLUE01: "#E2D4F0",
@@ -30,6 +35,13 @@ export default {
         NEUTRAL04: "#3C3C3C",
         NEUTRAL03: "#8A8A8A",
         NEUTRAL02: "#D0D0D0",
+        LightBlue5: "#EBF3FC",
+        LightBlue4: "#489CFF",
+        DEEPGRAY: "#8A8A8A",
+        YELLOW05: "#FFBE05",
+        YELLOW04: "#FFFCF2",
+        BLUE05: "#1E3A5F",
+        WHITE05: "#FDFDFD",
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],
@@ -37,5 +49,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [import("flowbite/plugin")],
 };
