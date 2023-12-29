@@ -1,4 +1,3 @@
-import Header from "../../../components/Navbar/Header";
 import Desktop from "../Desktop";
 import Mobile from "../Mobile";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +32,6 @@ const DetailPage = () => {
 
   return (
     <>
-      <Header />
       <Desktop
         courseDetail={courseDetail}
         checkCourse={checkCourse}

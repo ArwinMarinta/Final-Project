@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import MyChecklist from "../../components/checklist/MyChecklist";
 import CardCourse from "../../components/card/CardCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/Navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
@@ -35,7 +34,6 @@ const MyCourse = () => {
   }, [status]);
   return (
     <>
-      <Header />
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
         <div className="container">
           <div className="container mx-auto w-auto">

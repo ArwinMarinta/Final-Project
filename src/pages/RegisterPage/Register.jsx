@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import logo from "../../assets/Belajar_white 2.svg";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { register } from "../../redux/actions/AuthActions";
@@ -99,158 +98,170 @@ const Register = () => {
   }, [alert]);
 
   return (
-    <div className="flex min-h-screen bg-DARKBLUE04">
-      <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[128px] relative">
-        <form onSubmit={handleRegis} className="w-full">
-          <h1 className="text-[28px] font-Montserrat font-bold text-DARKBLUE05 mb-8">
-            Daftar
-          </h1>
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col">
-              <label className="font-Poppins text-[14px] mb-[4px]">Nama</label>
-              <input
-                type="text"
-                className="border w-full py-2 px-3 rounded-2xl"
-                placeholder="Nama Lengkap"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-Poppins text-[14px] mb-[4px]">Email</label>
-              <input
-                type="email"
-                className="border w-full py-2 px-3 rounded-2xl"
-                placeholder="Contoh: johndoe@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="font-Poppins text-[14px] mb-[4px]">
-                Nomor Telepon
-              </label>
-              <input
-                type="tel"
-                pattern="[0-9+]+"
-                className="border w-full py-2 px-3 rounded-2xl appearance-none"
-                placeholder="+62, contohnya 6281...."
-                value={phone}
-                onChange={validateNomor}
-                style={{ appearance: "none" }}
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex justify-between items-center">
-                <label className="font-Poppins text-[14px] mb-[4px]">
-                  Buat Password
-                </label>
-              </div>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="border w-full py-2 px-3 rounded-2xl pr-[3.5rem]"
-                  placeholder="Masukkan password"
-                  value={password}
-                  onChange={handlePasswordMatch}
-                />
-                {passworderror && (
-                  <p
-                    className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
-                      password === confPassword
-                        ? "text-ALERTGREEN"
-                        : "text-ALERTRED"
-                    }`}
-                  >
-                    {passworderror}
-                  </p>
-                )}
-                <button
-                  type="button"
-                  aria-label="toggle password visibility"
-                  onClick={togglePassword}
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 px-3 py-1"
-                >
-                  {showPassword ? (
-                    <FiEyeOff className="border-none" />
-                  ) : (
-                    <FiEye className="border-none" />
-                  )}
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <div className="flex justify-between items-center">
-                <label className="font-Poppins text-[14px] mb-[4px]">
-                  Konfirmasi Password
-                </label>
-                <div></div>
-              </div>
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  className="border w-full py-2 px-3 rounded-2xl pr-[3.5rem]"
-                  placeholder="Masukkan konfirmasi password"
-                  value={confPassword}
-                  onChange={handleConfirmPasswordMatch}
-                />
-                {passworderror && (
-                  <p
-                    className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
-                      password === confPassword
-                        ? "text-ALERTGREEN"
-                        : "text-ALERTRED"
-                    }`}
-                  >
-                    {passworderror}
-                  </p>
-                )}
-                <button
-                  type="button"
-                  aria-label="toggle password visibility"
-                  onClick={toggleConfirmPassword}
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 px-3 py-1"
-                >
-                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-10 hover:bg-DARKBLUE03"
+    <>
+      <div className="flex h-full bg-WHITE05 justify-center py-14">
+        <div className="w-[100%] lg:w-[60%] flex justify-start items-center mx-[23px] lg:px-[128px] relative">
+          <form
+            onSubmit={handleRegis}
+            className="w-full border-2 rounded-lg shadow-xl px-6 py-8"
           >
-            {isLoading ? "Loading..." : "Daftar"}
-          </button>
-          <div className="flex justify-center items-center gap-2 mt-6">
-            <h1 className="font-Poppins text-[14px] font-normal">
-              Sudah punya akun?
+            <h1 className="text-[28px] font-Montserrat font-bold   mb-8">
+              Daftar
             </h1>
-            <Link
-              to="/login"
-              className="font-Poppins text-DARKBLUE05 text-[14px] font-bold hover:underline hover:border-DARKBLUE05"
-            >
-              Masuk di sini
-            </Link>
-          </div>
-          <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]">
-            {alert && (
-              <div
-                className={`py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center ${
-                  alertstatus ? "bg-ALERTGREEN" : "bg-ALERTRED"
-                }`}
-              >
-                {alert} !
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col">
+                <label className="font-Poppins text-[14px] mb-[4px]">
+                  Nama
+                </label>
+                <input
+                  type="text"
+                  className="border w-full py-2 px-3 rounded-xl"
+                  placeholder="Nama Lengkap"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
-            )}
-          </div>
-        </form>
-      </div>
+              <div className="flex flex-col">
+                <label className="font-Poppins text-[14px] mb-[4px]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="border w-full py-2 px-3 rounded-xl"
+                  placeholder="Contoh: johndoe@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-Poppins text-[14px] mb-[4px]">
+                  Nomor Telepon
+                </label>
+                <input
+                  type="tel"
+                  pattern="[0-9+]+"
+                  className="border w-full py-2 px-3 rounded-xl appearance-none"
+                  placeholder="+62, contohnya 6281...."
+                  value={phone}
+                  onChange={validateNomor}
+                  style={{ appearance: "none" }}
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="flex justify-between items-center">
+                  <label className="font-Poppins text-[14px] mb-[4px]">
+                    Buat Password
+                  </label>
+                </div>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="border w-full py-2 px-3 rounded-xl pr-[3.5rem]"
+                    placeholder="Masukkan password"
+                    value={password}
+                    onChange={handlePasswordMatch}
+                  />
+                  {passworderror && (
+                    <p
+                      className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
+                        password === confPassword
+                          ? "text-ALERTGREEN"
+                          : "text-ALERTRED"
+                      }`}
+                    >
+                      {passworderror}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    aria-label="toggle password visibility"
+                    onClick={togglePassword}
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 px-3 py-1"
+                  >
+                    {showPassword ? (
+                      <FiEyeOff className="border-none" />
+                    ) : (
+                      <FiEye className="border-none" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex justify-between items-center">
+                  <label className="font-Poppins text-[14px] mb-[4px]">
+                    Konfirmasi Password
+                  </label>
+                  <div></div>
+                </div>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    className="border w-full py-2 px-3 rounded-xl pr-[3.5rem]"
+                    placeholder="Masukkan konfirmasi password"
+                    value={confPassword}
+                    onChange={handleConfirmPasswordMatch}
+                  />
+                  {passworderror && (
+                    <p
+                      className={`absolute top-1/2 right-4 transform -translate-y-1/2 px-8 py-1 ${
+                        password === confPassword
+                          ? "text-ALERTGREEN"
+                          : "text-ALERTRED"
+                      }`}
+                    >
+                      {passworderror}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    aria-label="toggle password visibility"
+                    onClick={toggleConfirmPassword}
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 px-3 py-1"
+                  >
+                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-YELLOW05 text-white py-[10px] rounded-xl mt-10 "
+            >
+              {isLoading ? "Loading..." : "Daftar"}
+            </button>
+            <div className="flex justify-center items-center gap-2 mt-6">
+              <h1 className="font-Poppins text-[14px] font-normal">
+                Sudah punya akun?
+              </h1>
+              <Link
+                to="/login"
+                className="font-Poppins text-DARKBLUE05 text-[14px] font-bold hover:underline hover:border-DARKBLUE05"
+              >
+                Masuk di sini
+              </Link>
+            </div>
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]">
+              {alert && (
+                <div
+                  className={`py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center ${
+                    alertstatus ? "bg-ALERTGREEN" : "bg-ALERTRED"
+                  }`}
+                >
+                  {alert} !
+                </div>
+              )}
+            </div>
+          </form>
+        </div>
 
-      <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
-        <img src={logo} alt="logo" />
+        {/* <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
+        <div className="flex flex-row  text-6xl font-bold">
+          <p className="text-BLUE05">ILearn</p>
+          <p className="text-YELLOW05">Tech</p>
+        </div>
+      </div> */}
       </div>
-    </div>
+    </>
   );
 };
 

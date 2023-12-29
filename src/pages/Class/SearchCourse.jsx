@@ -1,7 +1,6 @@
 import { useState } from "react";
 import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/Navbar/Header";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
@@ -33,7 +32,6 @@ const SearchCourse = () => {
   };
   return (
     <>
-      <Header />
       <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
         <div className="container w-full">
           <div className=" mx-auto container w-auto">

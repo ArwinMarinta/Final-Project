@@ -3,7 +3,6 @@ import orderCourseIMG from "../../../assets/order-course.png";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Header from "../../../components/Navbar/Header";
 import Desktop from "../Desktop";
 import Mobile from "../Mobile";
 import { MdOutlineClose } from "react-icons/md";
@@ -102,7 +101,6 @@ const DetailContent = () => {
         </div>
       )}
 
-      <Header />
       <Desktop
         courseDetail={courseDetail}
         contentDetail={contentDetail}

@@ -1,7 +1,6 @@
 // import { Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
-import logo from "../../assets/Belajar_white 2.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ResetPasswordUser } from "../../redux/actions/AuthActions";
@@ -36,10 +35,13 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-DARKBLUE04 ">
-      <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
-        <form onSubmit={handleSubmit} className="w-full ">
-          <h1 className="text-[24px] font-bold text-DARKBLUE05 font-Montserrat mb-8">
+    <div className="flex min-h-screen bg-WHITE05 justify-center ">
+      <div className="w-[100%] lg:w-[60%] flex justify-start items-center mx-[23px] lg:px-[145px] ">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full border-2 rounded-lg shadow-xl px-6 py-8 "
+        >
+          <h1 className="text-[24px] font-bold  font-Montserrat mb-8">
             Reset Password
           </h1>
           <div className="flex flex-col gap-5">
@@ -101,26 +103,11 @@ const ResetPassword = () => {
           <button
             onClick={handleClick}
             type="submit"
-            className="w-full font-Poppins bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03"
+            className="w-full font-Poppins bg-YELLOW05  text-white py-[10px]  mt-5 rounded-xl font-bold"
           >
             {isLoading ? "Loading..." : "Simpan"}
           </button>
-          {/* <div className="flex justify-center items-center gap-2 mt-6">
-            <h1 className="font-Poppins text-[14px] font-normal">
-              Belum punya akun?
-            </h1>
-            <Link
-              to="/register"
-              className="font-Poppins text-DARKBLUE05 text-[14px] font-bold transition duration-300 ease-in-out hover:underline hover:border-DARKBLUE05"
-            >
-              Daftar di sini
-            </Link>
-          </div> */}
         </form>
-      </div>
-
-      <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
-        <img src={logo} alt="logo" />
       </div>
     </div>
   );

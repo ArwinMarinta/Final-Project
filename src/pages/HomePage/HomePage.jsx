@@ -1,8 +1,9 @@
 import CardKategori from "../../components/card/CardKategori";
 import CardCourse from "../../components/card/CardPopular";
-import Header from "../../components/Navbar/Header";
-import PeopleHome from "../../assets/people_homepage.svg";
+import PeopleHome from "../../assets/home.svg";
 import Carousel from "react-multi-carousel";
+import Whatsapp from "../../assets/whattsap.svg";
+import Personal from "../../assets/persone.svg";
 import "react-multi-carousel/lib/styles.css";
 import { responsive } from "../../utils/responsiveCarousel";
 import { responsive2 } from "../../utils/responsiveCarousel";
@@ -37,36 +38,49 @@ const HomePage = () => {
 
   return (
     <>
-      <Header />
       <div className="mx-auto">
         {/* bagian 1 di homepage */}
-        <div className="mx-auto flex flex-col lg:flex-row bg-DARKBLUE05">
-          <div className="lg:w-[60%] relative">
-            <img src={PeopleHome} className="w-full lg:w-full z-0" />
-            <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-l from-DARKBLUE05 via-transparent to-transparent"></div>
+        <div className="mx-auto flex flex-col lg:flex-row container ">
+          <div className="lg:w-[60%]  py-14 flex flex-col w-full  gap-4 ">
+            <div className=" font-bold text-4xl text-BLUE05 font-Montserrat">
+              Mulai Petualangan Pemrograman Anda disini!
+            </div>
+            <div className=" font-Montserrat text-sm max-w-lg">
+              Jelajahi kemungkinan baru dengan situs pemrograman kami yang baru!
+              Temukan keasyikan belajar kode melalui pengalaman interaktif yang
+              kami tawarkan. Bergabunglah sekarang untuk meraih potensi penuh
+              Anda dalam dunia pemrograman
+            </div>
+            <div className="flex flex-row  gap-3">
+              <button className="border-2 text-YELLOW05 py-1 px-2 font-bold border-YELLOW05 rounded-[4px] flex flex-row items-center gap-1">
+                <img src={Personal} />
+                Gabung Program
+              </button>
+              <button className="bg-YELLOW05 font-bold text-white py-1 px-2 rounded-[4px] flex flex-row items-center gap-1">
+                <img src={Whatsapp} />
+                Tanya CS
+              </button>
+            </div>
           </div>
-          <div className=" flex  container py-4 lg:w-[40%] ">
-            <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2">
-              <div className="flex flex-col font-Montserrat font-bold  lg:text-2xl text-white lg:gap-3 gap-2">
-                <h1>Belajar</h1>
-                <h1>dari Praktisi Terbaik!</h1>
-              </div>
-              <Link
-                as={Link}
-                to="/course"
-                className="bg-white text-DARKBLUE05 font-Montserrat font-bold text-sm lg:text-base rounded-[10px] lg:py-2 py-[6px] w-[100%] text-center"
-              >
-                IKUTI KELAS
-              </Link>
+          <div className=" flex   py-4 lg:w-[40%] ">
+            <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2 w-full">
+              <img src={PeopleHome} />
             </div>
           </div>
         </div>
 
         {/* Bagian Kategori Belajar */}
-        <div className=" flex mx-auto justify-center  bg-LightBlue5">
+        <div className=" flex mx-auto justify-center  bg-WHITE05">
           <div className="flex w-full flex-col pt-[26px] pb-[14px] gap-5 container">
-            <div className="flex flex-row justify-between container">
-              <h2 className="text-xl font-x font-bold ">Kategori Belajar</h2>
+            <div className="flex flex-row justify-between ">
+              <div className="flex flex-col">
+                <p className="font-bold text-xl text-BLUE05 ">
+                  Tentukan Jalur Belajarmu di Sini
+                </p>
+                <p className="text-xs">
+                  Bingung mau mulai dari mana? Ikuti jalur belajar berikut ini
+                </p>
+              </div>
               <Link
                 to="/course"
                 className="font-Montserrat font-extrabold text-xs max-w-fit text-DARKBLUE05 self-center"
@@ -74,7 +88,7 @@ const HomePage = () => {
                 Lihat Semua
               </Link>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full container">
+            <div className="grid grid-cols-2 lg:grid-cols-6 justify-between gap-3  w-full ">
               {category.map((data) => (
                 // <div key={data.id}>
                 // {/* <Link as={Link} to={`/course/category=${data.slug}`}> */}
@@ -87,11 +101,30 @@ const HomePage = () => {
         </div>
       </div>
 
+      <div className="flex justify-center bg-LightBlue5 py-8">
+        <div className="container flex  flex-col gap-6 justify-center">
+          <p className="text-center font-Montserrat font-bold md:text-4xl text-2xl text-BLUE05">
+            Jangan lewatkan kesempatan ini !
+          </p>
+          <div className="self-center md:w-[50%]">
+            <p className="text-center">
+              Manfaatkan kelas gratis kami sekarang dan dapatkan akses tanpa
+              batas untuk mengembangkan potensi Anda!
+            </p>
+          </div>
+          <button className="bg-BLUE05 px-2 py-2 max-w-fit self-center text-white font-Montserrat font-medium rounded-md">
+            Mulai Sekarang
+          </button>
+        </div>
+      </div>
+
       {/* Bagian Kursus Populer */}
       <div className="mx-auto flex justify-center ">
         <div className="flex flex-col container gap-5 pt-[26px] pb-[53px]">
-          <div className="flex flex-row container font-Montserrat  justify-between">
-            <h2 className="font-bold text-xl">Kursus Populer</h2>
+          <div className="flex flex-row  font-Montserrat  justify-between">
+            <h2 className="font-bold text-xl border-b-[6px] border-YELLOW05 ">
+              Kursus Populer
+            </h2>
             <Link
               as={Link}
               to="/course/populer"
@@ -102,7 +135,7 @@ const HomePage = () => {
           </div>
 
           {category.length > 0 && (
-            <div className="container">
+            <div className="">
               <Carousel responsive={responsive2}>
                 {/* <div className="flex flex-row bg-red-500 items-center "> */}
                 <button
@@ -126,7 +159,7 @@ const HomePage = () => {
             </div>
           )}
 
-          <div className=" drop-shadow-xl container mx-auto">
+          <div className=" drop-shadow-xl ">
             <Carousel responsive={responsive}>
               {filterCourses(selectedCategory).map((data) => (
                 <CardCourse key={data.id} data={data} />
