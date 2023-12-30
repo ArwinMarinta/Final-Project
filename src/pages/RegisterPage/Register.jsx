@@ -4,7 +4,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import logo from "../../assets/Belajar_white 2.svg";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
-import { register } from "../../redux/actions/AuthActions";
+import { register, resendOtp } from "../../redux/actions/AuthActions";
 import { useDispatch } from "react-redux";
 
 const Register = () => {
@@ -21,6 +21,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState("");
   const [alertstatus, setAlertStatus] = useState("");
+  const [isLoadingResend, setIsLoadingResend] = useState(false);
 
   const validateNomor = (e) => {
     const inputValue = e.target.value;
@@ -63,6 +64,22 @@ const Register = () => {
 
   const toggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleNotVerified = () => {
+    if (!email) {
+      setAlert("Email tidak boleh kosong, untuk melanjutkan verifikasi akun");
+      setAlertStatus(false);
+    } else {
+      // Simpan email ke localStorage
+      localStorage.setItem("registeredEmail", email);
+      console.log("registeredEmail", email);
+      dispatch(resendOtp(setIsLoadingResend, setAlert, setAlertStatus)).then(
+        () => {
+          navigate("/otp");
+        }
+      );
+    }
   };
 
   const handleRegis = (e) => {
@@ -117,14 +134,27 @@ const Register = () => {
               />
             </div>
             <div className="flex flex-col">
-              <label className="font-Poppins text-[14px] mb-[4px]">Email</label>
-              <input
-                type="email"
-                className="border w-full py-2 px-3 rounded-2xl"
-                placeholder="Contoh: johndoe@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <div className="flex justify-between items-center">
+                <label className="font-Poppins text-[14px] mb-[4px]">
+                  Email
+                </label>
+                <Link onClick={handleNotVerified}>
+                  <span className="font-Poppins text-[11px] text-DARKBLUE05 transition duration-300 ease-in-out hover:underline hover:border-DARKBLUE05">
+                    {isLoadingResend
+                      ? "Loading..."
+                      : "Akun belum terverifikasi?"}
+                  </span>
+                </Link>
+              </div>
+              <div className="relative ">
+                <input
+                  type="email"
+                  className="border w-full py-2 px-3 rounded-2xl"
+                  placeholder="Contoh: johndoe@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
             <div className="flex flex-col">
               <label className="font-Poppins text-[14px] mb-[4px]">

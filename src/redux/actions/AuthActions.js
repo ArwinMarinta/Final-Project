@@ -28,17 +28,23 @@ export const login =
           error.response.data.message ===
           "Akun belum terverifikasi. Periksa email masuk untuk verifikasi kode Otp"
         ) {
-          navigate("/otp");
+          localStorage.setItem("registeredEmail", email);
+          setAlert(
+            "Akun belum terverifikasi. Silahkan periksa email masuk untuk verifikasi kode Otp"
+          );
+          // Navigate to "/otp" after a short delay
+          setTimeout(() => {
+            navigate("/otp");
+          }, 3000);
         } else {
           setAlert(error.response.data.message);
-          // setAlertStatus(false);
         }
       }
       setIsLoading(false);
-      toastify({
-        message: error?.message,
-        type: "Error",
-      });
+      // toastify({
+      //   message: error?.message,
+      //   type: "Error",
+      // });
     }
     setIsLoading(false);
   };
