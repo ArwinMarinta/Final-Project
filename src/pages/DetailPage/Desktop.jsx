@@ -92,6 +92,9 @@ const Desktop = ({
                 ))}
               </ul>
             </div>
+            <button className="bg-black text-white px-4 mt-5">
+              Berikan Penilaianmu disini
+            </button>
           </div>
           <div
             className="border shadow-xl drop-shadow-2xl ring-offset-1 border-gray-400/20 rounded-xl h-max"

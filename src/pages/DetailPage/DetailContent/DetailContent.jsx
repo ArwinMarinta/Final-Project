@@ -26,31 +26,11 @@ const DetailContent = () => {
   const { token } = useSelector((state) => state.auth);
 
   const [showPopUp, setShowPopUp] = useState(false);
+  const userCourse = courseDetail?.userCourseId;
 
   const { courseId } = useParams();
   const { contentId } = useParams();
   const { moduleId } = useParams();
-  const userCourse = DetailContent?.userCourseId;
-
-  const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
-    dispatch(resetContentDetail());
-    if (contentDetail === null || contentDetail.length == 0) {
-      setShowPopUp(true);
-    }
-    dispatch(putProgress(userCourseId, contentId));
-    navigate(
-      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
-    );
-    if (token) {
-      dispatch(getContentDetail(courseId, moduleId, contentId, true));
-    } else {
-      dispatch(getContentDetail(courseId, moduleId, contentId, false));
-    }
-  };
-
-  const handleClosePopUp = () => {
-    setShowPopUp(false);
-  };
 
   useEffect(() => {
     if (token) {
@@ -62,6 +42,29 @@ const DetailContent = () => {
       dispatch(getContentDetail(courseId, moduleId, contentId, false));
     }
   }, [dispatch, courseId, moduleId, contentId, userCourse, token]);
+
+  const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
+    dispatch(putProgress(userCourseId, contentId));
+
+    dispatch(resetContentDetail());
+    if (contentDetail === null || contentDetail.length == 0) {
+      setShowPopUp(true);
+    }
+    if (token) {
+      dispatch(getContentDetail(courseId, moduleId, contentId, true));
+    } else {
+      dispatch(getContentDetail(courseId, moduleId, contentId, false));
+    }
+    setTimeout(() => {
+      navigate(
+        `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+      );
+    }, 500);
+  };
+
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+  };
 
   return (
     <>

@@ -8,6 +8,7 @@ import { putProgress } from "../../../redux/actions/CourseActions";
 import {
   getCourseDetail,
   getCheckCourse,
+  postTestimonial,
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
@@ -29,6 +30,10 @@ const DetailPage = () => {
     navigate(
       `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
     );
+  };
+
+  const handlePostTestiClick = (testimonial, rating) => {
+    dispatch(postTestimonial(testimonial, rating));
   };
 
   return (

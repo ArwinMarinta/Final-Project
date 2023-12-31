@@ -61,7 +61,8 @@ export const getContentDetail =
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        dispatch(setContentDetail(null));
+        console.log("erro");
+        // dispatch(setContentDetail(null));
         if (error.response.status === 401) {
           dispatch(setError(error.response.data.message));
         }
@@ -91,3 +92,23 @@ export const getCheckCourse = (courseId) => async (dispatch, getState) => {
     dispatch(setCheckCourse(null));
   }
 };
+
+export const postTestimonial =
+  (courseId, testimonial, rating) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+      console.log("Gege");
+
+      await axios.post(
+        `${VITE_API_URL}/course-testimonials/${courseId}`,
+        { testimonial, rating: Number(rating) },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log("eror");
+    }
+  };
