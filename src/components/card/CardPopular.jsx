@@ -8,6 +8,15 @@ import Taken from "../../assets/taken.svg";
 import Time from "../../assets/jam.svg";
 
 const CardCourse = ({ data }) => {
+  const formatRupiah = (angka) => {
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+
+    return formatter.format(angka);
+  };
   return (
     <Link to={`/detail/course/${data.id}`}>
       <div className="flex flex-col  bg-white rounded-lg border-2 m-auto mr-1 ml-1 cursor-pointer max-w-sm ">
@@ -31,25 +40,23 @@ const CardCourse = ({ data }) => {
           >
             {data.title}
           </h3>
-          {/* <p className="mt-1 font-Montserrat font-normal text-xs">
-            {data.instructor}
-          </p> */}
-          <div className="flex flex-col  font-Montserrat text-xs mt-2 font-normal">
-            <div className="flex flex-row gap-10">
+
+          <div className="flex flex-row  font-Montserrat text-xs mt-2 font-normal">
+            <div className="flex flex-col gap-2 w-[50%]">
               <div className="flex flex-row gap-1">
                 <img src={Type} />
                 <p>{data.level}</p>
               </div>
               <div className="flex flex-row gap-1">
-                <img src={Taken} />
-                <p>{data.taken}</p>
-              </div>
-            </div>
-            <div className="flex flex-row gap-12">
-              <div className="flex flex-row gap-1">
                 <img src={Module} />
                 <p>{data.totalModule}</p>
                 <p>Modul</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 w-[50%]">
+              <div className="flex flex-row gap-1">
+                <img src={Taken} />
+                <p>{data.taken}</p>
               </div>
               <div className="flex flex-row gap-1">
                 <img src={Time} />
@@ -58,16 +65,17 @@ const CardCourse = ({ data }) => {
             </div>
           </div>
           <div className="flex flex-row text-sm mt-2">
-            <p>Rp.</p>
             {data.originalPrice !== data.totalPrice ? (
               <>
                 <div className="flex flex-row gap-1">
-                  <del>{data.originalPrice}</del>
-                  <span>{data.totalPrice}</span>
+                  <del className="text-red-500 ">
+                    {formatRupiah(data.originalPrice)}
+                  </del>
+                  <span>{formatRupiah(data.totalPrice)}</span>
                 </div>
               </>
             ) : (
-              <span>{data.originalPrice}</span>
+              <span>{formatRupiah(data.originalPrice)}</span>
             )}
           </div>
         </div>

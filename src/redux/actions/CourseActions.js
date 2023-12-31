@@ -13,6 +13,7 @@ import {
   setPage,
   setMyCourse,
   setTotalPage,
+  setCoursePromo,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -308,3 +309,24 @@ export const myCheckbox =
       }
     }
   };
+
+export const getCoursePromo = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?limit=10&page=1&promo=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch(setCoursePromo(response.data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};

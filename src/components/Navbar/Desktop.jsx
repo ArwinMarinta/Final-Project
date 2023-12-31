@@ -62,7 +62,7 @@ const Desktop = ({ user }) => {
               <input
                 name="search"
                 className=" hidden sm:inline text-black w-36 md:w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-md   focus:outline-none 
-                                        ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
+                                        ring-2  ring-gray-700/50 focus:ring-YELLOW05 duration-200"
                 type="text"
                 placeholder="Cari Kelas ..."
                 value={keyword}
@@ -104,7 +104,7 @@ const Desktop = ({ user }) => {
                   <IoMdNotificationsOutline className="text-2xl" />
                 </NavLink>
                 <NavLink
-                  to="/profile"
+                  to={"/profile" || "/change-password" || "/history"}
                   className={({ isActive }) =>
                     isActive
                       ? "flex items-center rounded-[4px] bg-YELLOW05 gap-2 h-full pl-2.5 pr-3.5 after:content-['Akun']"
