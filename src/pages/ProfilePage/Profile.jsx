@@ -1,6 +1,4 @@
-import Header from "../../components/Navbar/Header";
 import { Link, useNavigate } from "react-router-dom";
-import Arrow from "../../assets/arrow_left.svg";
 import EditeIcon from "../../assets/edit.svg";
 import SettingIcon from "../../assets/setting.svg";
 import ShopIcon from "../../assets/shopping_card.svg";
@@ -38,8 +36,6 @@ const Profile = () => {
     setCountry(user?.country || "");
   }, [user]);
 
-  // console.log(setPhotoProfile);
-  //fungsi untuk update foto profile
   const handleChange = (selectedFile) => {
     if (token) {
       dispatch(UpdatePicture(selectedFile));
@@ -83,35 +79,18 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
-      <div className="mx-auto w-full bg-white ">
+      <div className="mx-auto w-full bg-WHITE05">
         <div className="relative ">
-          <div className="bg-LightBlue5 h-[250px] drop-shadow-xl "></div>
           <div className="absolute  flex justify-center mt-6  top-0 left-0 right-0  ">
             <div className="container flex flex-col  ">
-              <div className="hidden lg:block">
-                <Link
-                  as={Link}
-                  to="/"
-                  className="container  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold"
-                >
-                  <img src={Arrow} />
-                  <p>Kembali ke Beranda</p>
-                </Link>
-              </div>
-              <div className=" container flex flex-col mb-20 mt-4 drop-shadow-2xl ">
-                <div className="hidden lg:block">
-                  <div className="bg-DARKBLUE05 border-2 border-DARKBLUE05 rounded-t-2xl  text-white p-6 font-Montserrat font-bold text-xl text-center">
-                    Akun
-                  </div>
-                </div>
+              <div className=" container flex flex-col mb-20   ">
                 {/* responsive di mobile */}
                 <div className="lg:hidden">
-                  <div className="flex flex-row rounded-t-2xl  bg-NEUTRAL02 border-t-2 border-DARKBLUE05">
+                  <div className="flex flex-row rounded-lg  bg-NEUTRAL02 border-2 border-DARKBLUE05">
                     <Link
                       as={Link}
                       to="/profile"
-                      className="bg-NEUTRAL05 py-[24px] w-full  rounded-tl-2xl border-r-2 border-DARKBLUE05 justify-center items-center flex border-l-2"
+                      className="bg-NEUTRAL05  w-full   justify-center items-center flex "
                     >
                       <img src={EditeIcon} />
                     </Link>
@@ -131,19 +110,19 @@ const Profile = () => {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="py-[24px] w-full rounded-tr-2xl  justify-center items-center flex border-r-2 border-DARKBLUE05"
+                      className="py-[24px] w-full   justify-center items-center flex  "
                     >
                       <img src={LogoutIcon} />
                     </button>
                   </div>
                 </div>
-                <div className=" flex flex-row lg:gap-10 gap-5 border-DARKBLUE05 border-2 px-6 md:px-6 py-4 rounded-b-2xl mb-12 bg-white">
+                <div className=" flex flex-row  gap-5    py-4 rounded-xl mb-12 bg-white">
                   <div className="hidden lg:block lg:w-[40%] lg:pr-16">
                     <div className="flex flex-col ">
                       <Link
                         as={Link}
                         to="/profile"
-                        className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-DARKBLUE05 "
+                        className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-YELLOW05 "
                       >
                         <img src={EditeIcon} />
                         <div>Profile Saya</div>
@@ -174,7 +153,10 @@ const Profile = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col lg:w-[60%] py-4  justify-center w-full gap-4 lg:px-16">
+                  <div className="flex flex-col lg:w-[60%] py-4 border-2 rounded-md justify-center w-full gap-4 lg:px-8 px-4 shadow-xl">
+                    <div className="border-b-2 font-Montserrat font-bold text-xl pb-2">
+                      Profile Saya
+                    </div>
                     <div className="w-[90px] h-[90px] relative rounded-full self-center border-[3px] border-DARKBLUE05">
                       <img
                         src={photoProfile}
@@ -193,10 +175,6 @@ const Profile = () => {
                           accept="image/*"
                           style={{ display: "none" }}
                           onChange={handleChangeProfile}
-                          // onChange={(e) => {
-                          //   let pic = URL.createObjectURL(e.target.files[0]);
-                          //   setPhotoProfile(pic);
-                          // }}
                         />
                       </button>
                     </div>
@@ -255,7 +233,7 @@ const Profile = () => {
                       </div>
                       <button
                         type="submit"
-                        className="bg-DARKBLUE05 text-white p-3 rounded-3xl font-Poppins"
+                        className="bg-YELLOW05 text-white p-3 rounded-xl font-Poppins"
                       >
                         Simpan Profile Saya
                       </button>

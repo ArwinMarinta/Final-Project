@@ -75,15 +75,11 @@ export const profile =
           // console.log("eror 401");
           return;
         }
-        toastify({
-          message: error?.response?.data?.message,
-          type: "error",
-        });
       }
-      toastify({
-        message: error?.message,
-        type: "error",
-      });
+      // toastify({
+      //   message: error?.message,
+      //   type: "error",
+      // });
     }
   };
 
@@ -292,6 +288,9 @@ export const UpdateProfile =
         message: response.data.message,
         type: "success",
       });
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 1000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         toastify({
@@ -299,12 +298,6 @@ export const UpdateProfile =
           type: "error",
         });
       }
-      // toastify({
-      //   message: error.message,
-      //   type: "error",
-      // });
-
-      // alert(error.message);
     }
   };
 
@@ -325,6 +318,13 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
         },
       }
     );
+    // toastify({
+    //   message: response.data.message,
+    //   type: "success",
+    // });
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1000);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       alert(error.response.data.message);
@@ -332,3 +332,35 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
     alert(error.message);
   }
 };
+
+export const registerLoginWithGoogleAction =
+  (accessToken, navigate) => async (dispatch) => {
+    try {
+      const data = JSON.stringify({
+        access_token: accessToken,
+      });
+
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${VITE_API_URL}/auth/google`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      const { token } = response.data.data;
+
+      dispatch(setToken(token));
+
+      navigate("/");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response.data.message);
+        return;
+      }
+      alert(error.message);
+    }
+  };

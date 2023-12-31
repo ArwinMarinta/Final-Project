@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import logo from "../../assets/Belajar_white 2.svg";
 import { useDispatch } from "react-redux";
 import { RequestPassword } from "../../redux/actions/AuthActions";
 import ArrowIcon from "../../assets/arrow_left_black.svg";
@@ -35,13 +34,16 @@ const VerifyEmail = () => {
   }, [alert, alertStatus]);
 
   return (
-    <div className="flex min-h-screen bg-DARKBLUE04 ">
-      <div className="w-[100%] lg:w-[50%] flex justify-start items-center mx-[23px] lg:px-[145px] relative ">
-        <form onSubmit={handleSubmit} className="w-full ">
+    <div className="flex min-h-screen bg-WHITE05 justify-center ">
+      <div className="w-[100%] lg:w-[60%]  flex justify-start items-center mx-[23px] lg:px-[145px] relative ">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full border-2 rounded-lg shadow-xl px-6 py-8"
+        >
           <Link as={Link} to="/login">
             <img src={ArrowIcon} />
           </Link>
-          <h1 className="text-[24px] font-bold text-DARKBLUE05 font-Montserrat mb-8 mt-4">
+          <h1 className="text-[24px] font-bold  font-Montserrat mb-8 mt-4">
             Verifikasi Email
           </h1>
           <div className="flex flex-col gap-5">
@@ -62,7 +64,7 @@ const VerifyEmail = () => {
           </div>
           <button
             type="submit"
-            className="w-full font-Poppins bg-DARKBLUE05 text-white py-[10px] rounded-2xl mt-5 hover:bg-DARKBLUE03"
+            className="w-full font-Poppins bg-YELLOW05 font-bold text-white py-[10px] rounded-2xl mt-5 "
           >
             {isLoading ? "Loading..." : "Kirim"}
           </button>
@@ -80,9 +82,6 @@ const VerifyEmail = () => {
             )}
           </div>
         </form>
-      </div>
-      <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
-        <img src={logo} alt="logo" />
       </div>
     </div>
   );

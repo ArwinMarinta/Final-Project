@@ -61,8 +61,7 @@ export const getContentDetail =
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("erro");
-        // dispatch(setContentDetail(null));
+        dispatch(setContentDetail(null));
         if (error.response.status === 401) {
           dispatch(setError(error.response.data.message));
         }

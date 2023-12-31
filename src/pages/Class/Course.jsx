@@ -3,7 +3,6 @@ import { useState } from "react";
 import Checklist from "../../components/checklist/Checklist";
 import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
-import Header from "../../components/Navbar/Header";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
@@ -42,8 +41,7 @@ const Course = () => {
   };
   return (
     <>
-      <Header />
-      <div className="bg-LightBlue5 min-h-screen flex justify-center w-full">
+      <div className="bg-WHITE05 min-h-screen flex justify-center w-full">
         <div className="container w-full">
           <div className=" mx-auto container w-auto">
             <div className="flex flex-wrap justify-between mt-7 items-center md:sticky md:top-0 z-50  h-14 min-h-full backdrop-blur">
@@ -110,8 +108,8 @@ const Course = () => {
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
                 <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] ">
                   <button
-                    className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400 ${
-                      typeButton == "" ? "bg-[#6148FF] text-white" : "bg-white"
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400 ${
+                      typeButton == "" ? "bg-YELLOW05 text-white" : "bg-white"
                     }`}
                     style={{ fontFamily: `montserrat` }}
                     onClick={() => handleClick(``)}
@@ -119,9 +117,9 @@ const Course = () => {
                     All
                   </button>
                   <button
-                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400  ${
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400  ${
                       typeButton == "Premium"
-                        ? "bg-[#6148FF] text-white"
+                        ? "bg-YELLOW05 text-white"
                         : "bg-white"
                     }`}
                     style={{ fontFamily: `montserrat` }}
@@ -130,9 +128,9 @@ const Course = () => {
                     Kelas Premium
                   </button>
                   <button
-                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-[#6148FF] hover:text-white font-semibold text-slate-400  ${
+                    className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400  ${
                       typeButton == "Free"
-                        ? "bg-[#6148FF] text-white"
+                        ? "bg-YELLOW05 text-white"
                         : "bg-white"
                     }`}
                     style={{ fontFamily: `montserrat` }}
@@ -142,9 +140,9 @@ const Course = () => {
                   </button>
                 </div>
                 {loading ? (
-                  <LoadingSpinner/>
+                  <LoadingSpinner />
                 ) : (
-                  <div className="grid md:grid-cols-2 grid-cols-1 mt-4 mb-12 gap-2">
+                  <div className="grid md:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
                       <div className="w-full md:w-[200%]">
                         <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">

@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import Arrow from "../../assets/arrow_left.svg";
-import Header from "../../components/Navbar/Header";
 import EditeIcon from "../../assets/edit.svg";
 import SettingIcon from "../../assets/setting.svg";
 import ShopIcon from "../../assets/shopping_card.svg";
@@ -55,34 +53,17 @@ const ChangePassword = () => {
 
   return (
     <>
-      <Header />
-      <div className="mx-auto w-full bg-white ">
+      <div className="mx-auto w-full bg-WHITE05 ">
         <div className="relative ">
-          <div className="bg-LightBlue5 h-[250px] drop-shadow-xl "></div>
           <div className="absolute  flex justify-center mt-6  top-0 left-0 right-0 bottom-0 ">
             <div className="container flex flex-col  ">
-              <div className="hidden lg:block">
-                <Link
-                  as={Link}
-                  to="/"
-                  className="container  flex flex-row items-center py-2 text-DARKBLUE05 font-Montserrat text-base font-bold"
-                >
-                  <img src={Arrow} />
-                  <p>Kembali ke Beranda</p>
-                </Link>
-              </div>
-              <div className=" container flex flex-col  mt-4 drop-shadow-2xl ">
-                <div className="hidden lg:block">
-                  <div className="bg-DARKBLUE05 border-2 border-DARKBLUE05 rounded-t-2xl  text-white p-6 font-Montserrat font-bold text-xl text-center">
-                    Akun
-                  </div>
-                </div>
+              <div className=" container flex flex-col   ">
                 <div className="lg:hidden">
-                  <div className="flex flex-row rounded-t-2xl  bg-NEUTRAL02 border-t-2 border-DARKBLUE05">
+                  <div className="flex flex-row rounded-lg  bg-NEUTRAL02 border-2 border-DARKBLUE05">
                     <Link
                       as={Link}
                       to="/profile"
-                      className=" py-[24px] w-full border-l-2 rounded-tl-2xl border-r-2 border-DARKBLUE05 justify-center items-center flex"
+                      className=" py-[24px] w-full   border-r-2 border-DARKBLUE05 justify-center items-center flex"
                     >
                       <img src={EditeIcon} />
                     </Link>
@@ -102,13 +83,13 @@ const ChangePassword = () => {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="py-[24px] w-full  justify-center items-center flex border-r-2 rounded-tr-2xl border-DARKBLUE05"
+                      className="py-[24px] w-full  justify-center items-center flex  border-DARKBLUE05"
                     >
                       <img src={LogoutIcon} />
                     </button>
                   </div>
                 </div>
-                <div className=" flex flex-row gap-10 border-DARKBLUE05 border-2 px-6 py-4 rounded-b-2xl mb-12 bg-white">
+                <div className=" flex flex-row gap-10    py-4 rounded-b-2xl mb-12 bg-white">
                   <div className="hidden lg:block lg:w-[40%] lg:pr-16 font-Montserrat">
                     <div className="flex flex-col ">
                       <Link
@@ -122,7 +103,7 @@ const ChangePassword = () => {
                       <Link
                         as={Link}
                         to="/change-password"
-                        className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-DARKBLUE05 "
+                        className="flex flex-row py-3 gap-2 border-b-2 font-Montserrat font-bold text-YELLOW05 "
                       >
                         <img src={SettingIcon} />
                         <div>Ubah Password</div>
@@ -146,9 +127,9 @@ const ChangePassword = () => {
                   </div>
                   <form
                     onSubmit={handleSubmit}
-                    className="flex flex-col lg:w-[60%] py-4 w-full gap-6 lg:px-16 "
+                    className="flex flex-col lg:w-[60%] py-4 w-full gap-6 lg:px-10 px-4 border-2 rounded-md shadow-lg"
                   >
-                    <div className="font-bold font-Montserrat text-2xl text-center">
+                    <div className="font-bold font-Montserrat text-xl text-start border-b-2 pb-2">
                       Ubah Password
                     </div>
                     <div className="flex flex-col justify-center gap-4">
@@ -255,7 +236,7 @@ const ChangePassword = () => {
                         </div>
                         <button
                           type="submit"
-                          className="bg-DARKBLUE05 text-white p-3 rounded-3xl mt-6"
+                          className="bg-YELLOW05 font-bold text-white p-3 rounded-xl mt-6"
                         >
                           Ubah Password
                         </button>

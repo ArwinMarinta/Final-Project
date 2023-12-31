@@ -23,15 +23,8 @@ export const getCategory = () => async (dispatch) => {
     dispatch(setCategory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -44,15 +37,8 @@ export const getPopular = () => async (dispatch) => {
     dispatch(setPopular(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -69,15 +55,8 @@ export const HistoryUser = () => async (dispatch, getState) => {
     dispatch(setHistory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -95,15 +74,8 @@ export const NotificationUser = () => async (dispatch, getState) => {
     dispatch(setNotification(data.value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -122,6 +94,8 @@ export const getCourse = (pageNumber) => async (dispatch) => {
   } catch (error) {
     if (error.response.status === 404) {
       dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error?.response?.data?.message);
     }
   }
 };
@@ -140,6 +114,8 @@ export const getSearchCourse = (pageNumber, nameCourse) => async (dispatch) => {
   } catch (error) {
     if (error.response.status === 404) {
       dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error.response.data.message);
     }
   }
 };

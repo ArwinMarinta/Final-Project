@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams, NavLink, Link } from "react-router-dom";
 import { FaArrowRightToBracket } from "react-icons/fa6";
-import { SiCodechef } from "react-icons/si";
 import { TfiMenuAlt } from "react-icons/tfi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
 import PropTypes from "prop-types";
+import Persone from "../../assets/persone_plus.svg";
+import { FaHome } from "react-icons/fa";
 
 const Desktop = ({ user }) => {
   const [searchParams] = useSearchParams();
@@ -34,12 +35,12 @@ const Desktop = ({ user }) => {
 
   return (
     <>
-      <nav className="hidden sm:block bg-DARKBLUE05 ">
+      <nav className="hidden sm:block bg-white drop-shadow-lg ">
         {/* <div className="bg-DARKBLUE05"> */}
-        <div className="container flex justify-between mx-auto py-4 bg-DARKBLUE05">
-          <NavLink to="/" className="flex gap-2">
-            <SiCodechef className="text-4xl" />
-            <p className="text-2xl font-bold">iLearnTech</p>
+        <div className="container flex justify-between mx-auto py-4 bg-white">
+          <NavLink to="/" className="flex flex-row  text-2xl font-bold">
+            <p className="text-BLUE05">ILearn</p>
+            <p className="text-YELLOW05">Tech</p>
           </NavLink>
 
           <form action="search" onSubmit={onSubmitHandler}>
@@ -60,7 +61,7 @@ const Desktop = ({ user }) => {
               </svg>
               <input
                 name="search"
-                className=" hidden sm:inline text-black w-36 md:w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-full   focus:outline-none 
+                className=" hidden sm:inline text-black w-36 md:w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-md   focus:outline-none 
                                         ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
                 type="text"
                 placeholder="Cari Kelas ..."
@@ -71,12 +72,22 @@ const Desktop = ({ user }) => {
           </form>
           <div>
             {user ? (
-              <div className="flex h-full items-center gap-4">
+              <div className="flex h-full items-center gap-4 font-Poppins text-sm font-medium">
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "flex items-center rounded-[4px] bg-YELLOW05 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Dashboard']"
+                      : "px-2"
+                  }
+                >
+                  <FaHome className="text-lg" />
+                </NavLink>
                 <NavLink
                   to="/my-course"
                   className={({ isActive }) =>
                     isActive
-                      ? "flex items-center rounded-full bg-blue-500 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Kelas']"
+                      ? "flex items-center rounded-[4px] bg-YELLOW05 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Kelas']"
                       : "px-2"
                   }
                 >
@@ -86,7 +97,7 @@ const Desktop = ({ user }) => {
                   to="/notification"
                   className={({ isActive }) =>
                     isActive
-                      ? "flex items-center rounded-full bg-blue-500 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Notifikasi']"
+                      ? "flex items-center rounded-[4px] bg-YELLOW05 gap-1.5 h-full pl-2.5 pr-3.5 after:content-['Notifikasi']"
                       : "px-2"
                   }
                 >
@@ -96,7 +107,7 @@ const Desktop = ({ user }) => {
                   to="/profile"
                   className={({ isActive }) =>
                     isActive
-                      ? "flex items-center rounded-full bg-blue-500 gap-2 h-full pl-2.5 pr-3.5 after:content-['Akun']"
+                      ? "flex items-center rounded-[4px] bg-YELLOW05 gap-2 h-full pl-2.5 pr-3.5 after:content-['Akun']"
                       : "px-2"
                   }
                 >
@@ -104,15 +115,27 @@ const Desktop = ({ user }) => {
                 </NavLink>
               </div>
             ) : (
-              <div className="">
-                <Link
-                  to="/login"
-                  className=" h-full flex items-center gap-2 text-lg"
-                  // onClick={onLogin}
-                >
-                  <FaArrowRightToBracket />
-                  <p className="font-semibold ">Masuk</p>
-                </Link>
+              <div className="flex flex-row gap-2">
+                <div className="">
+                  <Link
+                    to="/login"
+                    className=" h-full flex bg-YELLOW05 shadow-md text-white px-2 py-1 rounded-md items-center gap-2 text-base"
+                    // onClick={onLogin}
+                  >
+                    <FaArrowRightToBracket />
+                    <p className="font-semibold ">Masuk</p>
+                  </Link>
+                </div>
+                <div className="">
+                  <Link
+                    to="/register"
+                    className=" h-full flex border-2 shadow-md border-YELLOW05 text-white px-2 py-1 rounded-md items-center gap-2 text-base"
+                    // onClick={onLogin}
+                  >
+                    <img src={Persone} />
+                    <p className="font-semibold text-YELLOW05 ">Gabung</p>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
