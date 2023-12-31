@@ -9,13 +9,15 @@ import Time from "../../assets/jam.svg";
 
 const CardCourse = ({ data, progress }) => {
   return (
-    <div className="mt-2 flex flex-col  bg-white rounded-md m-auto shadow-lg  ">
-      <Link to={`/detail/course/${data.courseId}`}>
-        <img className="w-full h-[15vh]C rounded-t-md" src={data.imageUrl} />
-      </Link>
+    <Link
+      to={`/detail/course/${data.courseId}`}
+      className="mt-2 flex flex-col  bg-white rounded-md m-auto shadow-lg  "
+    >
+      <img className="w-full h-[15vh]C rounded-t-md" src={data.imageUrl} />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat  text-sm ">
           <div className="flex flex-row gap-1">
+            <p>by</p>
             <h3 className="">{data.instructor}</h3>
             <img src={Verif} />
           </div>
@@ -71,7 +73,7 @@ const CardCourse = ({ data, progress }) => {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 

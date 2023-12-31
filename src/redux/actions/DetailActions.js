@@ -91,3 +91,23 @@ export const getCheckCourse = (courseId) => async (dispatch, getState) => {
     dispatch(setCheckCourse(null));
   }
 };
+
+export const postTestimonial =
+  (courseId, testimonial, rating) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+      console.log("Gege");
+
+      await axios.post(
+        `${VITE_API_URL}/course-testimonials/${courseId}`,
+        { testimonial, rating: Number(rating) },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log("eror");
+    }
+  };

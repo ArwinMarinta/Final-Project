@@ -1,6 +1,5 @@
 import { useState } from "react";
-import CardPickCourse from "../../components/card/CardPopular";
-
+import CardPickCourse from "../../components/card/CardPickCourse";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
