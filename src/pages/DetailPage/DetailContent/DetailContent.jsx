@@ -105,8 +105,8 @@ const DetailContent = () => {
           </button>
         </div>
       )}
-      <div className="">
-        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto my-8">
+      <div className="mb-24 sm:mb-10">
+        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto my-4 md:my-8">
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-md bg-black"

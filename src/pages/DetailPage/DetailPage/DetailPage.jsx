@@ -8,7 +8,6 @@ import { getCourseFree } from "../../../redux/actions/CourseActions";
 import {
   getCourseDetail,
   getCheckCourse,
-  postTestimonial,
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
@@ -16,7 +15,6 @@ const DetailPage = () => {
   const navigate = useNavigate();
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { checkCourse } = useSelector((state) => state.detail);
-  const { data } = useSelector((state) => state.course);
   const { token } = useSelector((state) => state.auth);
 
   const { courseId } = useParams();
@@ -157,7 +155,7 @@ const DetailPage = () => {
                   </div>
                 )}
 
-                <div className="flex gap-2.5 mt-3 lg:mt-0">
+                <div className="flex flex-wrap gap-2.5 mt-3 lg:mt-0">
                   <Link
                     to={courseDetail?.groupDiscussion}
                     className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
@@ -166,7 +164,7 @@ const DetailPage = () => {
                     <BiLogoTelegram className="text-xl" />
                   </Link>
                   <button
-                    className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold"
+                    className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5"
                     onClick={(event) => {
                       handleCourseFree(event, courseDetail.courseId);
                     }}
