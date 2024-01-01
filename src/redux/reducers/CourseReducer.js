@@ -12,6 +12,10 @@ const initialState = {
   page: [],
   totalPage: [],
   myCourse: [],
+  getData: [],
+  discussion: [],
+  detailDiscussion: [],
+  comentar: [],
 };
 
 const courseSlice = createSlice({
@@ -51,6 +55,18 @@ const courseSlice = createSlice({
     setMyCourse: (state, action) => {
       state.myCourse = action.payload;
     },
+    setGetData: (state, action) => {
+      state.getData = action.payload;
+    },
+    setDiscussion: (state, action) => {
+      state.discussion = action.payload;
+    },
+    setDetailDiscussion: (state, action) => {
+      state.detailDiscussion = action.payload;
+    },
+    setComentar: (state, action) => {
+      state.comentar = action.payload;
+    },
   },
 });
 
@@ -66,6 +82,10 @@ export const {
   setPage,
   setTotalPage,
   setMyCourse,
+  setGetData,
+  setDiscussion,
+  setComentar,
+  setDetailDiscussion,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

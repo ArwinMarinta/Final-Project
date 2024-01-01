@@ -16,6 +16,7 @@ const DetailPage = () => {
   useEffect(() => {
     dispatch(getCourseDetail(courseId));
   }, [dispatch, courseId]);
+  console.log(courseDetail);
 
   // useEffect(() => {
   // }, [dispatch, courseId]);

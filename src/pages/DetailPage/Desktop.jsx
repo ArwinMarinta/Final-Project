@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { RiShieldStarLine } from "react-icons/ri";
 import { RiBook2Line } from "react-icons/ri";
 import { RiTimeFill } from "react-icons/ri";
-import { BiLogoTelegram } from "react-icons/bi";
+import { BiLink, BiLogoTelegram} from "react-icons/bi";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BiSolidLock } from "react-icons/bi";
 
@@ -61,6 +61,12 @@ const Desktop = ({ courseDetail, contentDetail, user }) => {
             >
               <span className="font-bold">Join Group Telegram</span>
               <BiLogoTelegram className="text-xl " />
+            </Link>
+            <Link to={`/discussion-course/${courseDetail?.courseId}`}>
+              <button className="flex gap-14 rounded-full text-white items-center bg-gray-400 my-2 w-max py-1.5 px-8">
+                <span className="font-bold">Forum Diskusi</span>
+                <BiLink className="text-xl " />
+              </button>
             </Link>
           </div>
         </div>

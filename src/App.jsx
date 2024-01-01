@@ -25,6 +25,8 @@ import NotFound from "./pages/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchCourse from "./pages/Class/SearchCourse";
+import DiscussionPage from "./pages/DiscussionPage/DiscussionPage";
+import DetailDiscussion from "./pages/DiscussionPage/detailDiscussion";
 
 function App() {
   return (
@@ -71,6 +73,8 @@ function App() {
         <Route path="/login-admin" element={<LoginAdmin />} />
         <Route path="/home-admin" element={<HomeAdmin />} />
         <Route path="/manage-course" element={<ManageCourse />} />
+        <Route path="/discussion-course/:id" element={<DiscussionPage />} />
+        <Route path="/detailDiscussion/:id/:discussionId" element={<DetailDiscussion />} />
         <Route path="*" element={<NotFound />} />
         <Route
           path="/otp"
