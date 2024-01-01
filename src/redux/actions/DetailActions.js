@@ -29,7 +29,7 @@ export const getCourseDetail =
       dispatch(setCourseDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        console.log(error.response.data.message);
       }
     }
   };

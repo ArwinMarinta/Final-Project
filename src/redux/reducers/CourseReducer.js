@@ -12,6 +12,7 @@ const initialState = {
   page: [],
   totalPage: [],
   myCourse: [],
+  coursePromo: [],
 };
 
 const courseSlice = createSlice({
@@ -51,6 +52,9 @@ const courseSlice = createSlice({
     setMyCourse: (state, action) => {
       state.myCourse = action.payload;
     },
+    setCoursePromo: (state, action) => {
+      state.coursePromo = action.payload;
+    },
   },
 });
 
@@ -66,6 +70,7 @@ export const {
   setPage,
   setTotalPage,
   setMyCourse,
+  setCoursePromo,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

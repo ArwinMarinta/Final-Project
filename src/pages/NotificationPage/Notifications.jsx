@@ -45,7 +45,7 @@ const Notifications = () => {
                           </div>
                         </div>
                         <div className="md:text-sm text-[10px] font-semibold text-DEEPGRAY">
-                          {datas?.createdAt}
+                          {new Date(datas?.createdAt).toLocaleString() ?? "-"}
                         </div>
                       </div>
                     </div>

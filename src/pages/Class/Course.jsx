@@ -1,12 +1,14 @@
 import { useState } from "react";
-// import { useParams } from "react-router-dom";
+
 import Checklist from "../../components/checklist/Checklist";
-import CardPickCourse from "../../components/card/CardPickCourse";
+
 import Search from "../../assets/search.svg";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
+import CardCourse from "../../components/card/CardPopular";
+
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -168,7 +170,7 @@ const Course = () => {
                         })
                         .map((item) => (
                           <div className=" w-full " key={item.id}>
-                            <CardPickCourse key={item.id} data={item} />
+                            <CardCourse key={item.id} data={item} />
                           </div>
                         ))}
                   </div>
