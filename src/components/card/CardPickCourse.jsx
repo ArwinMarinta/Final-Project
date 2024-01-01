@@ -1,12 +1,14 @@
-import Badge_Outline from "../../assets/badge_outline.svg";
-import Book from "../../assets/book.svg";
 import Start from "../../assets/star.svg";
-import Time from "../../assets/time.svg";
 import PropTypes from "prop-types";
 import diamond from "../../assets/diamond.svg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourseFree } from "../../redux/actions/CourseActions";
+import Verif from "../../assets/verif.svg";
+import Type from "../../assets/type.svg";
+import Module from "../../assets/module.svg";
+import Taken from "../../assets/taken.svg";
+import Times from "../../assets/jam.svg";
 
 const CardPickCourse = ({ data }) => {
   const dispatch = useDispatch();
@@ -35,13 +37,17 @@ const CardPickCourse = ({ data }) => {
   };
 
   return (
-    <div className="mt-2 flex flex-col  bg-white rounded-2xl m-auto shadow-lg mx-1 ">
-      <Link to={`/detail/course/${data.id}`}>
-        <img className="w-full h-[15vh]" src={data.imageUrl} />
+    <div className="mt-2 flex flex-col  bg-white rounded-md m-auto shadow-lg mx-1 ">
+      <Link to={`/detail/course/${data.id}`} className="rounded-t-md">
+        <img className="w-full h-[15vh] rounded-t-md" src={data.imageUrl} />
       </Link>
       <div className="flex flex-col mt-3 px-2 mb-3">
-        <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
-          <h3 className="text-DARKBLUE05">{data.category}</h3>
+        <div className="flex flex-row justify-between font-Montserrat  text-sm ">
+          <div className="flex flex-row gap-1">
+            <p>by</p>
+            <h3 className="">{data.instructor}</h3>
+            <img src={Verif} />
+          </div>
           <div className="flex flex-row gap-1">
             <img src={Start} />
             <p>{data.rating}</p>
@@ -53,21 +59,29 @@ const CardPickCourse = ({ data }) => {
         >
           {data.title}
         </h3>
-        <p className="my-1 font-Montserrat font-normal text-xs">
-          {data.instructor}
-        </p>
-        <div className="flex pb-2 justify-between">
-          <span className=" font-semibold text-xs text-[#6148FF] flex gap-x-1">
-            <img src={Badge_Outline} className="w-3" /> {data.level}
-          </span>
-          <span className="font-semibold text-xs flex gap-x-1">
-            <img src={Book} className="w-3" />
-            {data.type}
-          </span>
-          <span className="font-semibold text-xs flex gap-x-1">
-            <img src={Time} className="w-3" />
-            {data.duration} jam
-          </span>
+
+        <div className="flex pb-2 flex-col font-Montserrat text-xs mt-2 font-normal">
+          <div className="flex flex-row gap-10">
+            <div className="flex flex-row gap-1">
+              <img src={Type} />
+              <p>{data.level}</p>
+            </div>
+            <div className="flex flex-row gap-1">
+              <img src={Taken} />
+              <p>{data.taken}</p>
+            </div>
+          </div>
+          <div className="flex flex-row gap-12">
+            <div className="flex flex-row gap-1">
+              <img src={Module} />
+              <p>{data.totalModule}</p>
+              <p>Modul</p>
+            </div>
+            <div className="flex flex-row gap-1">
+              <img src={Times} />
+              <p>{data.duration}</p>
+            </div>
+          </div>
         </div>
         <div>
           <button

@@ -5,7 +5,7 @@ import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
 import { useNavigate } from "react-router-dom";
 import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, status ,setLoading,}) {
+function MyChecklist({ hasil, status, setLoading }) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
@@ -38,13 +38,7 @@ function MyChecklist({ hasil, status ,setLoading,}) {
     const categoryParams = selectedCategory
       .map((category) => `${category}`)
       .join("&");
-    // const levelParams = selectedLevel
-    //   .map((level) => `level=${level}`)
-    //   .join("&");
     navigate(`/my-course/${categoryParams}`);
-    // const queryParams = [categoryParams, levelParams].filter(Boolean).join("&");
-
-    // navigate(`/my-course/${queryParams}`);
   };
 
   const handleLevel = (value) => {
@@ -85,10 +79,10 @@ function MyChecklist({ hasil, status ,setLoading,}) {
     }
   };
   const handlemyCheckbox = () => {
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-        }, 700);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 700);
     dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
   };
   const unCheckAll = () => {
@@ -105,10 +99,7 @@ function MyChecklist({ hasil, status ,setLoading,}) {
     dispatch(filterData());
     if (selectedCategory.length > 0) {
       navigateToCourses();
-    } 
-    // else if (selectedCategory.length === 0) {
-    //   navigate("/my-course");
-    // }
+    }
     if (errors) {
       dispatch(setMyCourse([]));
     }

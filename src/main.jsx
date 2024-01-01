@@ -5,24 +5,27 @@ import store from "./redux/store.js";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { VITE_GOOGLE_CLIENT_ID } from "./config/config.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer
-        position="bottom-center"
-        autoClose={500}
-        limit={1}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <GoogleOAuthProvider clientId={VITE_GOOGLE_CLIENT_ID}>
+        <App />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="light"
+        />
+      </GoogleOAuthProvider>
     </Provider>
   </React.StrictMode>
 );

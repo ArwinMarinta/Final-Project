@@ -6,16 +6,13 @@ import RegisterPage from "./pages/RegisterPage/Register";
 import LoginPage from "./pages/LoginPage/Login";
 import DetailPage from "./pages/DetailPage/DetailPage/DetailPage";
 import ProfilePage from "./pages/ProfilePage/Profile";
-import NotificationPage from "./pages/NotificationPage/notifications";
+import NotificationPage from "./pages/NotificationPage/Notifications";
 import ResetPasswordPage from "./pages/PasswordPage/ResetPassword";
 import MyCourse from "./pages/Class/MyCourse";
 import Course from "./pages/Class/Course";
-import LoginAdmin from "./pages/LoginPage/LoginAdmin";
-import HomeAdmin from "./pages/DasboardAdminPage/HomeAdmin";
-import ManageCourse from "./pages/DasboardAdminPage/ManageCourse";
 import OtpPage from "./pages/OtpPage/Otp";
 import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
-import DetailPaymentPage from "./pages/DetailPage/DetailClassPayment";
+import DetailPaymentPage from "./pages/PaymentPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
 import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
 import HistoryPage from "./pages/ProfilePage/Histori";
@@ -27,10 +24,12 @@ import "react-toastify/dist/ReactToastify.css";
 import SearchCourse from "./pages/Class/SearchCourse";
 import DiscussionPage from "./pages/DiscussionPage/DiscussionPage";
 import DetailDiscussion from "./pages/DiscussionPage/detailDiscussion";
+import Header from "./components/Navbar/Header";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
@@ -70,9 +69,6 @@ function App() {
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/course" element={<Course />} />
         <Route path="/search-course/:nameCourse" element={<SearchCourse />} />
-        <Route path="/login-admin" element={<LoginAdmin />} />
-        <Route path="/home-admin" element={<HomeAdmin />} />
-        <Route path="/manage-course" element={<ManageCourse />} />
         <Route path="/discussion-course/:id" element={<DiscussionPage />} />
         <Route path="/detailDiscussion/:id/:discussionId" element={<DetailDiscussion />} />
         <Route path="*" element={<NotFound />} />
@@ -111,7 +107,7 @@ function App() {
       </Routes>
       <ToastContainer
         position="bottom-center"
-        autoClose={500}
+        autoClose={2000}
         limit={1}
         hideProgressBar={false}
         newestOnTop={false}
@@ -119,7 +115,6 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
         theme="light"
       />
     </BrowserRouter>

@@ -16,6 +16,7 @@ const initialState = {
   discussion: [],
   detailDiscussion: [],
   comentar: [],
+  coursePromo: [],
 };
 
 const courseSlice = createSlice({
@@ -67,8 +68,10 @@ const courseSlice = createSlice({
     setComentar: (state, action) => {
       state.comentar = action.payload;
     },
-  },
-});
+    setCoursePromo: (state, action) => {
+      state.coursePromo = action.payload;
+    },
+}});
 
 export const {
   setCategory,
@@ -86,6 +89,7 @@ export const {
   setDiscussion,
   setComentar,
   setDetailDiscussion,
+  setCoursePromo,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;
