@@ -11,6 +11,7 @@ import {
   getCheckCourse,
   getTestimonial,
   postTestimonial,
+  postCertificate,
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
@@ -55,6 +56,7 @@ const DetailPage = () => {
     e.preventDefault();
 
     dispatch(postTestimonial(courseId, testimonialText, number));
+    dispatch(getTestimonial(courseId));
     setTestimonialText("");
     setNumber(0);
     setHoverStar(undefined);
@@ -62,8 +64,9 @@ const DetailPage = () => {
     setInterval(setShowPopUp(false), 1000);
   };
 
-  const handleClosePopUp = () => {
-    setShowPopUp(false);
+  const handleCetakSertifikat = (e) => {
+    e.preventDefault();
+    dispatch(postCertificate(courseId));
   };
 
   return (
@@ -72,7 +75,12 @@ const DetailPage = () => {
         <div className="flex fixed w-full h-full justify-center items-center bg-black/50 z-40">
           <div className="flex flex-col max-w-sm w-full bg-gray-100 rounded-xl p-5 z-50">
             <div className="w-full flex justify-end">
-              <button onClick={handleClosePopUp} className="text-2xl">
+              <button
+                onClick={() => {
+                  setShowPopUp(false);
+                }}
+                className="text-2xl"
+              >
                 <MdOutlineClose />
               </button>
             </div>
@@ -139,7 +147,9 @@ const DetailPage = () => {
           </div>
           <button
             className="text-white bg-black bg-opacity-50 absolute border-0  w-full h-full"
-            onClick={handleClosePopUp}
+            onClick={() => {
+              setShowPopUp(false);
+            }}
           >
             x
           </button>
@@ -259,30 +269,110 @@ const DetailPage = () => {
 
                 <div className="flex flex-wrap gap-2.5 mt-3 lg:mt-0">
                   <Link
-                    to={courseDetail?.groupDiscussion}
+                    target={"_blank"}
+                    to="https://binar.club/gruptelefaq-km"
                     className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
                   >
                     <span className="font-semibold">Join Group Telegram</span>
                     <BiLogoTelegram className="text-xl" />
                   </Link>
-                  <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
-                    {courseDetail?.type === "Free" ? (
+                  {courseDetail?.learningProgress === 100 && (
+                    // <button
+                    //   className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5"
+                    //   onClick={handleCetakSertifikat}
+                    // >
+                    //   {" "}
+                    //   Cetak Sertifikat
+                    // </button>
+                    <>
                       <button
-                        onClick={(event) => {
-                          handleCourseFree(event, courseDetail.courseId);
-                        }}
+                        id="dropdownDefaultButton"
+                        data-dropdown-toggle="dropdown"
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        type="button"
                       >
-                        Ambil Kelas{" "}
+                        Dropdown button{" "}
+                        <svg
+                          className="w-2.5 h-2.5 ms-3"
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 10 6"
+                        >
+                          <path
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="m1 1 4 4 4-4"
+                          />
+                        </svg>
                       </button>
-                    ) : (
-                      <Link
-                        to={`/detail/payment/${courseId}`}
-                        className="flex flex-row gap-3"
+
+                      <div
+                        id="dropdown"
+                        className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
                       >
-                        Beli Kelas
-                      </Link>
-                    )}
-                  </button>
+                        <ul
+                          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                          aria-labelledby="dropdownDefaultButton"
+                        >
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Dashboard
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Settings
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Earnings
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="#"
+                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            >
+                              Sign out
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
+                  )}
+                  {courseDetail?.userCourseId === null && (
+                    <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
+                      {courseDetail?.type === "Free" ? (
+                        <button
+                          onClick={(event) => {
+                            handleCourseFree(event, courseDetail.courseId);
+                          }}
+                        >
+                          Ambil Kelas{" "}
+                        </button>
+                      ) : (
+                        <Link
+                          to={`/detail/payment/${courseId}`}
+                          className="flex flex-row gap-3"
+                        >
+                          Beli Kelas
+                        </Link>
+                      )}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -376,7 +466,7 @@ const DetailPage = () => {
                 ) : (
                   <div className=" flex flex-wrap items-center bg-gray-200 rounded-sm dark:bg-gray-700 h-full">
                     <p
-                      className="bg-BLUE05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-white align-middle leading-none rounded-sm h-full px-4"
+                      className="bg-YELLOW05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-white align-middle leading-none rounded-sm h-full px-4"
                       style={{
                         width: `${courseDetail?.learningProgress ?? "0"}%`,
                       }}

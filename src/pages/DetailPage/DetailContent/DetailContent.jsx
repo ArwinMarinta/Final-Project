@@ -1,11 +1,12 @@
 "use client";
 import orderCourseIMG from "../../../assets/order-course.png";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLock } from "react-icons/bi";
 import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 import { MdOutlineClose } from "react-icons/md";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa";
 import { putProgress } from "../../../redux/actions/CourseActions";
 import { resetContentDetail } from "../../../redux/reducers/DetailReducer";
@@ -106,7 +107,16 @@ const DetailContent = () => {
         </div>
       )}
       <div className="mb-24 sm:mb-10">
-        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto my-4 md:my-8">
+        <div className="hidden sm:block container font-semibold  mx-auto py-5">
+          <Link
+            to={`/detail/course/${courseId}`}
+            className="flex items-center gap-3"
+          >
+            <IoMdArrowRoundBack className="text-xl" />{" "}
+            <p>{courseDetail?.title}</p>
+          </Link>
+        </div>
+        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto ">
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-md bg-black"
