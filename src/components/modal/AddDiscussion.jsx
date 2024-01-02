@@ -36,6 +36,7 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
   const handleHapus = () => {
     setJudul("");
     setPertanyaan("");
+    setHasil(null);
     setGambar(null);
   };
   console.log(gambar);
