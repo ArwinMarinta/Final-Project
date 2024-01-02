@@ -188,7 +188,11 @@ export const getDiscussion =
       dispatch(setGetData(data.value));
       const { discussion } = data.value;
       dispatch(setDiscussion(discussion));
-      console.log(discussion);
+       const pageArray = [];
+       for (let index = 1; index <= data.totalPage; index++) {
+         pageArray.push(index);
+       }
+       dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 500) {
         dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));

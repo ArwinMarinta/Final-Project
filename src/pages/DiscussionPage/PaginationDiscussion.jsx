@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
-import { useEffect} from "react";
+import { useSelector } from "react-redux";
+// import { useEffect} from "react";
 
-function PaginationDiscussion({ setPageNumber, pageNumber,page,setPage}) {
-  const handlePageNumber = () => {
-    const pageArray = [];
-    for (let index = 1; index <= 3; index++) {
-      pageArray.push(index);
-    }
-    setPage(pageArray);
-  };
-  useEffect(() => {
-    handlePageNumber();
-  }, []);
+function PaginationDiscussion({ setPageNumber, pageNumber}) {
+  const { page} = useSelector((state) => state.course);
+
+  // const handlePageNumber = () => {
+  //   const pageArray = [];
+  //   for (let index = 1; index <= 3; index++) {
+  //     pageArray.push(index);
+  //   }
+  //   setPage(pageArray);
+  // };
+  // useEffect(() => {
+  //   handlePageNumber();
+  // }, []);
   const handlePage = (value) => {
     setPageNumber(value);
   };

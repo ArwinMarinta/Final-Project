@@ -15,7 +15,6 @@ export default function DiscussionPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-  const [page, setPage] = useState([]);
 
   const handleClosed = (value) => {
     setClosed((prevSelected) => {
@@ -156,8 +155,6 @@ export default function DiscussionPage() {
                       <PaginationDiscussion
                         setPageNumber={setPageNumber}
                         pageNumber={pageNumber}
-                        page={page}
-                        setPage={setPage}
                       />
                     </div>
                     <div className="flex flex-row gap-3">
