@@ -84,11 +84,12 @@ function Checklist({
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
+
   const handlenamecourse = () => {
-    if (nameCourse == "populer") {
+    if (nameCourse === "populer") {
       setTypeCourse([]);
-      handleTypeCourse("popular");
-    } else if (nameCourse == "promo") {
+      handleTypeCourse("populer");
+    } else if (nameCourse === "promo") {
       setTypeCourse([]);
       handleTypeCourse("promo");
     } else {

@@ -36,12 +36,6 @@ const Profile = () => {
     setCountry(user?.country || "");
   }, [user]);
 
-  const handleChange = (selectedFile) => {
-    if (token) {
-      dispatch(UpdatePicture(selectedFile));
-    }
-  };
-
   //fungsi untuk menampilkan profile
   useEffect(() => {
     if (token) {
@@ -68,12 +62,17 @@ const Profile = () => {
 
     const selectedFile = event.target.files[0];
 
-    console.log(selectedFile);
     if (selectedFile) {
       const newProfilePicture = URL.createObjectURL(selectedFile);
       setPhotoProfile(newProfilePicture);
 
       handleChange(selectedFile);
+    }
+  };
+
+  const handleChange = (selectedFile) => {
+    if (token) {
+      dispatch(UpdatePicture(selectedFile));
     }
   };
 

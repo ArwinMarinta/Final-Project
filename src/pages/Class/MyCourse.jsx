@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MyChecklist from "../../components/checklist/MyChecklist";
 import CardCourse from "../../components/card/CardCourse";
 import Search from "../../assets/search.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { getMyCourse } from "../../redux/actions/CourseActions";
+import { useSelector } from "react-redux";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
 import Pagination from "../../components/pagination/Pagination";
 const MyCourse = () => {
@@ -13,7 +12,6 @@ const MyCourse = () => {
   const { hasil } = useSelector((state) => state.course);
   const { myCourse } = useSelector((state) => state.course);
   const { errors } = useSelector((state) => state.course);
-  const dispatch = useDispatch();
   const linkFilter = `user-courses`;
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1);
@@ -31,9 +29,6 @@ const MyCourse = () => {
     setStatus(value);
   };
 
-  useEffect(() => {
-    dispatch(getMyCourse(errors));
-  }, [status]);
   return (
     <>
       <div className="bg-WHITE05 min-h-screen flex justify-center w-full">
@@ -130,10 +125,12 @@ const MyCourse = () => {
                 {loading ? (
                   <LoadingSpinner />
                 ) : (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
+
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2 ">
+
                     {errors && (
-                      <div className="w-full md:w-[310%]">
-                        <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
+                      <div className="w-full md:w-[200%] ">
+                        <label className="flex justify-center self-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>
                       </div>

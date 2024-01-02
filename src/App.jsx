@@ -61,7 +61,10 @@ function App() {
           path="/detail/course/:courseId/module/:moduleId/content/:contentId"
           element={<DetailContent />}
         />
-        <Route path="/detail/payment" element={<DetailPaymentPage />} />
+        <Route
+          path="/detail/payment/:courseId"
+          element={<DetailPaymentPage />}
+        />
         <Route path="/notification" element={<NotificationPage />} />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />

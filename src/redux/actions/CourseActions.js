@@ -153,17 +153,11 @@ export const getMyCourse = (errors) => async (dispatch, getState) => {
       },
     });
     const coursesData = response.data.value;
-    const { data } = response;
     if (errors) {
       dispatch(setHasil([]));
     } else if (errors == null) {
       dispatch(setHasil(coursesData));
     }
-    const pageArray = [];
-    for (let index = 1; index <= data.totalPage; index++) {
-      pageArray.push(index);
-    }
-    dispatch(setPage(pageArray));
   } catch (error) {
     if (error.response.status === 500) {
       dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
@@ -290,7 +284,7 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
     let { token } = getState().auth;
 
     const response = await axios.post(
-      `${VITE_API_URL}/orders/${courseId}`,
+      `${VITE_API_URL}/orders/${courseId}/free`,
       {},
       {
         headers: {
@@ -427,8 +421,14 @@ export const myCheckbox =
         }
       );
       const coursesData = response.data.value;
+      const { data } = response;
       dispatch(setMyCourse(coursesData));
-      
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setTotalPage(data.totalPage));
+      dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 404) {
         dispatch(setErrors("kelas yang di pilih tidak ada"));
@@ -456,3 +456,26 @@ export const getCoursePromo = () => async (dispatch, getState) => {
     }
   }
 };
+
+export const getCoursePremium =
+  (paymentMethod, courseId) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+
+      await axios.get(
+        `${VITE_API_URL}/orders/${courseId}/premium`,
+        {
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error?.response?.data?.message);
+      }
+    }
+  };
