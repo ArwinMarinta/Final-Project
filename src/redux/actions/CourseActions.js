@@ -23,15 +23,8 @@ export const getCategory = () => async (dispatch) => {
     dispatch(setCategory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -44,15 +37,8 @@ export const getPopular = () => async (dispatch) => {
     dispatch(setPopular(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -69,15 +55,8 @@ export const HistoryUser = () => async (dispatch, getState) => {
     dispatch(setHistory(value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -95,15 +74,8 @@ export const NotificationUser = () => async (dispatch, getState) => {
     dispatch(setNotification(data.value));
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      toastify({
-        message: error?.response?.data?.message,
-        type: "error",
-      });
+      console.log(error.response.data.message);
     }
-    toastify({
-      message: error?.message,
-      type: "error",
-    });
   }
 };
 
@@ -122,6 +94,8 @@ export const getCourse = (pageNumber) => async (dispatch) => {
   } catch (error) {
     if (error.response.status === 404) {
       dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error?.response?.data?.message);
     }
   }
 };
@@ -140,6 +114,8 @@ export const getSearchCourse = (pageNumber, nameCourse) => async (dispatch) => {
   } catch (error) {
     if (error.response.status === 404) {
       dispatch(setErrors("Tidak ada kelas yang diambil"));
+    } else {
+      console.log(error.response.data.message);
     }
   }
 };
@@ -217,6 +193,29 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   }
 };
 
+export const putProgress = (userCourseId, contentId) => async (_, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    await axios.put(
+      `${VITE_API_URL}/learning-progress/${userCourseId}/contents/${contentId}`,
+      {
+        userCourseId: Number(userCourseId),
+        contentId: Number(contentId),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+
 export const checkbox =
   (
     typeButton,
@@ -248,7 +247,7 @@ export const checkbox =
       for (let index = 1; index <= data.totalPage; index++) {
         pageArray.push(index);
       }
-      dispatch(setTotalPage(data.totalPage))
+      dispatch(setTotalPage(data.totalPage));
       dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 404) {
@@ -256,6 +255,7 @@ export const checkbox =
       }
     }
   };
+
 export const searchCheckbox =
   (typeButton, selectedLevel, typeCourse, nameCourse) => async (dispatch) => {
     try {
@@ -280,6 +280,7 @@ export const searchCheckbox =
       }
     }
   };
+
 export const myCheckbox =
   (status, selectedCategory, selectedLevel, typeCourse) =>
   async (dispatch, getState) => {

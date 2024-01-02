@@ -172,11 +172,7 @@ function Checklist({
   }, [
     selectedCheckboxes,
     selectedLevel,
-    // setData,
-    // hasil,
     typeCourse,
-    // linkFilter,
-    // nameCourse,
     typeButton,
     pageNumber,
     totalPage,

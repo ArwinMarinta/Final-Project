@@ -1,19 +1,26 @@
-import Badge_Outline from "../../assets/badge_outline.svg";
-import Book from "../../assets/book.svg";
 import Start from "../../assets/star.svg";
-import Premium from "../../assets/diamond.svg";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Verif from "../../assets/verif.svg";
+import Type from "../../assets/type.svg";
+import Module from "../../assets/module.svg";
+import Taken from "../../assets/taken.svg";
+import Time from "../../assets/jam.svg";
 
 const CardCourse = ({ data }) => {
   return (
     <Link to={`/detail/course/${data.id}`}>
-      <div className="flex flex-col  bg-white rounded-2xl m-auto mr-1 ml-1 cursor-pointer ">
-        <img src={data.imageUrl} />
+      <div className="flex flex-col  bg-white rounded-lg border-2 m-auto mr-1 ml-1 cursor-pointer max-w-sm ">
+        <div className="rounded-t-lg">
+          <img src={data.imageUrl} className="rounded-t-lg" />
+        </div>
         <div className="flex flex-col mt-3 px-2 mb-3">
-          <div className="flex flex-row justify-between font-Montserrat font-bold text-sm ">
-            <h3 className="text-DARKBLUE05">{data.category}</h3>
+          <div className="flex flex-row justify-between font-Montserrat  text-sm ">
             <div className="flex flex-row gap-1">
+              <h3 className="">{data.instructor}</h3>
+              <img src={Verif} />
+            </div>
+            <div className="flex flex-row gap-1 font-bold">
               <img src={Start} />
               <p>{data.rating}</p>
             </div>
@@ -24,33 +31,44 @@ const CardCourse = ({ data }) => {
           >
             {data.title}
           </h3>
-          <p className="mt-1 font-Montserrat font-normal text-xs">
+          {/* <p className="mt-1 font-Montserrat font-normal text-xs">
             {data.instructor}
-          </p>
-          <div className="flex flex-row justify-between font-Montserrat text-xs mt-2 font-normal">
-            <div className="flex flex-row gap-1">
-              <img src={Badge_Outline} />
-              <p>{data.level}</p>
-            </div>
-            <div className="flex flex-row gap-1">
-              <img src={Book} />
-              <p>{data.totalModule}</p>
-            </div>
-            <div>
-              <p>{data.duration}</p>
-            </div>
-          </div>
-          <div>
-            <button className="flex flex-row bg-LightBlue4 gap-4 px-6 py-1 rounded-xl font-Montserrat text-xs font-bold mt-3 text-white">
-              <div className="flex flex-row gap-2">
-                <img src={Premium} />
-                <p>Beli</p>
+          </p> */}
+          <div className="flex flex-col  font-Montserrat text-xs mt-2 font-normal">
+            <div className="flex flex-row gap-10">
+              <div className="flex flex-row gap-1">
+                <img src={Type} />
+                <p>{data.level}</p>
               </div>
               <div className="flex flex-row gap-1">
-                <p>Rp</p>
-                {data.totalPrice}
+                <img src={Taken} />
+                <p>{data.taken}</p>
               </div>
-            </button>
+            </div>
+            <div className="flex flex-row gap-12">
+              <div className="flex flex-row gap-1">
+                <img src={Module} />
+                <p>{data.totalModule}</p>
+                <p>Modul</p>
+              </div>
+              <div className="flex flex-row gap-1">
+                <img src={Time} />
+                <p>{data.duration}</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row text-sm mt-2">
+            <p>Rp.</p>
+            {data.originalPrice !== data.totalPrice ? (
+              <>
+                <div className="flex flex-row gap-1">
+                  <del>{data.originalPrice}</del>
+                  <span>{data.totalPrice}</span>
+                </div>
+              </>
+            ) : (
+              <span>{data.originalPrice}</span>
+            )}
           </div>
         </div>
       </div>
