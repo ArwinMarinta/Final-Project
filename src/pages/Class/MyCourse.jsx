@@ -5,6 +5,7 @@ import Search from "../../assets/search.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
+import Pagination from "../../components/pagination/Pagination";
 
 const MyCourse = () => {
   const [status, setStatus] = useState("");
@@ -16,6 +17,8 @@ const MyCourse = () => {
   const dispatch = useDispatch();
   const linkFilter = `user-courses`;
   const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState();
+  const [autoPage, setAutoPage] = useState(false);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -79,6 +82,8 @@ const MyCourse = () => {
                     hasil={hasil}
                     status={status}
                     setLoading={setLoading}
+                    setAutoPage={setAutoPage}
+                    pageNumber={pageNumber}
                   />
                 )}
               </div>
@@ -88,6 +93,8 @@ const MyCourse = () => {
                   hasil={hasil}
                   status={status}
                   setLoading={setLoading}
+                  setAutoPage={setAutoPage}
+                  pageNumber={pageNumber}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
@@ -157,6 +164,11 @@ const MyCourse = () => {
                         ))}
                   </div>
                 )}
+                <Pagination
+                  autoPage={autoPage}
+                  setPageNumber={setPageNumber}
+                  pageNumber={pageNumber}
+                />
               </div>
             </div>
           </div>

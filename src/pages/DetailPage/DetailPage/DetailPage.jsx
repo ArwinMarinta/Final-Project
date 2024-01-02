@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
+import { BiLink, BiLogoTelegram, BiSolidLock } from "react-icons/bi";
 import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 import { putProgress } from "../../../redux/actions/CourseActions";
 import { getCourseFree } from "../../../redux/actions/CourseActions";
@@ -18,9 +18,10 @@ const DetailPage = () => {
   const { token } = useSelector((state) => state.auth);
 
   const { courseId } = useParams();
-
+  
   useEffect(() => {
     if (token) {
+      // console.log(courseDetail);
       dispatch(getCourseDetail(courseId, true));
       dispatch(getCheckCourse(courseId));
     } else {
@@ -163,6 +164,13 @@ const DetailPage = () => {
                     <span className="font-semibold">Join Group Telegram</span>
                     <BiLogoTelegram className="text-xl" />
                   </Link>
+                  {courseDetail.courseDiscussionId !== null &&<Link
+                    to={`/discussion-course/${courseId}`}
+                    className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
+                  >
+                    <span className="font-semibold">Discussion</span>
+                    <BiLink className="text-xl" />
+                  </Link>}
                   <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
                     {courseDetail?.type === "Free" ? (
                       <button

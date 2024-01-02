@@ -2,18 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, status, setLoading }) {
+function MyChecklist({ hasil, status, setLoading, setAutoPage, pageNumber }) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
   const { errors } = useSelector((state) => state.course);
+  const { nameCourse } = useParams();
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
   const [typeCourse, setTypeCourse] = useState([]);
+  const [autoChecklist, setAutoChecklist] = useState(false);
   const handleTypeCourse = (value) => {
     setTypeCourse((prevSelected) => {
       if (prevSelected.includes(value)) {
@@ -58,16 +60,24 @@ function MyChecklist({ hasil, status, setLoading }) {
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
-
+  const handlenamecourse = () => {
+    setSelectedCheckboxes([]);
+    handleChecklist(nameCourse);
+  };
   const applyFilter = () => {
     dispatch(setErrors());
+    if (nameCourse && !autoChecklist) {
+      handlenamecourse();
+      setAutoChecklist(true);
+    }
     if (
       selectedCategory.length === 0 &&
       status == `` &&
       typeCourse.length === 0 &&
       selectedLevel.length === 0
     ) {
-      handlemyCheckbox(hasil);
+      handlemyCheckbox();
+      setAutoPage(false);
     } else if (selectedCategory.length > 0) {
       handlemyCheckbox();
     } else if (selectedLevel.length > 0) {
@@ -83,7 +93,15 @@ function MyChecklist({ hasil, status, setLoading }) {
     setTimeout(() => {
       setLoading(false);
     }, 700);
-    dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
+    dispatch(
+      myCheckbox(
+        status,
+        selectedCategory,
+        selectedLevel,
+        typeCourse,
+        pageNumber
+      )
+    );
   };
   const unCheckAll = () => {
     checkboxesRef.current.forEach((checkbox) => {
@@ -102,8 +120,9 @@ function MyChecklist({ hasil, status, setLoading }) {
     }
     if (errors) {
       dispatch(setMyCourse([]));
+      setAutoPage(true);
     }
-  }, [selectedCategory, selectedLevel, setMyCourse, hasil, typeCourse, status]);
+  }, [selectedCategory, selectedLevel, hasil, typeCourse, status, pageNumber]);
 
   return (
     <div
@@ -228,12 +247,14 @@ function MyChecklist({ hasil, status, setLoading }) {
 }
 MyChecklist.propTypes = {
   setHasil: PropTypes.func,
+  setAutoPage: PropTypes.func,
   hasil: PropTypes.array,
   status: PropTypes.string,
   data: PropTypes.array,
+  pageNumber: PropTypes.number,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
-  setLoading: PropTypes.bool,
+  setLoading: PropTypes.func,
 };
 
 export default MyChecklist;
