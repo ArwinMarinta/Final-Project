@@ -1,46 +1,106 @@
-import Leave from "../../assets/arrow_left.svg";
-import mastercard from "../../assets/mastercard_logo.svg";
-import visa from "../../assets/visa_logo.svg";
-import ameks from "../../assets/ameks_logo.svg";
-import paypal from "../../assets/paypal_logo.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCourseDetail } from "../../redux/actions/DetailActions";
+import { Label, Select } from "flowbite-react";
+import MethodPayment from "../../data/MethodPayment";
+import { getCoursePremium } from "../../redux/actions/CourseActions";
 
 export default function DetailClassPayment() {
+  const dispatch = useDispatch();
+  const { courseId } = useParams();
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  const { courseDetail } = useSelector((state) => state.detail);
+
+  useEffect(() => {
+    courseId && dispatch(getCourseDetail(courseId));
+  }, [dispatch, courseId]);
+
+  const formatRupiah = (angka) => {
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+
+    return formatter.format(angka);
+  };
+
+  const handleClick = () => {
+    dispatch(getCoursePremium(paymentMethod, courseId));
+  };
+
   return (
     <>
-      <div className="container">
-        <button className="font-bold flex my-4 items-center">
-          <img src={Leave} className="mx-4" />
-          Kembali
-        </button>
-      </div>
-      <div className="flex justify-center">
-        <div className="container w-auto flex justify-center">
-          <div className="container w-[1000px] mx-auto flex justify-center">
-            <p className="bg-[#F00] px-3 py-2 rounded-lg w-[800px] flex justify-center text-white font-semibold">
-              Selesaikan Pembayaran Sampai 10 Maret 2023 12.00
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-center m-4">
-        <div className="container flex justify-between">
-          <div className="w-1/2 pt-4">
-            <button className="w-full bg-stone-800 hover:bg-stone-600 text-white text-left m-1 p-2 rounded-lg">
-              Bank Transfer
-            </button>
-            <button className="w-full bg-blue-600 text-white text-left m-1 p-2 rounded-lg">
-              Credit Card
-            </button>
-            <div className="container p-5 m-2 border-2 drop-shadow-lg rounded-lg">
-              <div className="flex gap-5 justify-center">
-                <img src={mastercard} alt="" />
-                <img src={visa} alt="" />
-                <img src={ameks} alt="" />
-                <img src={paypal} alt="" />
+      <div className=" flex justify-center  h-screen pt-12">
+        <div className="md:w-[60%]   w-full  flex  justify-center ">
+          <div className="h-10  md:w-[60%]   w-full border-2">
+            <img src={courseDetail.imageUrl} className="h-52 w-full" />
+            <div className="flex flex-col px-2 lg:px-4 font-Montserrat gap-2">
+              <p className="text-xl font-bold text-DARKBLUE05 mt-2">
+                {courseDetail.category}
+              </p>
+              <p className="text-base font-bold">{courseDetail.title}</p>
+              <div className="flex flex-row gap-2 text-base font-medium">
+                <p>by</p>
+                <p>{courseDetail.instructor}</p>
               </div>
             </div>
+            <div className="flex flex-row w-full  px-2 lg:px-4 justify-around  mt-2 font-Montserrat font-bold">
+              <div className="border-2 border-DARKBLUE05   w-full text-center">
+                Harga
+              </div>
+              <div className="border-2 border-DARKBLUE05  w-full text-center">
+                Diskon
+              </div>
+              <div className="border-2 border-DARKBLUE05  w-full text-center">
+                Total
+              </div>
+            </div>
+            <div className="flex flex-row w-full  px-2 lg:px-4 justify-around jus">
+              <div className="border-b-2 border-l-2  border-DARKBLUE05   w-full text-center">
+                {formatRupiah(courseDetail.originalPrice)}
+              </div>
+              <div className="border-b-2 border-l-2  border-DARKBLUE05  w-full text-center">
+                {formatRupiah(courseDetail.discount || "0")} %
+              </div>
+              <div className="border-b-2 border-l-2 border-r-2  border-DARKBLUE05  w-full text-center">
+                {formatRupiah(courseDetail.totalPrice)}
+              </div>
+            </div>
+
+            <div className="mt-6 px-2 lg:px-4 w-full">
+              <div className=" w-full">
+                <div className="mb-2 block ">
+                  <Label htmlFor="countries" value="Pilih Metode Pembayaran" />
+                </div>
+                <Select
+                  id="countries"
+                  required
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  value={paymentMethod || ""} // Set the value to the selected payment method
+                >
+                  <option value="" disabled>
+                    Silahkan Pilih
+                  </option>
+                  {MethodPayment.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <div className="w-full mt-6 px-2 lg:px-4 ">
+              <button
+                onClick={handleClick}
+                className="py-2 w-full rounded-md bg-YELLOW05 font-Montserrat font-semibold text-white"
+              >
+                Bayar dan Ikuti Kelas
+              </button>
+            </div>
           </div>
-          <div className="w-1/2 pt-4"></div>
         </div>
       </div>
     </>
