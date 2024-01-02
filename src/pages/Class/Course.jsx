@@ -109,7 +109,7 @@ const Course = () => {
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
-                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] ">
+                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] z-10">
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400 ${
                       typeButton == "" ? "bg-YELLOW05 text-white" : "bg-white"
@@ -147,7 +147,7 @@ const Course = () => {
                 ) : (
                   <div className="grid md:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
-                      <div className="w-full md:w-[200%]">
+                      <div className="w-full md:w-[310%]">
                         <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>

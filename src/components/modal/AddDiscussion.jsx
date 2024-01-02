@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiImage } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { addDiscussion } from "../../redux/actions/CourseActions";
@@ -8,38 +8,63 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
   const [judul, setJudul] = useState("");
   const [pertanyaan, setPertanyaan] = useState("");
   const [gambar, setGambar] = useState(null);
+  const [hasil, setHasil] = useState(null);
   const dispatch = useDispatch();
   const [save, setSave] = useState(false);
+  const [notif, setNotif] = useState("");
+   const img = useRef();
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+     e.preventDefault();
+     const file = e.target.files[0];
+     setHasil(URL.createObjectURL(file));
 
-    // Validasi atau manipulasi gambar sesuai kebutuhan
+     const selectedFile = e.target.files[0];
 
-    // Set file gambar
-    setGambar(URL.createObjectURL(file));
+    //  console.log(selectedFile);
+    //  console.log(gambar);
+    //  if (selectedFile) {
+    //    const newProfilePicture = URL.createObjectURL(selectedFile);
+    //   }
+      setGambar(selectedFile);
+    // const file = e.target.files[0];
+
+    // // Validasi atau manipulasi gambar sesuai kebutuhan
+
+    // // Set file gambar
+    // setGambar(URL.createObjectURL(file));
   };
   const handleHapus = () => {
     setJudul("");
     setPertanyaan("");
     setGambar(null);
   };
+  console.log(gambar);
   const handleSave = () => {
-    setShowModal(false);
-    setSave(true);
+    if (pertanyaan == "" || judul == "") {
+      setNotif("Judul Pertanyaan dan Pertanyaan wajib diisi");
+    } else {
+      setShowModal(false);
+      setSave(true);
+    }
   };
   useEffect(() => {
-    if (showModal == true) {
+    if (judul != "" && pertanyaan != "") {
+      setNotif("");
+    }
+    if (!showModal) {
       setSave(false);
+      setNotif("");
     }
     if (id && save == true) {
       dispatch(addDiscussion(id, judul, pertanyaan, gambar));
+      handleHapus();
     }
-  }, [id, judul, pertanyaan, gambar, save,showModal]);
+  }, [id, judul, pertanyaan, gambar, save, showModal]);
   return (
     <>
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+          <div className="justify-center items-center flex overflow-x-hidden z-50 overflow-y-auto fixed inset-0 outline-none focus:outline-none">
             <div className="relative w-[75%] my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -55,6 +80,11 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
+                  {notif && (
+                    <div className="bg-red-400 text-white rounded-sm p-1 text-center font-semibold">
+                      {notif}
+                    </div>
+                  )}
                   <label htmlFor="" className="font-semibold text-lg">
                     Judul Pertanyaan
                   </label>
@@ -82,13 +112,14 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
                     <input
                       type="file"
                       className="w-full border-2 border-black-200 rounded-lg outline-none p-1 hidden"
+                      ref={img}
                       id="gambar"
                       onChange={handleImageChange}
                     />
-                    {gambar && (
+                    {hasil && (
                       <div className="mb-4">
                         <img
-                          src={gambar}
+                          src={hasil}
                           alt="Preview"
                           className="max-w-[25%] h-auto rounded-lg"
                         />
@@ -125,5 +156,5 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
 AddDiscussion.propTypes = {
   setShowModal: PropTypes.func,
   showModal: PropTypes.bool,
-  id: PropTypes.number,
+  id: PropTypes.string,
 };

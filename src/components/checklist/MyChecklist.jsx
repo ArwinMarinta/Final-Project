@@ -5,7 +5,7 @@ import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
 import { useNavigate } from "react-router-dom";
 import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ hasil, status, setLoading }) {
+function MyChecklist({ hasil, status, setLoading, setAutoPage, pageNumber }) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
   const { filter } = useSelector((state) => state.course);
@@ -68,6 +68,7 @@ function MyChecklist({ hasil, status, setLoading }) {
       selectedLevel.length === 0
     ) {
       handlemyCheckbox(hasil);
+      setAutoPage(false);
     } else if (selectedCategory.length > 0) {
       handlemyCheckbox();
     } else if (selectedLevel.length > 0) {
@@ -77,13 +78,24 @@ function MyChecklist({ hasil, status, setLoading }) {
     } else if (status) {
       handlemyCheckbox();
     }
+    if (errors) {
+      setAutoPage(true);
+    }
   };
   const handlemyCheckbox = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 700);
-    dispatch(myCheckbox(status, selectedCategory, selectedLevel, typeCourse));
+    dispatch(
+      myCheckbox(
+        status,
+        selectedCategory,
+        selectedLevel,
+        typeCourse,
+        pageNumber
+      )
+    );
   };
   const unCheckAll = () => {
     checkboxesRef.current.forEach((checkbox) => {
@@ -103,7 +115,15 @@ function MyChecklist({ hasil, status, setLoading }) {
     if (errors) {
       dispatch(setMyCourse([]));
     }
-  }, [selectedCategory, selectedLevel, setMyCourse, hasil, typeCourse, status]);
+  }, [
+    selectedCategory,
+    selectedLevel,
+    setMyCourse,
+    hasil,
+    typeCourse,
+    status,
+    pageNumber,
+  ]);
 
   return (
     <div
@@ -234,6 +254,9 @@ MyChecklist.propTypes = {
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
   setLoading: PropTypes.bool,
+  setAutoPage: PropTypes.func,
+  pageNumber: PropTypes.number,
+
 };
 
 export default MyChecklist;

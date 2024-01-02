@@ -1,11 +1,12 @@
 import chat from "../../assets/chating.svg";
-import user from "../../assets/user.svg";
 import book from "../../assets/book.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiscussion } from "../../redux/actions/CourseActions";
 import { Link, useParams } from "react-router-dom";
 import AddDiscussion from "../../components/modal/addDiscussion";
+import PaginationDiscussion from "./PaginationDiscussion";
+import { BiFilter } from "react-icons/bi";
 export default function DiscussionPage() {
   const { getData } = useSelector((state) => state.course);
   const { discussion } = useSelector((state) => state.course);
@@ -14,6 +15,8 @@ export default function DiscussionPage() {
   const [search, setSearch] = useState("");
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [page, setPage] = useState([]);
 
   const handleClosed = (value) => {
     setClosed((prevSelected) => {
@@ -42,19 +45,19 @@ export default function DiscussionPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (id) {
-      dispatch(getDiscussion(closed, active, search, id));
+      dispatch(getDiscussion(closed, active, search, id, pageNumber));
     }
-  }, [dispatch, closed, active, search, id]);
+  }, [dispatch, closed, active, search, id, pageNumber]);
 
   return (
     <div>
-      <div className="justify-center flex bg-gradient-to-r from-cyan-200 to-blue-500 drop-shadow-lg">
+      <div className="justify-center flex bg-gradient-to-r bg-white/40 drop-shadow-lg">
         <div className="container m-8">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-5">
               <img className="w-20 fill-white" src={chat} alt="" />
               <div>
-                <div className="text-gray-800 text-2xl font-bold">
+                <div className="text-gray-600 text-2xl font-bold">
                   {getData.courseDiscussionName}
                 </div>
 
@@ -69,10 +72,10 @@ export default function DiscussionPage() {
       </div>
       <div className="flex justify-center">
         <div className="container">
-          <div className="p-5 flex flex-row justify-between gap-8">
-            <div className="w-1/5 flex flex-col gap-y-4">
+          <div className="p-5 flex flex-row md:justify-between gap-8 ">
+            <div className="hidden w-1/5 md:flex flex-col gap-y-4 sticky top-[3vh] h-[10vh]">
               <button
-                className="w-full bg-blue-800 text-white p-2 rounded-lg hover:bg-blue-700 drop-shadow-xl font-semibold"
+                className="w-full bg-YELLOW05 text-white p-2 rounded-lg hover:bg-yellow-500 drop-shadow-xl font-semibold"
                 type="button"
                 onClick={() => setShowModal(true)}
               >
@@ -140,22 +143,47 @@ export default function DiscussionPage() {
                 </div>
               </div>
             </div>
-            <div className="w-4/5 flex flex-col gap-y-4">
-              <div className="flex flex-row w-full justify-between gap-3">
+            <div className="w-full md:w-4/5 flex flex-col gap-y-4">
+              {showModal==false &&
+              <div className="md:flex flex-row w-full justify-between gap-3 sticky md:top-0 h-auto z-0 pt-2">
+                <div className="flex flex-row gap-3 font-bold text-YELLOW05 items-center justify-between">
+                  <div className="flex flex-row gap-3">
+                    <div className="hidden md:flex">
+                      <p className="text-2xl">Halaman :</p>
+                    </div>
+                    <PaginationDiscussion
+                      setPageNumber={setPageNumber}
+                      pageNumber={pageNumber}
+                      page={page}
+                      setPage={setPage}
+                      />
+                  </div>
+                  <div className="flex flex-row gap-3">
+                    <button
+                      className="md:hidden w-auto bg-YELLOW05 text-white p-1 rounded-lg hover:bg-yellow-500 drop-shadow-xl font-semibold"
+                      type="button"
+                      onClick={() => setShowModal(true)}
+                      >
+                      Buat Diskusi Baru
+                    </button>
+                    <button
+                      className="flex items-center md:hidden w-auto bg-white text-YELLOW05 p-1 rounded-lg hover:bg-yellow-100 border-2 border-YELLOW05 drop-shadow-xl font-semibold"
+                      type="button"
+                      onClick={() => setShowModal(true)}
+                      >
+                      <BiFilter /> filter
+                    </button>
+                  </div>
+                </div>
                 <input
-                  className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-3/5 p-2"
+                  className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-full md:w-2/5 p-2 mt-2"
                   type="text"
-                  placeholder="Cari Judul Diskusi"
-                />
-
-                <input
-                  className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-2/5 p-2"
-                  type="text"
-                  placeholder="Pilih Modul"
+                  placeholder="Pencarian...."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                />
+                  />
               </div>
+                }
               <div>
                 {discussion.map((item) => (
                   <div key={item.discussionId}>
@@ -164,11 +192,11 @@ export default function DiscussionPage() {
                         <div className="flex flex-row items-center gap-3">
                           <img
                             className="w-8 rounded-full bg-blue-200"
-                            src={user}
+                            src={item.userPhoto}
                             alt=""
                           />
                           <h3 className="font-semibold text-lg">
-                            Khrisna Hermawan
+                            {item.username}
                           </h3>
                           <p className="font-gray-100 text-xs">
                             {new Date(item.cretedAt).toLocaleString()}

@@ -5,7 +5,7 @@ import Search from "../../assets/search.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCourse } from "../../redux/actions/CourseActions";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
-
+import Pagination from "../../components/pagination/Pagination";
 const MyCourse = () => {
   const [status, setStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +16,8 @@ const MyCourse = () => {
   const dispatch = useDispatch();
   const linkFilter = `user-courses`;
   const [loading, setLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [autoPage, setAutoPage] = useState(false);
 
   const handleInputChange = (event) => {
     const { value } = event.target;
@@ -79,6 +81,8 @@ const MyCourse = () => {
                     hasil={hasil}
                     status={status}
                     setLoading={setLoading}
+                    setAutoPage={setAutoPage}
+                    pageNumber={pageNumber}
                   />
                 )}
               </div>
@@ -88,6 +92,8 @@ const MyCourse = () => {
                   hasil={hasil}
                   status={status}
                   setLoading={setLoading}
+                  setAutoPage={setAutoPage}
+                  pageNumber={pageNumber}
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg">
@@ -126,7 +132,7 @@ const MyCourse = () => {
                 ) : (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
-                      <div className="w-full md:w-[200%]">
+                      <div className="w-full md:w-[310%]">
                         <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>
@@ -157,6 +163,11 @@ const MyCourse = () => {
                         ))}
                   </div>
                 )}
+                <Pagination
+                  autoPage={autoPage}
+                  setPageNumber={setPageNumber}
+                  pageNumber={pageNumber}
+                />
               </div>
             </div>
           </div>
