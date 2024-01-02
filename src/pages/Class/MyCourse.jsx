@@ -124,10 +124,12 @@ const MyCourse = () => {
                 {loading ? (
                   <LoadingSpinner />
                 ) : (
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
+
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2 ">
+
                     {errors && (
-                      <div className="w-full md:w-[200%]">
-                        <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
+                      <div className="w-full md:w-[200%] ">
+                        <label className="flex justify-center self-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>
                       </div>
