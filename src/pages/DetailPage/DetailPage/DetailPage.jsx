@@ -18,7 +18,7 @@ const DetailPage = () => {
   const { token } = useSelector((state) => state.auth);
 
   const { courseId } = useParams();
-  
+
   useEffect(() => {
     if (token) {
       // console.log(courseDetail);
@@ -158,37 +158,45 @@ const DetailPage = () => {
 
                 <div className="flex flex-wrap gap-2.5 mt-3 lg:mt-0">
                   <Link
-                    to={courseDetail?.groupDiscussion}
+                    to="https://t.me/+c0MZsCGj2jIzZjdl"
+                    target="_blank"
+                    alt=""
                     className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
                   >
                     <span className="font-semibold">Join Group Telegram</span>
                     <BiLogoTelegram className="text-xl" />
                   </Link>
-                  {courseDetail.courseDiscussionId !== null &&<Link
-                    to={`/discussion-course/${courseId}`}
-                    className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
-                  >
-                    <span className="font-semibold">Discussion</span>
-                    <BiLink className="text-xl" />
-                  </Link>}
-                  <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
-                    {courseDetail?.type === "Free" ? (
-                      <button
-                        onClick={(event) => {
-                          handleCourseFree(event, courseDetail.courseId);
-                        }}
-                      >
-                        Ambil Kelas{" "}
-                      </button>
-                    ) : (
-                      <Link
-                        to={`/detail/payment/${courseId}`}
-                        className="flex flex-row gap-3"
-                      >
-                        Beli Kelas
-                      </Link>
-                    )}
-                  </button>
+
+                  {courseDetail.courseDiscussionId !== null && (
+                    <Link
+                      to={`/discussion-course/${courseId}`}
+                      className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
+                    >
+                      <span className="font-semibold">Discussion</span>
+                      <BiLink className="text-xl" />
+                    </Link>
+                  )}
+
+                  {courseDetail.userCourseId === null ? (
+                    <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
+                      {courseDetail?.type === "Free" ? (
+                        <button
+                          onClick={(event) => {
+                            handleCourseFree(event, courseDetail.courseId);
+                          }}
+                        >
+                          Ambil Kelas
+                        </button>
+                      ) : (
+                        <Link
+                          to={`/detail/payment/${courseId}`}
+                          className="flex flex-row gap-3"
+                        >
+                          Beli Kelas
+                        </Link>
+                      )}
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>

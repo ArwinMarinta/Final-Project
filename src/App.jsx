@@ -66,16 +66,40 @@ function App() {
           path="/detail/payment/:courseId"
           element={<DetailPaymentPage />}
         />
-        <Route path="/notification" element={<NotificationPage />} />
-        <Route path="/payment-success" element={<StatusSucces />} />
+        <Route
+          path="/notification"
+          element={
+            <NoAccesToken>
+              <NotificationPage />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/payment-success"
+          element={
+            <NoAccesToken>
+              <StatusSucces />
+            </NoAccesToken>
+          }
+        />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/my-course/:nameCourse" element={<MyCourse />} />
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/course" element={<Course />} />
         <Route path="/search-course/:nameCourse" element={<SearchCourse />} />
-        <Route path="/discussion-course/:id" element={<DiscussionPage />} />
-        <Route path="/detailDiscussion/:id/:discussionId" element={<DetailDiscussion />} />
+        <Route
+          path="/discussion-course/:id"
+          element={
+            <NoAccesToken>
+              <DiscussionPage />
+            </NoAccesToken>
+          }
+        />
+        <Route
+          path="/detailDiscussion/:id/:discussionId"
+          element={<DetailDiscussion />}
+        />
         <Route path="*" element={<NotFound />} />
         <Route
           path="/otp"
