@@ -20,14 +20,12 @@ export default function DetailDiscussion() {
   const [image, setImage] = useState(null);
   const [hasil, setHasil] = useState(null);
   const [jawaban, setJawaban] = useState("");
-  const [save, setSave] = useState(false);
+  // const [save, setSave] = useState(false);
 
-  const handleSave = () => {
-    setJawaban("");
-    setImage(null);
-    setHasil(null);
-    if (!jawaban) {
-      setSave(true);
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (jawaban != "") {
+      dispatch(addComment(jawaban, image, id, discussionId));
     }
   };
   const handleImageChange = (e) => {
@@ -43,16 +41,17 @@ export default function DetailDiscussion() {
     if (id) {
       dispatch(getDetailDiscussion(id, discussionId));
     }
-    if (save == true) {
-      dispatch(addComment(jawaban, image, id, discussionId));
-      setSave(false);
-      // setSave(false);
-      // console.log(jawaban, comentar, id, discussionId, image);
-    }
-  }, [dispatch,jawaban, image, discussionId, id]);
+    // if (save == true) {
+    //   dispatch(addComment(jawaban, image, id, discussionId));
+    //   setJawaban("");
+    //   setImage(null);
+    //   setHasil(null);
+    //   setSave(false);
+    // }
+  }, [dispatch, discussionId, id]);
   return (
     <div>
-      <div className="justify-center flex bg-gradient-to-r from-white/30 to-YELLOW05/70 drop-shadow-lg">
+      <div className="justify-center flex bg-gradient-to-r bg-white/40 drop-shadow-lg">
         <div className="container m-8">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-5">

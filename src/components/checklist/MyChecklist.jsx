@@ -5,13 +5,12 @@ import { filterData, myCheckbox } from "../../redux/actions/CourseActions";
 import { useNavigate, useParams } from "react-router-dom";
 import { setErrors, setMyCourse } from "../../redux/reducers/CourseReducer";
 
-function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
+function MyChecklist({ hasil, status, setLoading, setAutoPage, pageNumber }) {
   const navigate = useNavigate();
   const checkboxesRef = useRef([]);
-  const {nameCourse} = useParams([]);
   const { filter } = useSelector((state) => state.course);
   const { errors } = useSelector((state) => state.course);
-  const { myCourse } = useSelector((state) => state.course);
+  const { nameCourse } = useParams();
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCheckboxes] = useState([]);
   const [selectedLevel, setSelectedLevel] = useState([]);
@@ -71,7 +70,6 @@ function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
       handlenamecourse();
       setAutoChecklist(true);
     }
-    dispatch(setErrors());
     if (
       selectedCategory.length === 0 &&
       status == `` &&
@@ -79,7 +77,6 @@ function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
       selectedLevel.length === 0
     ) {
       handlemyCheckbox();
-      dispatch(setMyCourse(myCourse));
       setAutoPage(false);
     } else if (selectedCategory.length > 0) {
       handlemyCheckbox();
@@ -90,17 +87,12 @@ function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
     } else if (status) {
       handlemyCheckbox();
     }
-    if (errors) {
-      setAutoPage(true);
-      dispatch(setMyCourse([]));
-    }
   };
-  
   const handlemyCheckbox = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 700);
     dispatch(
       myCheckbox(
         status,
@@ -126,7 +118,11 @@ function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
     if (selectedCategory.length > 0) {
       navigateToCourses();
     }
-  }, [selectedCategory, selectedLevel, typeCourse, status, pageNumber]);
+    if (errors) {
+      dispatch(setMyCourse([]));
+      setAutoPage(true);
+    }
+  }, [selectedCategory, selectedLevel, hasil, typeCourse, status, pageNumber]);
 
   return (
     <div
@@ -251,14 +247,14 @@ function MyChecklist({ status, setLoading, setAutoPage, pageNumber }) {
 }
 MyChecklist.propTypes = {
   setHasil: PropTypes.func,
+  setAutoPage: PropTypes.func,
   hasil: PropTypes.array,
   status: PropTypes.string,
   data: PropTypes.array,
+  pageNumber: PropTypes.number,
   typeButton: PropTypes.string,
   linkFilter: PropTypes.string,
-  setLoading: PropTypes.bool,
-  setAutoPage: PropTypes.func,
-  pageNumber: PropTypes.number,
+  setLoading: PropTypes.func,
 };
 
 export default MyChecklist;

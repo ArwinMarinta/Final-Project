@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { FaCheckCircle } from "react-icons/fa";
@@ -18,8 +18,6 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passworderror, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState("");
-  const [alertstatus, setAlertStatus] = useState("");
 
   const validateNomor = (e) => {
     const inputValue = e.target.value;
@@ -75,27 +73,11 @@ const Register = () => {
         password,
         confPassword,
         setIsLoading,
-        setAlert,
-        setAlertStatus,
+
         navigate
       )
     );
   };
-
-  useEffect(() => {
-    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
-    const hideAlert = () => {
-      setAlert(""); // Menghapus pesan alert
-    };
-
-    // Memulai timeout ketika alertMessage berubah
-    if (alert) {
-      const timeoutId = setTimeout(hideAlert, 3000);
-
-      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
-      return () => clearTimeout(timeoutId);
-    }
-  }, [alert]);
 
   return (
     <>
@@ -240,26 +222,8 @@ const Register = () => {
                 Masuk di sini
               </Link>
             </div>
-            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]">
-              {alert && (
-                <div
-                  className={`py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center ${
-                    alertstatus ? "bg-ALERTGREEN" : "bg-ALERTRED"
-                  }`}
-                >
-                  {alert} !
-                </div>
-              )}
-            </div>
           </form>
         </div>
-
-        {/* <div className="hidden lg:flex justify-center items-center bg-DARKBLUE05 w-[50%] min-h-[100dvh]">
-        <div className="flex flex-row  text-6xl font-bold">
-          <p className="text-BLUE05">ILearn</p>
-          <p className="text-YELLOW05">Tech</p>
-        </div>
-      </div> */}
       </div>
     </>
   );

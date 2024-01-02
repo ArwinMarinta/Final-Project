@@ -1,8 +1,7 @@
 import chat from "../../assets/chating.svg";
-import book from "../../assets/book.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDiscussion } from "../../redux/actions/CourseActions";
+import { Selesai, getDiscussion } from "../../redux/actions/CourseActions";
 import { Link, useParams } from "react-router-dom";
 import AddDiscussion from "../../components/modal/addDiscussion";
 import PaginationDiscussion from "./PaginationDiscussion";
@@ -41,6 +40,9 @@ export default function DiscussionPage() {
       }
     });
     setClosed([]);
+  };
+  const handleSelesai = (id, idDiskusi) => {
+    dispatch(Selesai(id, idDiskusi));
   };
   const dispatch = useDispatch();
   useEffect(() => {
@@ -144,46 +146,46 @@ export default function DiscussionPage() {
               </div>
             </div>
             <div className="w-full md:w-4/5 flex flex-col gap-y-4">
-              {showModal==false &&
-              <div className="md:flex flex-row w-full justify-between gap-3 sticky md:top-0 h-auto z-0 pt-2">
-                <div className="flex flex-row gap-3 font-bold text-YELLOW05 items-center justify-between">
-                  <div className="flex flex-row gap-3">
-                    <div className="hidden md:flex">
-                      <p className="text-2xl">Halaman :</p>
-                    </div>
-                    <PaginationDiscussion
-                      setPageNumber={setPageNumber}
-                      pageNumber={pageNumber}
-                      page={page}
-                      setPage={setPage}
+              {showModal == false && (
+                <div className="md:flex flex-row w-full justify-between gap-3 sticky md:top-0 h-auto z-0 pt-2">
+                  <div className="flex flex-row gap-3 font-bold text-YELLOW05 items-center justify-between">
+                    <div className="flex flex-row gap-3">
+                      <div className="hidden md:flex">
+                        <p className="text-2xl">Halaman :</p>
+                      </div>
+                      <PaginationDiscussion
+                        setPageNumber={setPageNumber}
+                        pageNumber={pageNumber}
+                        page={page}
+                        setPage={setPage}
                       />
-                  </div>
-                  <div className="flex flex-row gap-3">
-                    <button
-                      className="md:hidden w-auto bg-YELLOW05 text-white p-1 rounded-lg hover:bg-yellow-500 drop-shadow-xl font-semibold"
-                      type="button"
-                      onClick={() => setShowModal(true)}
+                    </div>
+                    <div className="flex flex-row gap-3">
+                      <button
+                        className="md:hidden w-auto bg-YELLOW05 text-white p-1 rounded-lg hover:bg-yellow-500 drop-shadow-xl font-semibold"
+                        type="button"
+                        onClick={() => setShowModal(true)}
                       >
-                      Buat Diskusi Baru
-                    </button>
-                    <button
-                      className="flex items-center md:hidden w-auto bg-white text-YELLOW05 p-1 rounded-lg hover:bg-yellow-100 border-2 border-YELLOW05 drop-shadow-xl font-semibold"
-                      type="button"
-                      onClick={() => setShowModal(true)}
+                        Buat Diskusi Baru
+                      </button>
+                      <button
+                        className="flex items-center md:hidden w-auto bg-white text-YELLOW05 p-1 rounded-lg hover:bg-yellow-100 border-2 border-YELLOW05 drop-shadow-xl font-semibold"
+                        type="button"
+                        onClick={() => setShowModal(true)}
                       >
-                      <BiFilter /> filter
-                    </button>
+                        <BiFilter /> filter
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <input
-                  className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-full md:w-2/5 p-2 mt-2"
-                  type="text"
-                  placeholder="Pencarian...."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  <input
+                    className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-full md:w-2/5 p-2 mt-2"
+                    type="text"
+                    placeholder="Pencarian...."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                   />
-              </div>
-                }
+                </div>
+              )}
               <div>
                 {discussion.map((item) => (
                   <div key={item.discussionId}>
@@ -230,8 +232,13 @@ export default function DiscussionPage() {
                           </Link>
                         </div>
                         <div className="flex flex-row gap-2 items-center">
-                          <img className="w-5" src={book} alt="" />
-                          <p className="text-gray-500">Tentang</p>
+                          <button
+                            type="button"
+                            className="text-blue-600 font-bold flex flex-row gap-1 items-center"
+                            onClick={() => handleSelesai(id, item.discussionId)}
+                          >
+                            Selesai
+                          </button>
                         </div>
                       </div>
                     </div>

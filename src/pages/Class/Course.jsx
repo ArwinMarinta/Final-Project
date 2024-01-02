@@ -109,7 +109,7 @@ const Course = () => {
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
-                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] z-10">
+                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] z-50">
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400 ${
                       typeButton == "" ? "bg-YELLOW05 text-white" : "bg-white"

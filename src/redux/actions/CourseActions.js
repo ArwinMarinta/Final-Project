@@ -256,6 +256,8 @@ export const addComment =
   (jawaban, gambar, id, discussionId) => async (_, getState) => {
     const { token } = getState().auth;
     try {
+      const formData = new FormData();
+      formData.append("photoCommentar", gambar);
       await axios.post(
         `${VITE_API_URL}/courses/${id}/commentars`,
         {
@@ -270,6 +272,31 @@ export const addComment =
           },
         }
       );
+      toastify({
+        message: "Commentar berhasil di buat ",
+        type: "success",
+      });
+      window.location.reload()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+export const Selesai =
+  (id,idDiskusi) => async (_, getState) => {
+    const { token } = getState().auth;
+    try {
+      await axios.put(
+        `${VITE_API_URL}/courses/${id}/discussions`,
+        {
+          discussionId: idDiskusi,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.reload()
       toastify({
         message: "Commentar berhasil di buat ",
         type: "success",
@@ -403,26 +430,25 @@ export const myCheckbox =
   async (dispatch, getState) => {
     let { token } = getState().auth;
     try {
-      const response = await axios.get(
-        `${VITE_API_URL}/user-courses?page=${pageNumber}`,
-        {
-          params: {
-            learningStatus: status,
-            category: selectedCategory,
-            level: selectedLevel,
-            ...typeCourse.reduce((acc, value) => {
-              acc[value] = true;
-              return acc;
-            }, {}),
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${VITE_API_URL}/user-courses`, {
+        params: {
+          page: pageNumber,
+          learningStatus: status,
+          category: selectedCategory,
+          level: selectedLevel,
+          ...typeCourse.reduce((acc, value) => {
+            acc[value] = true;
+            return acc;
+          }, {}),
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       const coursesData = response.data.value;
-      const { data } = response;
       dispatch(setMyCourse(coursesData));
+      const { data } = response;
       const pageArray = [];
       for (let index = 1; index <= data.totalPage; index++) {
         pageArray.push(index);
@@ -435,7 +461,6 @@ export const myCheckbox =
       }
     }
   };
-
 export const getCoursePromo = () => async (dispatch, getState) => {
   try {
     let { token } = getState().auth;
@@ -456,13 +481,17 @@ export const getCoursePromo = () => async (dispatch, getState) => {
     }
   }
 };
-
 export const getCoursePremium =
-  (paymentMethod, courseId) => async (_, getState) => {
+  (setIsLoading, navigate, paymentMethod, courseId) => async (_, getState) => {
     try {
       let { token } = getState().auth;
+      setIsLoading(true);
+      console.log(setIsLoading);
+      console.log(navigate);
+      console.log(paymentMethod);
+      console.log(courseId);
 
-      await axios.get(
+      const response = await axios.post(
         `${VITE_API_URL}/orders/${courseId}/premium`,
         {
           paymentMethod,
@@ -473,9 +502,20 @@ export const getCoursePremium =
           },
         }
       );
+
+      if (response.status === 201) {
+        navigate("/payment-success");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(error?.response?.data?.message);
+        if (axios.isAxiosError(error)) {
+          toastify({
+            message: error?.response?.data?.message,
+            type: "error",
+          });
+        }
+        setIsLoading(false);
       }
+      setIsLoading(false);
     }
   };

@@ -25,6 +25,7 @@ import SearchCourse from "./pages/Class/SearchCourse";
 import DiscussionPage from "./pages/DiscussionPage/DiscussionPage";
 import DetailDiscussion from "./pages/DiscussionPage/detailDiscussion";
 import Header from "./components/Navbar/Header";
+import StatusSucces from "./pages/PaymentPage/StatusSucces";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
           element={<DetailPaymentPage />}
         />
         <Route path="/notification" element={<NotificationPage />} />
+        <Route path="/payment-success" element={<StatusSucces />} />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/my-course/:nameCourse" element={<MyCourse />} />
