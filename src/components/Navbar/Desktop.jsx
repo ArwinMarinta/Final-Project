@@ -62,7 +62,7 @@ const Desktop = ({ user }) => {
               <input
                 name="search"
                 className=" hidden sm:inline text-black w-36 md:w-full py-1.5 pr-12 pl-4 border-0 outline-none rounded-md   focus:outline-none 
-                                        ring-2  ring-gray-700/50 focus:ring-blue-500 duration-200"
+                                        ring-2  ring-gray-700/50 focus:ring-YELLOW05 duration-200"
                 type="text"
                 placeholder="Cari Kelas ..."
                 value={keyword}

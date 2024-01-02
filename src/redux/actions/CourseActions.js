@@ -13,6 +13,11 @@ import {
   setPage,
   setMyCourse,
   setTotalPage,
+  setGetData,
+  setDiscussion,
+  setDetailDiscussion,
+  setComentar,
+  setCoursePromo,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -161,13 +166,155 @@ export const getMyCourse = (errors) => async (dispatch, getState) => {
     }
   }
 };
+export const getDiscussion =
+  (closed, active, search, id, pageNumber) => async (dispatch, getState) => {
+    const { token } = getState().auth;
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/courses/${id}/course-discussions?limit=6`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            active: active,
+            closed: closed,
+            search: search,
+            page: pageNumber,
+          },
+        }
+      );
+      const { data } = response;
+      dispatch(setGetData(data.value));
+      const { discussion } = data.value;
+      dispatch(setDiscussion(discussion));
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setPage(pageArray));
+    } catch (error) {
+      if (error.response.status === 500) {
+        dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
+      } else if (error.response.status === 404) {
+        dispatch(setErrors("Tidak ada kelas yang diambil"));
+      }
+    }
+  };
+export const getDetailDiscussion =
+  (id, discussionId) => async (dispatch, getState) => {
+    const { token } = getState().auth;
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/courses/${id}/discussions/${discussionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      const { commentars } = data.value;
+      dispatch(setDetailDiscussion(data.value));
+      dispatch(setComentar(commentars));
+    } catch (error) {
+      if (error.response.status === 500) {
+        dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
+      } else if (error.response.status === 404) {
+        dispatch(setErrors("Tidak ada kelas yang diambil"));
+      }
+    }
+  };
+export const addDiscussion =
+  (id, judul, pertanyaan, gambar) => async (_, getState) => {
+    const { token } = getState().auth;
+    try {
+      const formData = new FormData();
+      formData.append("title", judul);
+      formData.append("question", pertanyaan);
+      formData.append("photoDiscussion", gambar);
+      console.log(gambar);
+      await axios.post(
+        `${VITE_API_URL}/courses/${id}/discussions`,
+        {
+          title: judul,
+          question: pertanyaan,
+          photoDiscussion: gambar,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      toastify({
+        message: "Pertanyaan berhasil di buat ",
+        type: "success",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+export const addComment =
+  (jawaban, gambar, id, discussionId) => async (_, getState) => {
+    const { token } = getState().auth;
+    try {
+      const formData = new FormData();
+      formData.append("photoCommentar", gambar);
+      await axios.post(
+        `${VITE_API_URL}/courses/${id}/commentars`,
+        {
+          discussionId: discussionId,
+          commentar: jawaban,
+          photoCommentar: gambar,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      toastify({
+        message: "Commentar berhasil di buat ",
+        type: "success",
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+export const Selesai = (id, idDiskusi) => async (_, getState) => {
+  const { token } = getState().auth;
+  try {
+    await axios.put(
+      `${VITE_API_URL}/courses/${id}/discussions`,
+      {
+        discussionId: idDiskusi,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    window.location.reload();
+    toastify({
+      message: "Commentar berhasil di buat ",
+      type: "success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   try {
     let { token } = getState().auth;
 
     const response = await axios.post(
-      `${VITE_API_URL}/orders/${courseId}`,
+      `${VITE_API_URL}/orders/${courseId}/free`,
       {},
       {
         headers: {
@@ -282,12 +429,13 @@ export const searchCheckbox =
   };
 
 export const myCheckbox =
-  (status, selectedCategory, selectedLevel, typeCourse) =>
+  (status, selectedCategory, selectedLevel, typeCourse, pageNumber) =>
   async (dispatch, getState) => {
     let { token } = getState().auth;
     try {
       const response = await axios.get(`${VITE_API_URL}/user-courses`, {
         params: {
+          page: pageNumber,
           learningStatus: status,
           category: selectedCategory,
           level: selectedLevel,
@@ -300,11 +448,77 @@ export const myCheckbox =
           Authorization: `Bearer ${token}`,
         },
       });
+
       const coursesData = response.data.value;
       dispatch(setMyCourse(coursesData));
+      const { data } = response;
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setTotalPage(data.totalPage));
+      dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 404) {
         dispatch(setErrors("kelas yang di pilih tidak ada"));
       }
+    }
+  };
+export const getCoursePromo = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?limit=10&page=1&promo=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch(setCoursePromo(response.data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+export const getCoursePremium =
+  (setIsLoading, navigate, paymentMethod, courseId) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+      setIsLoading(true);
+      console.log(setIsLoading);
+      console.log(navigate);
+      console.log(paymentMethod);
+      console.log(courseId);
+
+      const response = await axios.post(
+        `${VITE_API_URL}/orders/${courseId}/premium`,
+        {
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        navigate("/payment-success");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
+          toastify({
+            message: error?.response?.data?.message,
+            type: "error",
+          });
+        }
+        setIsLoading(false);
+      }
+      setIsLoading(false);
     }
   };

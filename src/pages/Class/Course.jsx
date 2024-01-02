@@ -1,12 +1,13 @@
 import { useState } from "react";
 // import { useParams } from "react-router-dom";
 import Checklist from "../../components/checklist/Checklist";
-import CardPickCourse from "../../components/card/CardPickCourse";
 import Search from "../../assets/search.svg";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
 import LoadingSpinner from "../../components/loading/LoadingSpinner";
+import CardCourse from "../../components/card/CardPopular";
+
 const Course = () => {
   const [typeButton, setTypeButton] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,7 +107,7 @@ const Course = () => {
                 />
               </div>
               <div className="w-full mt-5 md:mt-0 drop-shadow-lg ">
-                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] ">
+                <div className="flex flex-row justify-between gap-x-5 sticky top-[9vh] z-50">
                   <button
                     className={`rounded-2xl px-2 md:px-4 py-2 w-1/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400 ${
                       typeButton == "" ? "bg-YELLOW05 text-white" : "bg-white"
@@ -144,7 +145,7 @@ const Course = () => {
                 ) : (
                   <div className="grid md:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
-                      <div className="w-full md:w-[200%]">
+                      <div className="w-full md:w-[310%]">
                         <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>
@@ -168,7 +169,7 @@ const Course = () => {
                         })
                         .map((item) => (
                           <div className=" w-full " key={item.id}>
-                            <CardPickCourse key={item.id} data={item} />
+                            <CardCourse key={item.id} data={item} />
                           </div>
                         ))}
                   </div>

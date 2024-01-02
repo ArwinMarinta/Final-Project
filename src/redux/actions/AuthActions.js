@@ -7,7 +7,7 @@ import { toastify } from "../../utils/toastify";
 // import { toastify } from "../../utils/toastify";
 
 export const login =
-  (email, password, setIsLoading, setAlert, navigate) => async (dispatch) => {
+  (email, password, setIsLoading, navigate) => async (dispatch) => {
     try {
       setIsLoading(true);
       const response = await axios.post(`${VITE_API_URL}/auth/login`, {
@@ -19,9 +19,6 @@ export const login =
 
       dispatch(setToken(token));
       navigate("/");
-
-      // setAlert(data.message);
-      // setAlertStatus(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (
@@ -30,8 +27,10 @@ export const login =
         ) {
           navigate("/otp");
         } else {
-          setAlert(error.response.data.message);
-          // setAlertStatus(false);
+          toastify({
+            message: error.response.data.message,
+            type: "error",
+          });
         }
       }
       setIsLoading(false);
@@ -86,41 +85,34 @@ export const profile =
     }
   };
 
-export const RequestPassword =
-  (email, setIsLoading, setAlert, setAlertStatus) => async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.post(
-        `${VITE_API_URL}/auth/request-reset-password`,
-        {
-          email,
-        }
-      );
-
-      setAlert(response.data.message);
-      setAlertStatus(true);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setAlert(error.response.data.message);
-        setAlertStatus(false);
-        setIsLoading(false);
+export const RequestPassword = (email, setIsLoading) => async () => {
+  try {
+    setIsLoading(true);
+    const response = await axios.post(
+      `${VITE_API_URL}/auth/request-reset-password`,
+      {
+        email,
       }
-      setIsLoading(false);
+    );
+    toastify({
+      message: response.data.message,
+      type: "success",
+    });
+
+    setIsLoading(false);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
     }
-  };
+    setIsLoading(false);
+  }
+};
 
 export const register =
-  (
-    name,
-    email,
-    phone,
-    password,
-    confPassword,
-    setIsLoading,
-    setAlert,
-    setAlertStatus,
-    navigate
-  ) =>
+  (name, email, phone, password, confPassword, setIsLoading, navigate) =>
   async () => {
     try {
       setIsLoading(true);
@@ -138,78 +130,89 @@ export const register =
         // Menyimpan email ke dalam localStorage
         localStorage.setItem("registeredEmail", email);
 
-        setAlert(response.data.message); // Menampilkan pesan dari respons API
-        setAlertStatus(true);
+        toastify({
+          message: response.data.message,
+          type: "success",
+        });
         setTimeout(() => {
-          // Menunggu 3 detik sebelum navigasi ke halaman OTP
+          // Menunggu 2 detik sebelum navigasi ke halaman OTP
           navigate("/otp");
-        }, 3000);
+        }, 2000);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setAlert(error.response.data.message);
-        setAlertStatus(false);
-        setIsLoading(false);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
       setIsLoading(false);
     }
   };
 
-export const verify =
-  (otp, setIsLoading, setAlert, setAlertStatus, navigate) => async () => {
-    try {
-      setIsLoading(true);
-      const registeredEmail = localStorage.getItem("registeredEmail");
-      console.log("Registered Email:", registeredEmail);
-      const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
-        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
-        otp,
-      });
+export const verify = (otp, setIsLoading, navigate) => async () => {
+  try {
+    setIsLoading(true);
+    const registeredEmail = localStorage.getItem("registeredEmail");
 
-      // Check for successful registration
-      if (response.status === 200) {
-        setAlert(response.data.message);
-        setAlertStatus(true);
-        setTimeout(() => {
-          // Menunggu 3 detik sebelum navigasi ke halaman Login
-          localStorage.removeItem("registeredEmail");
-          navigate("/login");
-        }, 3000);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setAlert(error?.response?.data?.message);
-        setAlertStatus(false);
-        setIsLoading(false);
-      }
-      setIsLoading(false);
+    const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
+      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+      otp,
+    });
+
+    // Check for successful registration
+    if (response.status === 200) {
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
+      setTimeout(() => {
+        // Menunggu 3 detik sebelum navigasi ke halaman Login
+        localStorage.removeItem("registeredEmail");
+        navigate("/login");
+      }, 2000);
     }
-  };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
+    }
+    setIsLoading(false);
+  }
+};
 
-export const resendOtp =
-  (setIsLoadingResend, setAlert, setAlertStatus) => async () => {
-    try {
-      setIsLoadingResend(true);
-      const registeredEmail = localStorage.getItem("registeredEmail");
-      const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
-        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+export const resendOtp = (setIsLoadingResend) => async () => {
+  try {
+    const registeredEmail = localStorage.getItem("registeredEmail");
+    const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
+      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+    });
+
+    // Jika suksess akan menampilkan respon
+    if (response.status === 200) {
+      toastify({
+        message: response.data.message,
+        type: "success",
       });
 
-      // Jika suksess akan menampilkan respon
-      if (response.status === 200) {
-        setAlert(response.data.message);
-        setAlertStatus(true);
-        setIsLoadingResend(false);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setAlert(error?.response?.data?.message);
-        setAlertStatus(false);
-        setIsLoadingResend(false);
-      }
       setIsLoadingResend(false);
     }
-  };
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
+    }
+    setIsLoadingResend(false);
+  }
+};
 
 export const ResetPasswordUser =
   (token, password, confPassword, navigate) => async () => {
@@ -224,9 +227,11 @@ export const ResetPasswordUser =
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
     }
   };
 
@@ -307,6 +312,7 @@ export const UpdateProfile =
 export const UpdatePicture = (selectedFile) => async (_, getState) => {
   try {
     let { token } = getState().auth;
+    console.log(selectedFile);
     const formData = new FormData();
     formData.append("photoProfile", selectedFile);
     await axios.put(
@@ -321,18 +327,15 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
         },
       }
     );
-    // toastify({
-    //   message: response.data.message,
-    //   type: "success",
-    // });
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 1000);
+
+    window.location.reload();
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      alert(error.response.data.message);
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
     }
-    alert(error.message);
   }
 };
 
@@ -340,7 +343,7 @@ export const registerLoginWithGoogleAction =
   (accessToken, navigate) => async (dispatch) => {
     try {
       const data = JSON.stringify({
-        access_token: accessToken,
+        accessToken: accessToken,
       });
 
       const config = {
@@ -354,16 +357,17 @@ export const registerLoginWithGoogleAction =
       };
 
       const response = await axios.request(config);
-      const { token } = response.data.data;
+      const { token } = response.data.value;
 
       dispatch(setToken(token));
 
       navigate("/");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        alert(error.response.data.message);
-        return;
+        toastify({
+          message: error.response.data.message,
+          type: "error",
+        });
       }
-      alert(error.message);
     }
   };
