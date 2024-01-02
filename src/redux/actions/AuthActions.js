@@ -314,6 +314,7 @@ export const UpdateProfile =
 export const UpdatePicture = (selectedFile) => async (_, getState) => {
   try {
     let { token } = getState().auth;
+    console.log(selectedFile);
     const formData = new FormData();
     formData.append("photoProfile", selectedFile);
     await axios.put(
@@ -328,13 +329,8 @@ export const UpdatePicture = (selectedFile) => async (_, getState) => {
         },
       }
     );
-    // toastify({
-    //   message: response.data.message,
-    //   type: "success",
-    // });
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 1000);
+
+    window.location.reload();
   } catch (error) {
     if (axios.isAxiosError(error)) {
       toastify({

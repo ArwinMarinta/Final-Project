@@ -84,10 +84,14 @@ function Checklist({
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
+
   const handlenamecourse = () => {
-    if (nameCourse == "populer") {
+    if (nameCourse === "populer") {
       setTypeCourse([]);
-      handleTypeCourse("popular");
+      handleTypeCourse("populer");
+    } else if (nameCourse === "promo") {
+      setTypeCourse([]);
+      handleTypeCourse("promo");
     } else {
       setSelectedCheckboxes([]);
       handleChecklist(nameCourse);

@@ -119,28 +119,32 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mx-auto flex flex-col lg:flex-row container ">
-        <div className="lg:w-[60%]  py-14 flex flex-col w-full  gap-4 ">
-          <div className=" font-bold text-4xl text-BLUE05 font-Montserrat">
-            Bingung Mau Pilih Kelas Apa ?
+
+      <div className="bg-LightBlue5">
+        <div className="mx-auto flex flex-col lg:flex-row container ">
+          <div className="lg:w-[60%]  py-14 flex flex-col w-full  gap-4 ">
+            <div className=" font-bold text-4xl text-BLUE05 font-Montserrat">
+              Bingung Mau Pilih Kelas Apa ?
+            </div>
+            <div className=" font-Montserrat text-sm max-w-lg">
+              Ada beragam kelas gratis yang dapat Anda eksplorasi di sini. Ayo
+              manfaatkan kesempatan ini untuk memperluas pengetahuan dan
+              keterampilan Anda tanpa biaya.
+            </div>
+            <div className="flex flex-row  gap-3">
+              <Link
+                to="/course"
+                className="border-2 text-white py-1 px-2 font-semibold bg-BLUE05 rounded-[4px] flex flex-row items-center gap-1"
+              >
+                Mulai Sekarang
+              </Link>
+            </div>
           </div>
-          <div className=" font-Montserrat text-sm max-w-lg">
-            Ada beragam kelas gratis yang dapat Anda eksplorasi di sini. Ayo
-            manfaatkan kesempatan ini untuk memperluas pengetahuan dan
-            keterampilan Anda tanpa biaya.
-          </div>
-          <div className="flex flex-row  gap-3">
-            <Link
-              to="/course"
-              className="border-2 text-white py-1 px-2 font-semibold bg-BLUE05 rounded-[4px] flex flex-row items-center gap-1"
-            >
-              Mulai Sekarang
-            </Link>
-          </div>
-        </div>
-        <div className=" flex   py-4 lg:w-[40%] ">
-          <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2 w-full">
-            <img src={CourseIcon} />
+          <div className=" flex   py-4 lg:w-[40%] ">
+            <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2 w-full">
+              <img src={CourseIcon} />
+            </div>
+
           </div>
         </div>
       </div>
@@ -204,7 +208,9 @@ const HomePage = () => {
             </h2>
             <Link
               as={Link}
-              to="/course/populer"
+
+              to="/course/promo"
+
               className="font-extrabold text-xs text-DARKBLUE05 self-center"
             >
               Lihat Semua

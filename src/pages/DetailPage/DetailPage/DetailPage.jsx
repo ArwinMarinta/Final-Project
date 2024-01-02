@@ -265,17 +265,18 @@ const DetailPage = () => {
                     <span className="font-semibold">Join Group Telegram</span>
                     <BiLogoTelegram className="text-xl" />
                   </Link>
-                  <button
-                    className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5"
-                    onClick={(event) => {
-                      handleCourseFree(event, courseDetail.courseId);
-                    }}
-                  >
+                  <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
                     {courseDetail?.type === "Free" ? (
-                      "Ambil Kelas"
+                      <button
+                        onClick={(event) => {
+                          handleCourseFree(event, courseDetail.courseId);
+                        }}
+                      >
+                        Ambil Kelas{" "}
+                      </button>
                     ) : (
                       <Link
-                        to="/detail/payment"
+                        to={`/detail/payment/${courseId}`}
                         className="flex flex-row gap-3"
                       >
                         Beli Kelas

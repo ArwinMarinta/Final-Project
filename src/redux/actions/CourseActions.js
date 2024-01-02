@@ -330,3 +330,27 @@ export const getCoursePromo = () => async (dispatch, getState) => {
     }
   }
 };
+
+export const getCoursePremium =
+  (paymentMethod, courseId) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+
+      await axios.get(
+        `${VITE_API_URL}/orders/${courseId}/premium`,
+        {
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error?.response?.data?.message);
+      }
+    }
+  };
+
