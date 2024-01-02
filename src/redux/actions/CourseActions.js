@@ -331,11 +331,12 @@ export const getCoursePromo = () => async (dispatch, getState) => {
   }
 };
 export const getCoursePremium =
-  (paymentMethod, courseId) => async (_, getState) => {
+  (setIsLoading, navigate, paymentMethod, courseId) => async (_, getState) => {
     try {
+      setIsLoading(true);
       let { token } = getState().auth;
 
-      await axios.get(
+      await axios.post(
         `${VITE_API_URL}/orders/${courseId}/premium`,
         {
           paymentMethod,
@@ -346,9 +347,13 @@ export const getCoursePremium =
           },
         }
       );
+
+      navigate("/payment-success");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error?.response?.data?.message);
+        setIsLoading(false);
       }
+      setIsLoading(false);
     }
   };

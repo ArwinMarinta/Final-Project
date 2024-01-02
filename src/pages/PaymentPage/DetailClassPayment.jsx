@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCourseDetail } from "../../redux/actions/DetailActions";
 import { Label, Select } from "flowbite-react";
@@ -8,8 +8,10 @@ import { getCoursePremium } from "../../redux/actions/CourseActions";
 
 export default function DetailClassPayment() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { courseId } = useParams();
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [loading, setIsLoading] = useState(false);
 
   const { courseDetail } = useSelector((state) => state.detail);
 
@@ -28,7 +30,7 @@ export default function DetailClassPayment() {
   };
 
   const handleClick = () => {
-    dispatch(getCoursePremium(paymentMethod, courseId));
+    dispatch(getCoursePremium(setIsLoading, navigate, paymentMethod, courseId));
   };
 
   return (
@@ -97,7 +99,7 @@ export default function DetailClassPayment() {
                 onClick={handleClick}
                 className="py-2 w-full rounded-md bg-YELLOW05 font-Montserrat font-semibold text-white"
               >
-                Bayar dan Ikuti Kelas
+                {loading ? "Loading.." : "Bayar dan Ikuti Kelas"}
               </button>
             </div>
           </div>
