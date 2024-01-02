@@ -119,8 +119,7 @@ export const register =
     password,
     confPassword,
     setIsLoading,
-    setAlert,
-    setAlertStatus,
+
     navigate
   ) =>
   async () => {
@@ -140,8 +139,10 @@ export const register =
         // Menyimpan email ke dalam localStorage
         localStorage.setItem("registeredEmail", email);
 
-        setAlert(response.data.message); // Menampilkan pesan dari respons API
-        setAlertStatus(true);
+        toastify({
+          message: response.data.message,
+          type: "success",
+        });
         setTimeout(() => {
           // Menunggu 2 detik sebelum navigasi ke halaman OTP
           navigate("/otp");
@@ -158,38 +159,38 @@ export const register =
     }
   };
 
-export const verify =
-  (otp, setIsLoading, setAlert, setAlertStatus, navigate) => async () => {
-    try {
-      setIsLoading(true);
-      const registeredEmail = localStorage.getItem("registeredEmail");
-      console.log("Registered Email:", registeredEmail);
-      const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
-        email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
-        otp,
+export const verify = (otp, setIsLoading, navigate) => async () => {
+  try {
+    setIsLoading(true);
+    const registeredEmail = localStorage.getItem("registeredEmail");
+
+    const response = await axios.post(`${VITE_API_URL}/auth/verify-user`, {
+      email: registeredEmail, // Menggunakan nilai yang diambil dari local storage
+      otp,
+    });
+
+    // Check for successful registration
+    if (response.status === 200) {
+      toastify({
+        message: response.data.message,
+        type: "success",
       });
-
-      // Check for successful registration
-      if (response.status === 200) {
-        setAlert(response.data.message);
-        setAlertStatus(true);
-
-        setTimeout(() => {
-          // Menunggu 3 detik sebelum navigasi ke halaman Login
-          localStorage.removeItem("registeredEmail");
-          navigate("/login");
-        }, 2000);
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toastify({
-          message: error.response.data.message,
-          type: "error",
-        });
-      }
-      setIsLoading(false);
+      setTimeout(() => {
+        // Menunggu 3 detik sebelum navigasi ke halaman Login
+        localStorage.removeItem("registeredEmail");
+        navigate("/login");
+      }, 2000);
     }
-  };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error.response.data.message,
+        type: "error",
+      });
+    }
+    setIsLoading(false);
+  }
+};
 
 export const resendOtp = (setIsLoadingResend) => async () => {
   try {
