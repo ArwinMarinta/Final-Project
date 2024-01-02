@@ -71,7 +71,8 @@ const courseSlice = createSlice({
     setCoursePromo: (state, action) => {
       state.coursePromo = action.payload;
     },
-}});
+  },
+});
 
 export const {
   setCategory,

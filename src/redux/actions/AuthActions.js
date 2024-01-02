@@ -112,16 +112,7 @@ export const RequestPassword = (email, setIsLoading) => async () => {
 };
 
 export const register =
-  (
-    name,
-    email,
-    phone,
-    password,
-    confPassword,
-    setIsLoading,
-
-    navigate
-  ) =>
+  (name, email, phone, password, confPassword, setIsLoading, navigate) =>
   async () => {
     try {
       setIsLoading(true);

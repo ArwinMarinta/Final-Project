@@ -188,11 +188,11 @@ export const getDiscussion =
       dispatch(setGetData(data.value));
       const { discussion } = data.value;
       dispatch(setDiscussion(discussion));
-       const pageArray = [];
-       for (let index = 1; index <= data.totalPage; index++) {
-         pageArray.push(index);
-       }
-       dispatch(setPage(pageArray));
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 500) {
         dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
@@ -280,35 +280,34 @@ export const addComment =
         message: "Commentar berhasil di buat ",
         type: "success",
       });
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
-export const Selesai =
-  (id,idDiskusi) => async (_, getState) => {
-    const { token } = getState().auth;
-    try {
-      await axios.put(
-        `${VITE_API_URL}/courses/${id}/discussions`,
-        {
-          discussionId: idDiskusi,
+export const Selesai = (id, idDiskusi) => async (_, getState) => {
+  const { token } = getState().auth;
+  try {
+    await axios.put(
+      `${VITE_API_URL}/courses/${id}/discussions`,
+      {
+        discussionId: idDiskusi,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      window.location.reload()
-      toastify({
-        message: "Commentar berhasil di buat ",
-        type: "success",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      }
+    );
+    window.location.reload();
+    toastify({
+      message: "Commentar berhasil di buat ",
+      type: "success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   try {

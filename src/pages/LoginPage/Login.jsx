@@ -3,7 +3,6 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/AuthActions";
-
 import GoogleLogin from "../../components/GoogleLogin/Google";
 
 const Login = () => {

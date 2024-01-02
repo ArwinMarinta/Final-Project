@@ -73,7 +73,6 @@ const Register = () => {
         password,
         confPassword,
         setIsLoading,
-
         navigate
       )
     );

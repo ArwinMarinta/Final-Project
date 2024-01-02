@@ -1,8 +1,6 @@
 import { useState } from "react";
 // import { useParams } from "react-router-dom";
-
 import Checklist from "../../components/checklist/Checklist";
-
 import Search from "../../assets/search.svg";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
