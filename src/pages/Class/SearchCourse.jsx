@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import CardPickCourse from "../../components/card/CardPopular";
+
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Pagination from "../../components/pagination/Pagination";
@@ -91,7 +93,9 @@ const SearchCourse = () => {
                     Kelas Premium
                   </button>
                   <button
+
                     className={`rounded-2xl px-2 md:px-4 py-2 w-3/5 hover:bg-YELLOW05 hover:text-white font-semibold text-slate-400  ${
+
                       typeButton == "Free"
                         ? "bg-YELLOW05 text-white"
                         : "bg-white"

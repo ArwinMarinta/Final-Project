@@ -330,6 +330,7 @@ export const getCoursePromo = () => async (dispatch, getState) => {
     }
   }
 };
+
 export const getCoursePremium =
   (paymentMethod, courseId) => async (_, getState) => {
     try {
@@ -352,3 +353,4 @@ export const getCoursePremium =
       }
     }
   };
+

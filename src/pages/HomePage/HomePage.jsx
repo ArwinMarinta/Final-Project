@@ -119,6 +119,7 @@ const HomePage = () => {
         </div>
       </div>
 
+
       <div className="bg-LightBlue5">
         <div className="mx-auto flex flex-col lg:flex-row container ">
           <div className="lg:w-[60%]  py-14 flex flex-col w-full  gap-4 ">
@@ -143,6 +144,7 @@ const HomePage = () => {
             <div className="flex flex-col justify-center lg:gap-4 pl-4 lg:pl-0 gap-2 w-full">
               <img src={CourseIcon} />
             </div>
+
           </div>
         </div>
       </div>
@@ -206,7 +208,9 @@ const HomePage = () => {
             </h2>
             <Link
               as={Link}
+
               to="/course/promo"
+
               className="font-extrabold text-xs text-DARKBLUE05 self-center"
             >
               Lihat Semua
