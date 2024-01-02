@@ -336,7 +336,7 @@ export const getCoursePremium =
       setIsLoading(true);
       let { token } = getState().auth;
 
-      await axios.post(
+      const response = await axios.post(
         `${VITE_API_URL}/orders/${courseId}/premium`,
         {
           paymentMethod,
@@ -348,10 +348,12 @@ export const getCoursePremium =
         }
       );
 
-      navigate("/payment-success");
+      if (response.status === 200) {
+        navigate("/payment-success");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(error?.response?.data?.message);
+        console.log(error?.message);
         setIsLoading(false);
       }
       setIsLoading(false);
