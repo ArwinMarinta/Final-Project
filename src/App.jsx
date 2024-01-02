@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchCourse from "./pages/Class/SearchCourse";
 import Header from "./components/Navbar/Header";
+import StatusSucces from "./pages/PaymentPage/StatusSucces";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           element={<DetailPaymentPage />}
         />
         <Route path="/notification" element={<NotificationPage />} />
+        <Route path="/payment-success" element={<StatusSucces />} />
         <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
         <Route path="/my-course" element={<MyCourse />} />
         <Route path="/my-course/:nameCourse" element={<MyCourse />} />
