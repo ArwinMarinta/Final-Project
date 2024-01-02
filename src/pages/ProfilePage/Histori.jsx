@@ -101,7 +101,10 @@ const Histori = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex flex-col lg:w-[60%]   py-4 w-full gap-6 lg:px-16 border-2 rounded-md shadow-lg">
+                  <div className="flex flex-col lg:w-[60%]   py-4 w-full gap-6 lg:px-10 px-4 border-2 rounded-md shadow-lg">
+                    <div className="border-b-2 pb-2 font-Montserrat font-bold text-xl">
+                      Riwayat Pembayaran
+                    </div>
                     {history.length > 0 ? (
                       history.map((data) => (
                         <CardHistori key={data.id} data={data} />

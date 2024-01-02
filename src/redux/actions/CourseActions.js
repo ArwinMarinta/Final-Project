@@ -13,6 +13,7 @@ import {
   setPage,
   setMyCourse,
   setTotalPage,
+  setCoursePromo,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -167,7 +168,7 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
     let { token } = getState().auth;
 
     const response = await axios.post(
-      `${VITE_API_URL}/orders/${courseId}`,
+      `${VITE_API_URL}/orders/${courseId}/free`,
       {},
       {
         headers: {
@@ -308,3 +309,48 @@ export const myCheckbox =
       }
     }
   };
+
+export const getCoursePromo = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?limit=10&page=1&promo=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch(setCoursePromo(response.data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+
+export const getCoursePremium =
+  (paymentMethod, courseId) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+
+      await axios.get(
+        `${VITE_API_URL}/orders/${courseId}/premium`,
+        {
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error?.response?.data?.message);
+      }
+    }
+  };
+
