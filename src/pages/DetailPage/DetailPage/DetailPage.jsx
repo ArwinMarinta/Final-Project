@@ -1,13 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
-import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
+import { FaCirclePlay, FaCircleCheck, FaCircleInfo } from "react-icons/fa6";
+import { MdStar, MdStarBorder, MdOutlineClose } from "react-icons/md";
 import { putProgress } from "../../../redux/actions/CourseActions";
 import { getCourseFree } from "../../../redux/actions/CourseActions";
 import {
   getCourseDetail,
   getCheckCourse,
+  getTestimonial,
+  postTestimonial,
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
@@ -15,11 +18,18 @@ const DetailPage = () => {
   const navigate = useNavigate();
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { checkCourse } = useSelector((state) => state.detail);
+  const { testimonial } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
+
+  const [testimonialText, setTestimonialText] = useState("");
+  const [number, setNumber] = useState(0);
+  const [hoverStar, setHoverStar] = useState(undefined);
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const { courseId } = useParams();
 
   useEffect(() => {
+    dispatch(getTestimonial(courseId));
     if (token) {
       dispatch(getCourseDetail(courseId, true));
       dispatch(getCheckCourse(courseId));
@@ -41,8 +51,100 @@ const DetailPage = () => {
     dispatch(getCourseFree(courseID));
   };
 
+  const handleTestimonial = (e) => {
+    e.preventDefault();
+
+    dispatch(postTestimonial(courseId, testimonialText, number));
+    setTestimonialText("");
+    setNumber(0);
+    setHoverStar(undefined);
+
+    setInterval(setShowPopUp(false), 1000);
+  };
+
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+  };
+
   return (
     <>
+      {courseDetail?.learningProgress === 100 && showPopUp && (
+        <div className="flex fixed w-full h-full justify-center items-center bg-black/50 z-40">
+          <div className="flex flex-col max-w-sm w-full bg-gray-100 rounded-xl p-5 z-50">
+            <div className="w-full flex justify-end">
+              <button onClick={handleClosePopUp} className="text-2xl">
+                <MdOutlineClose />
+              </button>
+            </div>
+            <div className="px-5">
+              <div>
+                <h1 className="text-center text-2xl font-bold text-BLUE05">
+                  Ulas Pengalaman Anda Terkait Course Ini
+                </h1>
+              </div>
+              <form
+                onSubmit={handleTestimonial}
+                className="flex flex-col text-center"
+              >
+                <div className="flex w-full justify-center">
+                  {Array(5)
+                    .fill()
+                    .map((_, index) =>
+                      number >= index + 1 || hoverStar >= index + 1 ? (
+                        <MdStar
+                          key={index}
+                          size={40}
+                          onMouseOver={() => setHoverStar(index + 1)}
+                          onMouseLeave={() => setHoverStar(undefined)}
+                          className="text-YELLOW05 my-2"
+                          onClick={() => setNumber(index + 1)}
+                        />
+                      ) : (
+                        <MdStarBorder
+                          key={index}
+                          size={40}
+                          onMouseOver={() => setHoverStar(index + 1)}
+                          onMouseLeave={() => setHoverStar(undefined)}
+                          className="text-YELLOW05 my-2"
+                          onClick={() => setNumber(index + 1)}
+                        />
+                      )
+                    )}
+                </div>
+                <textarea
+                  className="border border-black/30  py-2 px-4"
+                  name="rating"
+                  placeholder="Berikan Penilaian disini..."
+                  cols="30"
+                  rows="4"
+                  value={testimonialText}
+                  onChange={(e) => setTestimonialText(e.target.value)}
+                  required
+                ></textarea>
+                <button
+                  type="submit"
+                  className={`${
+                    !number
+                      ? "bg-BLUE05/50 pointer-events-none text-white mt-4 py-1.5 mb-3"
+                      : "bg-BLUE05 text-white mt-4 py-1.5 rounded-sm mb-3"
+                  }`}
+                  onClick={() => {
+                    dispatch(getTestimonial(courseId));
+                  }}
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+          <button
+            className="text-white bg-black bg-opacity-50 absolute border-0  w-full h-full"
+            onClick={handleClosePopUp}
+          >
+            x
+          </button>
+        </div>
+      )}
       <div className="mb-24 sm:mb-10">
         <div className=" container mx-auto py-5 md:my-5">
           <div className="flex flex-col sm:flex-row border rounded-md  p-6 shadow-sm drop-shadow-sm">
@@ -204,9 +306,62 @@ const DetailPage = () => {
                 ))}
               </ul>
             </div>
-            <button className="bg-black text-white px-4 mt-5">
-              Berikan Penilaianmu disini
-            </button>
+
+            {courseDetail?.learningProgress === 100 && (
+              <>
+                <div className="mt-5 pb-2">
+                  <p className="flex gap-2.5">
+                    <FaCircleInfo className="text-YELLOW05 mt-1 text-xl" />
+                    <div>
+                      Anda belum memberikan penilaian untuk kursus ini. Yuk,
+                      berikan penilaian sekarang juga!{" "}
+                      <button
+                        className="text-BLUE05 italic font-semibold"
+                        onClick={() => {
+                          setShowPopUp(true);
+                        }}
+                      >
+                        Berikan Penilaianmu disini
+                      </button>
+                    </div>
+                  </p>
+                </div>
+              </>
+            )}
+            <div>
+              <h2 className="text-xl font-semibold my-5">Course Rating</h2>
+              <div className="grid grid-cols-2 gap-8">
+                {testimonial?.map((testi, index) => (
+                  <>
+                    <div key={index}>
+                      <div className="flex mb-4">
+                        <img
+                          src={testi?.userPhotoProfile}
+                          alt="foto-profil"
+                          className="w-10 rounded-full mr-5"
+                        />
+                        <div>
+                          <h3 className="font-bold">{testi?.userName}</h3>
+                          <div className="flex">
+                            {[...Array(testi.rating)].map((_, starIndex) => (
+                              <MdStar
+                                key={starIndex}
+                                className="text-YELLOW05"
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="line-clamp-4">
+                        {'"'}
+                        {testi?.testimonial}
+                        {'"'}
+                      </p>
+                    </div>
+                  </>
+                ))}
+              </div>
+            </div>
           </div>
           <div
             className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm h-max"

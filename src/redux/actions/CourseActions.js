@@ -168,7 +168,7 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
     let { token } = getState().auth;
 
     const response = await axios.post(
-      `${VITE_API_URL}/orders/${courseId}`,
+      `${VITE_API_URL}/orders/${courseId}/free`,
       {},
       {
         headers: {

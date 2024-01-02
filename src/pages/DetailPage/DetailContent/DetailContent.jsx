@@ -123,12 +123,19 @@ const DetailContent = () => {
             <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
               {contentDetail?.title}
             </h1>
+            <p className="text-lg">
+              by <span className="capitalize">{courseDetail?.instructor}</span>
+            </p>
           </div>
+
           <div
             className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-md h-max"
             style={{ flex: "1" }}
           >
-            <div className="py-5 px-6">
+            <div
+              className="py-5 px-6 overflow-auto lg:h-96 2xl:h-screen"
+              style={{ height: "75vh" }}
+            >
               <div className="flex justify-between flex-wrap">
                 <h3 className=" font-bold">Materi Belajar</h3>
                 {courseDetail?.userCourseId === null ? (
@@ -147,6 +154,7 @@ const DetailContent = () => {
                   </div>
                 )}
               </div>
+
               <div className="pt-2.5">
                 {courseDetail?.modules?.map((module, moduleIndex) => (
                   <>

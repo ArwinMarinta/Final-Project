@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { act } from "react-dom/test-utils";
 
 const initialState = {
   courseDetail: [],
   contentDetail: [],
   checkCourse: [],
   courseProgress: [],
-  checkFinishContent: [],
+  testimonial: [],
   error: null,
 };
 
@@ -26,8 +25,8 @@ const detailSlice = createSlice({
     setCourseProgress: (state, action) => {
       state.courseProgress = action.payload;
     },
-    setCheckFinishContent: (state, action) => {
-      state.checkFinishContent = action.payload;
+    setTestimonial: (state, action) => {
+      state.testimonial = action.payload;
     },
     resetContentDetail: (state) => {
       state.contentDetail = initialState.contentDetail;
@@ -43,8 +42,8 @@ export const {
   setContentDetail,
   setCheckCourse,
   setCourseProgress,
-  setCheckFinishContent,
   resetContentDetail,
+  setTestimonial,
   setError,
 } = detailSlice.actions;
 
