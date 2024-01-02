@@ -1,19 +1,17 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { profile } from "../../redux/actions/AuthActions";
 
-const Proctected = ({ children }) => {
+const ProtecdToken = ({ children }) => {
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.auth);
-  //Menggunakan useSelector untuk mendapatkan nilai token dari state Redux di atas properti "auth".
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token) {
-      navigate("/");
-    }
-  }, [token, navigate]);
+    dispatch(profile(navigate, "/", null));
+  }, [dispatch, navigate]);
 
   return children;
 };
 
-export default Proctected;
+export default ProtecdToken;

@@ -44,6 +44,7 @@ const CardPickCourse = ({ data }) => {
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat  text-sm ">
           <div className="flex flex-row gap-1">
+            <p>by</p>
             <h3 className="">{data.instructor}</h3>
             <img src={Verif} />
           </div>

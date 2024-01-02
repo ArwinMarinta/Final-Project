@@ -84,10 +84,14 @@ function Checklist({
     handleLevel("Advanced");
     handleLevel("Intermediate");
   };
+
   const handlenamecourse = () => {
-    if (nameCourse == "populer") {
+    if (nameCourse === "populer") {
       setTypeCourse([]);
       handleTypeCourse("popular");
+    } else if (nameCourse === "promo") {
+      setTypeCourse([]);
+      handleTypeCourse("promo");
     } else {
       setSelectedCheckboxes([]);
       handleChecklist(nameCourse);
@@ -206,12 +210,13 @@ function Checklist({
           <li className="flex flex-row gap-y-9 gap-x-3 " key={item.id}>
             <input
               type="checkbox"
-              className="border-inherit rounded-lg"
+              className="border-inherit rounded-lg "
               ref={(element) => {
                 checkboxesRef.current.push(element);
               }}
               checked={selectedCheckboxes.includes(item.slug)}
               onChange={() => handleChecklist(item.slug)}
+              // style={{ backgroundColor: "#FFBE05" }}
             />
             <label className="font-Montserrat text-xs">{item.name}</label>
           </li>

@@ -11,7 +11,6 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsPlayCircle } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { MdOutlinePersonOutline } from "react-icons/md";
-import { SiCodechef } from "react-icons/si";
 import Search from "../../assets/search.svg";
 import { GoX } from "react-icons/go";
 import PropTypes from "prop-types";
@@ -53,7 +52,7 @@ const Mobile = ({ user }) => {
         path !== "/change-password" &&
         path !== "/history" && (
           <form
-            className="sticky top-0 p-3 sm:p-0 bg-DARKBLUE05 z-[999]"
+            className="sticky top-0 p-3 sm:p-0 bg-white shadow-lg z-[999]"
             action="search"
             onSubmit={onSubmitHandler}
           >
@@ -62,13 +61,15 @@ const Mobile = ({ user }) => {
               style={{ maxWidth: "600px" }}
             >
               <Link as={Link} to="/" className="flex flex-row ">
-                <SiCodechef className="text-3xl" />
-                <p className="text-xl font-bold">iLearnTech</p>
+                <div className="text-xl font-bold flex flex-row">
+                  <p className="text-BLUE05">ILearn</p>
+                  <p className="text-YELLOW05">Tech</p>
+                </div>
               </Link>
               <div className="flex flex-row gap-4 mr-[7px]">
                 {user ? (
                   <button
-                    className="border-2 p-[1px] rounded-lg"
+                    className="border-2 border-YELLOW05 bg-YELLOW05 p-[1px] rounded-lg"
                     onClick={() => setOpenSearch(true)}
                   >
                     <img src={Search} />
@@ -76,7 +77,7 @@ const Mobile = ({ user }) => {
                 ) : (
                   <>
                     <button
-                      className="border-2 p-[1px] rounded-lg"
+                      className="border-2 border-YELLOW05 bg-YELLOW05 p-[1px] rounded-lg"
                       onClick={() => setOpenSearch(true)}
                     >
                       <img src={Search} />
@@ -84,7 +85,7 @@ const Mobile = ({ user }) => {
                     <Link
                       as={Link}
                       to="/login"
-                      className="border-2 p-[1px] rounded-lg"
+                      className="border-2 p-[1px] rounded-lg bg-YELLOW05"
                     >
                       <img src={LoginIcon} />
                     </Link>
