@@ -23,7 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SearchCourse from "./pages/Class/SearchCourse";
 import DiscussionPage from "./pages/DiscussionPage/DiscussionPage";
-import DetailDiscussion from "./pages/DiscussionPage/detailDiscussion";
+import DetailDiscussion from "./pages/DiscussionPage/DetailDiscussion";
 import Header from "./components/Navbar/Header";
 import StatusSucces from "./pages/PaymentPage/StatusSucces";
 
