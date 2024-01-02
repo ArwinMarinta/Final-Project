@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { RequestPassword } from "../../redux/actions/AuthActions";
 import ArrowIcon from "../../assets/arrow_left_black.svg";
@@ -9,29 +9,11 @@ const VerifyEmail = () => {
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState("");
-  const [alertStatus, setAlertStatus] = useState(true);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(RequestPassword(email, setIsLoading, setAlert, setAlertStatus));
+    dispatch(RequestPassword(email, setIsLoading));
   };
-
-  useEffect(() => {
-    console.log("Alert Status:", alertStatus);
-    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
-    const hideAlert = () => {
-      setAlert(""); // Menghapus pesan alert
-    };
-
-    // Memulai timeout ketika alertMessage berubah
-    if (alert) {
-      const timeoutId = setTimeout(hideAlert, 2000);
-
-      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
-      return () => clearTimeout(timeoutId);
-    }
-  }, [alert, alertStatus]);
 
   return (
     <div className="flex min-h-screen bg-WHITE05 justify-center ">
@@ -68,19 +50,6 @@ const VerifyEmail = () => {
           >
             {isLoading ? "Loading..." : "Kirim"}
           </button>
-          <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]  ">
-            {alert && (
-              <div
-                className={`py-2 flex justify-center w-full px-2 font-Poppins text-sm font-medium rounded-lg text-center ${
-                  alertStatus
-                    ? "bg-green-600 text-white"
-                    : "bg-red-600 text-white"
-                }`}
-              >
-                {alert}
-              </div>
-            )}
-          </div>
         </form>
       </div>
     </div>

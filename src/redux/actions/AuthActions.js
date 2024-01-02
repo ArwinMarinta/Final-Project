@@ -85,7 +85,7 @@ export const profile =
     }
   };
 
-export const RequestPassword = (email, setIsLoading, setAlert) => async () => {
+export const RequestPassword = (email, setIsLoading) => async () => {
   try {
     setIsLoading(true);
     const response = await axios.post(
@@ -94,8 +94,11 @@ export const RequestPassword = (email, setIsLoading, setAlert) => async () => {
         email,
       }
     );
+    toastify({
+      message: response.data.message,
+      type: "success",
+    });
 
-    setAlert(response.data.message);
     setIsLoading(false);
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -20,7 +20,7 @@ const CardCourse = ({ data }) => {
   };
   return (
     <Link to={`/detail/course/${data.id}`} className="relative">
-      <div className="flex flex-col  bg-white rounded-lg border-2 m-auto mr-2 ml-2 mt-2 cursor-pointer max-w-sm  ">
+      <div className="flex flex-col  bg-white rounded-lg border-2 m-auto mr-2 ml-2 mt-2 cursor-pointer max-w-sm ">
         <div className="rounded-t-lg">
           <img src={data.imageUrl} className="rounded-t-lg" />
         </div>
