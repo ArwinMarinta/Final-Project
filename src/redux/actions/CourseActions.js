@@ -13,6 +13,7 @@ import {
   setPage,
   setMyCourse,
   setTotalPage,
+  setCoursePromo,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -167,7 +168,7 @@ export const getCourseFree = (courseId, navigate) => async (_, getState) => {
     let { token } = getState().auth;
 
     const response = await axios.post(
-      `${VITE_API_URL}/orders/${courseId}`,
+      `${VITE_API_URL}/orders/${courseId}/free`,
       {},
       {
         headers: {
@@ -306,5 +307,64 @@ export const myCheckbox =
       if (error.response.status === 404) {
         dispatch(setErrors("kelas yang di pilih tidak ada"));
       }
+    }
+  };
+
+export const getCoursePromo = () => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    const response = await axios.get(
+      `${VITE_API_URL}/courses?limit=10&page=1&promo=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    dispatch(setCoursePromo(response.data.value));
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error?.response?.data?.message);
+    }
+  }
+};
+export const getCoursePremium =
+  (setIsLoading, navigate, paymentMethod, courseId) => async (_, getState) => {
+    try {
+      let { token } = getState().auth;
+      setIsLoading(true);
+      console.log(setIsLoading);
+      console.log(navigate);
+      console.log(paymentMethod);
+      console.log(courseId);
+
+      const response = await axios.post(
+        `${VITE_API_URL}/orders/${courseId}/premium`,
+        {
+          paymentMethod,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        navigate("/payment-success");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
+          toastify({
+            message: error?.response?.data?.message,
+            type: "error",
+          });
+        }
+        setIsLoading(false);
+      }
+      setIsLoading(false);
     }
   };
