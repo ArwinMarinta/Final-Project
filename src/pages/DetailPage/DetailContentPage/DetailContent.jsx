@@ -1,7 +1,7 @@
 "use client";
 import orderCourseIMG from "../../../assets/order-course.png";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLock } from "react-icons/bi";
 import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
@@ -18,6 +18,7 @@ import {
 const DetailContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const [coursesId, setCoursesId] = useState(null);
 
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { contentDetail } = useSelector((state) => state.detail) || {};
@@ -33,6 +34,8 @@ const DetailContent = () => {
   const { contentId } = useParams();
   const { moduleId } = useParams();
 
+  // console.log(coursesId);
+
   useEffect(() => {
     if (token) {
       dispatch(getCourseDetail(courseId, true));
@@ -45,6 +48,7 @@ const DetailContent = () => {
   }, [dispatch, courseId, moduleId, contentId, userCourse, token]);
 
   const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
+    // setCoursesId(courseId);
     dispatch(putProgress(userCourseId, contentId));
 
     dispatch(resetContentDetail());
@@ -90,10 +94,13 @@ const DetailContent = () => {
                 <img src={orderCourseIMG} className="w-2/3" alt="" />
               </div>
               <div className="w-full flex justify-center">
-                <button className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2">
+                <Link
+                  to={`/detail/payment/${courseId}`}
+                  className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2"
+                >
                   <span className="ml-5">{""}</span>
                   Belajar Sekarang <FaArrowRight className="mr-5 mt-0.5" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

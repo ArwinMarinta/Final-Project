@@ -5,7 +5,11 @@ const CardKategori = ({ data }) => {
   return (
     <Link as={Link} to={`/course/${data.slug}`}>
       <div className="flex flex-col justify-center px-1 ">
-        <img src={data.urlPhoto} className="rounded-3xl" />
+        <img
+          src={data.urlPhoto}
+          className="rounded-2xl"
+          style={{ aspectRatio: "3/2" }}
+        />
         <div className="text-black font-Montserrat font-semibold text-xs py-3 self-center">
           {data.name}
         </div>

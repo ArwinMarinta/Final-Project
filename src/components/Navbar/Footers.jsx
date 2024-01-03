@@ -3,8 +3,8 @@ import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 
 const Footers = () => {
   return (
-    <Footer container className="bg-white">
-      <div className="w-full">
+    <Footer container className="bg-white  ">
+      <div className="w-full container">
         <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
           <div className="flex flex-row font-bold text-5xl">
             <p className="text-BLUE05">ILearn</p>
