@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Selesai, getDiscussion } from "../../redux/actions/CourseActions";
 import { Link, useParams } from "react-router-dom";
-import AddDiscussion from "../../components/modal/addDiscussion";
+import AddDiscussion from "../../components/modal/AddDiscussion";
 import PaginationDiscussion from "./PaginationDiscussion";
 import { BiFilter } from "react-icons/bi";
 export default function DiscussionPage() {
