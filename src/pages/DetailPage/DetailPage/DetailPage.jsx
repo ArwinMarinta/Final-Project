@@ -26,14 +26,12 @@ const DetailPage = () => {
   const [number, setNumber] = useState(0);
   const [hoverStar, setHoverStar] = useState(undefined);
   const [showPopUp, setShowPopUp] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { courseId } = useParams();
 
   useEffect(() => {
     dispatch(getTestimonial(courseId));
     if (token) {
-      // console.log(courseDetail);
       dispatch(getCourseDetail(courseId, true));
       dispatch(getCheckCourse(courseId));
     } else {
@@ -69,23 +67,6 @@ const DetailPage = () => {
   const handleCetakSertifikat = (e) => {
     e.preventDefault();
     dispatch(postCertificate(courseId));
-  };
-
-  const handleDropdownOpen = () => {
-    setDropdownOpen(true);
-  };
-
-  const handleDropdownClose = () => {
-    setDropdownOpen(false);
-  };
-
-  const handleDropdownOptionClick = (option) => {
-    if (option === "cetakCertificate") {
-      dispatch(postCertificate(courseId));
-    } else if (option === "linkedinCertificate") {
-      console.log("Sertifikat LinkedIn diposting");
-    }
-    setDropdownOpen(false);
   };
 
   return (
@@ -365,7 +346,7 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                   {courseDetail.courseDiscussionId !== null && (
                     <Link
                       to={`/discussion-course/${courseId}`}
-                      className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
+                      className="flex gap-2 rounded-sm text-white bg-YELLOW05 items-center border-2 hover:bg-yellow-600  w-max py-1.5 px-4"
                     >
                       <span className="font-semibold">Discussion</span>
                       <BiLink className="text-xl" />
@@ -473,39 +454,53 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
               </div>
             </div>
           </div>
+
           <div style={{ flex: "2" }}>
-            <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm px-6 py-4 mb-5">
-              <h6 className="text-center font-bold mb-3">
-                Sertifikat Kelulusan
-              </h6>
-              <p className="text-center px-5 mb-5">
-                <p>Selamat atas pencapaian Anda!</p> Sertifikat ini adalah bukti
-                dari perjuangan Anda dalam menyelesaikan kursus ini.
-              </p>
-              <div className="flex gap-5">
-                <button className="border-2 border-YELLOW05 text-YELLOW05 hover:bg-YELLOW05 hover:text-white font-semibold px-4 py-2 w-full ">
-                  Cetak Sertifikat
-                </button>
-                <Link
-                  to="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=Test%20Certificate&organizationId=1337&issueYear=2018
+            {courseDetail?.learningProgress === 100 &&
+              courseDetail?.type === "Premium" && (
+                <>
+                  <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm px-6 py-4 ">
+                    <h6 className="text-center font-bold mb-3">
+                      Sertifikat Kelulusan
+                    </h6>
+                    <p className="text-center px-5 mb-5">
+                      <p>Selamat atas pencapaian Anda!</p> Sertifikat ini adalah
+                      bukti dari perjuangan Anda dalam menyelesaikan kursus ini.
+                    </p>
+                    <div className="flex gap-5">
+                      <button
+                        className="border-2 border-YELLOW05 text-YELLOW05 hover:bg-YELLOW05 hover:text-white font-semibold px-4 py-2 w-full "
+                        onClick={handleCetakSertifikat}
+                      >
+                        Cetak Sertifikat
+                      </button>
+                      <Link
+                        to="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=Test%20Certificate&organizationId=1337&issueYear=2018
 &issueMonth=2&expirationYear=2020&expirationMonth=5&certUrl=
 https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functional-consultant-sales&certId=1234"
-                  target="_blank"
-                  className="border-2 text-center border-BLUE05 text-BLUE05 hover:bg-BLUE05 hover:text-white font-semibold px-4 py-2 w-full"
-                >
-                  Post to LinkdIn
-                  {/* <Link
-                    target={"_blank"}
-                    to=
-                  >
-                    Post to LinkedIn
-                  </Link> */}
-                </Link>
-                {/* <button className="border-2 border-BLUE05 text-BLUE05 hover:bg-BLUE05 hover:text-white font-semibold px-4 py-2 w-full">
-                  Post to LinkedIn
-                </button> */}
-              </div>
-            </div>
+                        target="_blank"
+                        className="border-2 text-center border-BLUE05 text-BLUE05 hover:bg-BLUE05 hover:text-white font-semibold px-4 py-2 w-full"
+                      >
+                        Post to LinkdIn
+                      </Link>
+                    </div>
+                  </div>
+                  <div className=" my-5">
+                    <button
+                      onClick={() => {
+                        setShowPopUp(true);
+                      }}
+                      className="flex items-center gap-3"
+                    >
+                      <FaCircleInfo className="text-YELLOW05" />
+                      <button className="text-BLUE05 font-semibold text-md">
+                        Beri rating untuk course ini Kuyyy.
+                      </button>
+                    </button>
+                  </div>
+                </>
+              )}
+
             <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm h-max">
               <div className="py-5 px-6">
                 <div className="flex justify-between flex-wrap">
