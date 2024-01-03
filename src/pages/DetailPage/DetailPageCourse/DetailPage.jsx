@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { BiLogoTelegram, BiSolidLock, BiLink } from "react-icons/bi";
@@ -13,13 +12,13 @@ import {
   getTestimonial,
   postTestimonial,
   postCertificate,
-
 } from "../../../redux/actions/DetailActions";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { courseDetail } = useSelector((state) => state.detail) || {};
+  const { checkCourse } = useSelector((state) => state.detail);
   const { testimonial } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
 
@@ -53,14 +52,15 @@ const DetailPage = () => {
     dispatch(getCourseFree(courseID));
   };
 
-
   const handleTestimonial = (e) => {
     e.preventDefault();
+
     dispatch(postTestimonial(courseId, testimonialText, number));
     dispatch(getTestimonial(courseId));
     setTestimonialText("");
     setNumber(0);
     setHoverStar(undefined);
+
     setInterval(setShowPopUp(false), 1000);
   };
 
@@ -332,7 +332,6 @@ const DetailPage = () => {
                 ))}
               </ul>
             </div>
-=
 
             {courseDetail?.learningProgress === 100 && (
               <>
@@ -520,7 +519,6 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                     </>
                   ))}
                 </div>
-=
               </div>
             </div>
           </div>
