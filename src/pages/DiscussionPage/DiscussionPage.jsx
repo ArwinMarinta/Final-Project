@@ -1,9 +1,17 @@
 import chat from "../../assets/chating.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Selesai, getDiscussion } from "../../redux/actions/CourseActions";
+import {
+  Selesai,
+  editDiscussion,
+  getDiscussion,
+} from "../../redux/actions/CourseActions";
 import { Link, useParams } from "react-router-dom";
+<<<<<<< HEAD
 import AddDiscussion from "../../components/modal/AddDiscussion";
+=======
+import AddDiscussion from "../../components/modal/AddDiscussion"
+>>>>>>> 21e4fb57db49eb0d7e23fe1952c406b099e57003
 import PaginationDiscussion from "./PaginationDiscussion";
 import { BiFilter } from "react-icons/bi";
 export default function DiscussionPage() {
@@ -15,6 +23,8 @@ export default function DiscussionPage() {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+  const [idDiskusi, setIdDiskusi] = useState(null);
+  const { user } = useSelector((state) => state.auth);
 
   const handleClosed = (value) => {
     setClosed((prevSelected) => {
@@ -27,6 +37,11 @@ export default function DiscussionPage() {
       }
     });
     setActive([]);
+  };
+  const handleEdit = (discussionId) => {
+    setShowModal(true);
+    dispatch(editDiscussion(id, discussionId));
+    setIdDiskusi(discussionId);
   };
   const handleActive = (value) => {
     setActive((prevSelected) => {
@@ -52,7 +67,7 @@ export default function DiscussionPage() {
 
   return (
     <div>
-      <div className="justify-center flex bg-gradient-to-r bg-white/40 drop-shadow-lg">
+      <div className="justify-center flex bg-gradient-to-r bg-white/50 drop-shadow-lg">
         <div className="container m-8">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row items-center gap-5">
@@ -86,6 +101,8 @@ export default function DiscussionPage() {
                 showModal={showModal}
                 setShowModal={setShowModal}
                 id={id}
+                idDiskusi={idDiskusi}
+                setIdDiskusi={setIdDiskusi}
               />
               <div className="rounded-lg border-black-200 border-2 p-2 divide-y divide-slate-200 ">
                 <div>
@@ -117,41 +134,13 @@ export default function DiscussionPage() {
                     </ul>
                   </div>
                 </div>
-                <div>
-                  <p className="font-semibold">Urutkan Berdasarkan</p>
-                  <div className="my-2">
-                    <ul className="gap-2 flex items-center">
-                      <input
-                        type="checkbox"
-                        id="selesai"
-                        className="appearance-none rounded-full border-2 border-gray-300 h-4 w-4 checked:bg-blue-500 checked:border-transparent focus:outline-none focus:ring focus:border-blue-300"
-                      />
-                      <label className="text-sm text-gray-600">
-                        Diskusi Terbaru
-                      </label>
-                    </ul>
-                    <ul className="gap-2 flex items-center">
-                      <input
-                        type="checkbox"
-                        id="belumSelesai"
-                        className="appearance-none rounded-full border-2 border-gray-300 h-4 w-4 checked:bg-blue-500 checked:border-transparent focus:outline-none focus:ring focus:border-blue-300"
-                      />
-                      <label className="text-sm text-gray-600">
-                        Diskusi Terlama
-                      </label>
-                    </ul>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="w-full md:w-4/5 flex flex-col gap-y-4">
               {showModal == false && (
-                <div className="md:flex flex-row w-full justify-between gap-3 sticky md:top-0 h-auto z-0 pt-2">
+                <div className="md:flex flex-row w-full justify-between gap-3 sticky md:top-0 h-auto z-0 pt-2 backdrop-blur bg-white/30">
                   <div className="flex flex-row gap-3 font-bold text-YELLOW05 items-center justify-between">
                     <div className="flex flex-row gap-3">
-                      <div className="hidden md:flex">
-                        <p className="text-2xl">Halaman :</p>
-                      </div>
                       <PaginationDiscussion
                         setPageNumber={setPageNumber}
                         pageNumber={pageNumber}
@@ -175,7 +164,7 @@ export default function DiscussionPage() {
                     </div>
                   </div>
                   <input
-                    className="border-2 border-black-200 active:border-black-200 outline-none rounded-lg w-full md:w-2/5 p-2 mt-2"
+                    className="active:ring-YELLOW05 focus:ring-YELLOW05 ring-2 ring-gray-200 outline-none rounded-lg w-full md:w-2/5 p-2 mt-2 "
                     type="text"
                     placeholder="Pencarian...."
                     value={search}
@@ -190,7 +179,7 @@ export default function DiscussionPage() {
                       <div className="flex justify-between">
                         <div className="flex flex-row items-center gap-3">
                           <img
-                            className="w-8 rounded-full bg-blue-200"
+                            className="w-8 rounded-full bg-blue-200 object-top object-cover h-8"
                             src={item.userPhoto}
                             alt=""
                           />
@@ -219,23 +208,39 @@ export default function DiscussionPage() {
                       </div>
                       <div className="flex flex-wrap mt-6 gap-5">
                         <div className="flex flex-row gap-2 items-center">
-                          <img className="w-5" src={chat} alt="" />
-                          <Link
-                            to={`/detailDiscussion/${id}/${item.discussionId}`}
-                          >
-                            <p className="text-gray-500">
-                              {item.totalComments} Pembahasan
-                            </p>
-                          </Link>
-                        </div>
-                        <div className="flex flex-row gap-2 items-center">
-                          <button
-                            type="button"
-                            className="text-blue-600 font-bold flex flex-row gap-1 items-center"
-                            onClick={() => handleSelesai(id, item.discussionId)}
-                          >
-                            Selesai
-                          </button>
+                          {item.closed == false &&
+                            user?.name === item.username && (
+                              <button
+                                type="button"
+                                className="text-white text-xs font-Montserrat font-bold flex flex-row gap-1 items-center bg-YELLOW05 border-2 p-1 border-YELLOW05 rounded-sm w-auto "
+                                onClick={() =>
+                                  handleSelesai(id, item.discussionId)
+                                }
+                              >
+                                Selesai
+                              </button>
+                            )}
+                          {user?.name === item.username && (
+                            <button
+                              type="button"
+                              className="text-YELLOW05 text-xs font-Montserrat font-bold flex flex-row gap-1 items-center bg-YELLOW05/20 border-2 p-1 border-YELLOW05 rounded-sm w-auto "
+                              onClick={() => {
+                                handleEdit(item.discussionId);
+                              }}
+                            >
+                              Edit
+                            </button>
+                          )}
+                          <div className="flex flex-row gap-1 items-center font-semibold">
+                            <img className="w-5" src={chat} alt="" />
+                            <Link
+                              to={`/detailDiscussion/${id}/${item.discussionId}`}
+                            >
+                              <p className="text-gray-500">
+                                {item.totalComments} Pembahasan
+                              </p>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
