@@ -39,7 +39,11 @@ const CardPickCourse = ({ data }) => {
   return (
     <div className="mt-2 flex flex-col  bg-white rounded-md m-auto shadow-lg mx-1 ">
       <Link to={`/detail/course/${data.id}`} className="rounded-t-md">
-        <img className="w-full h-[15vh] rounded-t-md" src={data.imageUrl} />
+        <img
+          className="w-full h-[15vh] rounded-t-md"
+          src={data.imageUrl}
+          style={{ aspectRatio: "3/2" }}
+        />
       </Link>
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat  text-sm ">

@@ -364,7 +364,7 @@ const DetailPage = () => {
                         <img
                           src={testi?.userPhotoProfile}
                           alt="foto-profil"
-                          className="w-10 rounded-full mr-5"
+                          className="w-10 h-10 rounded-full mr-5 object-cover object-top "
                         />
                         <div>
                           <h3 className="font-bold">{testi?.userName}</h3>
