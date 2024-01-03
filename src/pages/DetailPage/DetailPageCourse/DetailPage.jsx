@@ -18,7 +18,7 @@ const DetailPage = () => {
   const { token } = useSelector((state) => state.auth);
 
   const { courseId } = useParams();
-
+  
   useEffect(() => {
     if (token) {
       // console.log(courseDetail);

@@ -18,6 +18,7 @@ import {
   setDetailDiscussion,
   setComentar,
   setCoursePromo,
+  setDiscussionToEdit,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -225,6 +226,24 @@ export const getDetailDiscussion =
       }
     }
   };
+export const editDiscussion =
+  (id, discussionId) => async (dispatch, getState) => {
+    const { token } = getState().auth;
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/courses/${id}/discussions/${discussionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      dispatch(setDiscussionToEdit(data.value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const addDiscussion =
   (id, judul, pertanyaan, gambar) => async (_, getState) => {
     const { token } = getState().auth;
@@ -252,6 +271,7 @@ export const addDiscussion =
         message: "Pertanyaan berhasil di buat ",
         type: "success",
       });
+      window.location.reload()
     } catch (error) {
       console.log(error);
     }
@@ -301,7 +321,7 @@ export const Selesai = (id, idDiskusi) => async (_, getState) => {
     );
     window.location.reload();
     toastify({
-      message: "Commentar berhasil di buat ",
+      message: "Commentar berhasil di tutup ",
       type: "success",
     });
   } catch (error) {
@@ -520,5 +540,33 @@ export const getCoursePremium =
         setIsLoading(false);
       }
       setIsLoading(false);
+    }
+  };
+export const updateDiscussion =
+  (idDiskusi, id, judul, pertanyaan, gambar) => async (_, getState) => {
+    const { token } = getState().auth;
+    try {
+      const formData = new FormData();
+      formData.append("photoDiscussion", gambar);
+      await axios.put(
+        `${VITE_API_URL}/courses/${id}/discussions/${idDiskusi}`,
+        {
+          title: judul,
+          question: pertanyaan,
+          photoDiscussion: gambar,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.reload();
+      toastify({
+        message: "Berhasil Update Diskusi",
+        type: "success",
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
