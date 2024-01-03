@@ -17,6 +17,7 @@ const CardHistori = ({ data }) => {
   return (
     <div className="mt-2 flex flex-row  bg-[#F9F9F9] rounded-lg m-auto shadow-lg  w-full justify-star gap-4">
       <img
+        style={{ aspectRatio: "3/2" }}
         src={courses.imageUrl}
         className="lg:w-40 lg:h-full w-32 rounded-l-lg self-center"
       />
