@@ -5,6 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { register } from "../../redux/actions/AuthActions";
 import { useDispatch } from "react-redux";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -62,22 +63,6 @@ const Register = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  // const handleNotVerified = () => {
-  //   if (!email) {
-  //     setAlert("Email tidak boleh kosong, untuk melanjutkan verifikasi akun");
-  //     setAlertStatus(false);
-  //   } else {
-  //     // Simpan email ke localStorage
-  //     localStorage.setItem("registeredEmail", email);
-  //     console.log("registeredEmail", email);
-  //     dispatch(resendOtp(setIsLoadingResend, setAlert, setAlertStatus)).then(
-  //       () => {
-  //         navigate("/otp");
-  //       }
-  //     );
-  //   }
-  // };
-
   const handleRegis = (e) => {
     e.preventDefault();
 
@@ -89,7 +74,6 @@ const Register = () => {
         password,
         confPassword,
         setIsLoading,
-
         navigate
       )
     );
@@ -223,9 +207,9 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-YELLOW05 text-white py-[10px] rounded-xl mt-10 "
+              className=" flex items-center justify-center font-Poppins btn btn-primary w-full text-[14px] font-medium bg-YELLOW05 text-white py-[10px] rounded-xl mt-10 "
             >
-              {isLoading ? "Loading..." : "Daftar"}
+              {isLoading ? <SpinnerLoading /> : <span>Daftar</span>}
             </button>
             <div className="flex justify-center items-center gap-2 mt-6">
               <h1 className="font-Poppins text-[14px] font-normal">
