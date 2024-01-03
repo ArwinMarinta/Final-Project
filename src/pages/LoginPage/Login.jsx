@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/AuthActions";
 import GoogleLogin from "../../components/GoogleLogin/Google";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,14 +14,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const [alertStatus, setAlertStatus] = useState(false);
-
   //fungsi show/hidden password
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-
-  //animasi loading setelah button submit diklik
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -36,7 +33,7 @@ const Login = () => {
             className="w-full border-2 rounded-lg shadow-xl px-6 py-8 "
           >
             <form onSubmit={handleLogin}>
-              <h1 className="text-[24px] font-bold  font-Montserrat mb-8">
+              <h1 className="text-[24px] font-bold text-YELLOW05 font-Montserrat mb-8">
                 Masuk
               </h1>
               <div className="flex flex-col gap-5">
@@ -87,9 +84,9 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full font-Poppins bg-YELLOW05 text-white py-[10px] rounded-xl mt-5 hover:bg-YELLOW05 font-bold shadow-md"
+                className="flex items-center justify-center w-full font-Poppins bg-YELLOW05 text-white py-[10px] rounded-xl mt-5 hover:bg-YELLOW05 font-bold shadow-md"
               >
-                {isLoading ? "Loading..." : "Masuk"}
+                {isLoading ? <SpinnerLoading /> : <span>Masuk</span>}
               </button>
             </form>
             <div className="flex justify-center items-center gap-2 mt-6">

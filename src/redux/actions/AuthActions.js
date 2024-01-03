@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-// import { setContentDetail } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
 
 // import { toastify } from "../../utils/toastify";
@@ -25,7 +24,15 @@ export const login =
           error.response.data.message ===
           "Akun belum terverifikasi. Periksa email masuk untuk verifikasi kode Otp"
         ) {
-          navigate("/otp");
+          toastify({
+            message: error.response.data.message,
+            type: "error",
+          });
+          localStorage.setItem("registeredEmail", email);
+          // Navigate to "/otp"
+          setTimeout(() => {
+            navigate("/otp");
+          }, 2000);
         } else {
           toastify({
             message: error.response.data.message,
@@ -34,10 +41,10 @@ export const login =
         }
       }
       setIsLoading(false);
-      toastify({
-        message: error?.message,
-        type: "Error",
-      });
+      // toastify({
+      //   message: error?.message,
+      //   type: "Error",
+      // });
     }
     setIsLoading(false);
   };
@@ -185,6 +192,7 @@ export const verify = (otp, setIsLoading, navigate) => async () => {
 
 export const resendOtp = (setIsLoadingResend) => async () => {
   try {
+    setIsLoadingResend(true);
     const registeredEmail = localStorage.getItem("registeredEmail");
     const response = await axios.post(`${VITE_API_URL}/auth/resend-otp`, {
       email: registeredEmail, // Menggunakan nilai yang diambil dari local storage

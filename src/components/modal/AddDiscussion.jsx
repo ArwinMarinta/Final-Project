@@ -1,37 +1,36 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { BiImage } from "react-icons/bi";
-import { useDispatch } from "react-redux";
-import { addDiscussion } from "../../redux/actions/CourseActions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addDiscussion,
+  updateDiscussion,
+} from "../../redux/actions/CourseActions";
 
-export default function AddDiscussion({ showModal, setShowModal, id }) {
+export default function AddDiscussion({
+  showModal,
+  setShowModal,
+  id,
+  idDiskusi,
+  setIdDiskusi,
+}) {
+  const [editing, setEditing] = useState(false);
   const [judul, setJudul] = useState("");
   const [pertanyaan, setPertanyaan] = useState("");
   const [gambar, setGambar] = useState(null);
   const [hasil, setHasil] = useState(null);
   const dispatch = useDispatch();
-  const [save, setSave] = useState(false);
   const [notif, setNotif] = useState("");
-   const img = useRef();
+  const img = useRef();
+  const { discussionToEdit } = useSelector((state) => state.course);
   const handleImageChange = (e) => {
-     e.preventDefault();
-     const file = e.target.files[0];
-     setHasil(URL.createObjectURL(file));
+    e.preventDefault();
+    const file = e.target.files[0];
+    setHasil(URL.createObjectURL(file));
 
-     const selectedFile = e.target.files[0];
+    const selectedFile = e.target.files[0];
 
-    //  console.log(selectedFile);
-    //  console.log(gambar);
-    //  if (selectedFile) {
-    //    const newProfilePicture = URL.createObjectURL(selectedFile);
-    //   }
-      setGambar(selectedFile);
-    // const file = e.target.files[0];
-
-    // // Validasi atau manipulasi gambar sesuai kebutuhan
-
-    // // Set file gambar
-    // setGambar(URL.createObjectURL(file));
+    setGambar(selectedFile);
   };
   const handleHapus = () => {
     setJudul("");
@@ -39,28 +38,41 @@ export default function AddDiscussion({ showModal, setShowModal, id }) {
     setHasil(null);
     setGambar(null);
   };
-  console.log(gambar);
-  const handleSave = () => {
-    if (pertanyaan == "" || judul == "") {
+  const handleSave = (e) => {
+    e.preventDefault();
+    if (pertanyaan === "" || judul === "") {
       setNotif("Judul Pertanyaan dan Pertanyaan wajib diisi");
     } else {
       setShowModal(false);
-      setSave(true);
+
+      if (editing) {
+        dispatch(updateDiscussion(idDiskusi, id, judul, pertanyaan, gambar));
+      } else {
+        dispatch(addDiscussion(id, judul, pertanyaan, gambar));
+      }
+      handleHapus();
     }
   };
   useEffect(() => {
-    if (judul != "" && pertanyaan != "") {
+    if (showModal) {
+      if (idDiskusi) {
+        setEditing(true);
+        setJudul(discussionToEdit.title || "");
+        setPertanyaan(discussionToEdit.question || "");
+        setHasil(discussionToEdit.urlPhoto || null);
+        setGambar(discussionToEdit.urlPhoto || null);
+      } else {
+        setEditing(false);
+        if (judul != "" && pertanyaan != "") {
+          setNotif("");
+        }
+      }
+    } else if (!showModal) {
+      setIdDiskusi(null);
       setNotif("");
-    }
-    if (!showModal) {
-      setSave(false);
-      setNotif("");
-    }
-    if (id && save == true) {
-      dispatch(addDiscussion(id, judul, pertanyaan, gambar));
       handleHapus();
     }
-  }, [id, judul, pertanyaan, gambar, save, showModal]);
+  }, [id, showModal, discussionToEdit]);
   return (
     <>
       {showModal ? (
@@ -158,4 +170,6 @@ AddDiscussion.propTypes = {
   setShowModal: PropTypes.func,
   showModal: PropTypes.bool,
   id: PropTypes.string,
+  idDiskusi: PropTypes.number,
+  setIdDiskusi: PropTypes.func,
 };

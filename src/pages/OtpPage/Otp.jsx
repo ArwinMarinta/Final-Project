@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import OTPInput from "react-otp-input";
 import { useState, useEffect } from "react";
 import { resendOtp, verify } from "../../redux/actions/AuthActions";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const Otp = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Otp = () => {
     setOtp(truncatedValue);
   };
 
+  //  Mengubah format menit dan detik
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
@@ -81,7 +83,7 @@ const Otp = () => {
             className="w-full border-2 rounded-lg shadow-xl px-6 py-6 bg-YELLOW04"
           >
             <div>
-              <h1 className="text-[26px] self-center font-bold text-DARKBLUE05 my-5  text-center">
+              <h1 className="text-[26px] self-center font-bold text-ALERTRED my-5  text-center">
                 Masukkan OTP
               </h1>
             </div>
@@ -102,7 +104,7 @@ const Otp = () => {
                     inputStyle={{
                       width: "42px",
                       height: "42px",
-                      border: "1px solid #6148FF",
+                      border: "1px solid #FFBE05",
                       borderRadius: "16px",
                     }}
                     renderInput={(props, index) => (
@@ -124,13 +126,13 @@ const Otp = () => {
                       onClick={() => handleResendOtp()}
                       className="font-Poppins text-[13px] text-ALERTRED font-bold underline mb-[20px] text-center cursor-pointer"
                     >
-                      {isLoadingresend ? "Loading..." : "Kirim Ulang OTP"}
+                      {isLoadingresend ? "Loading...." : "Kirim Ulang OTP"}
                     </button>
                   )}
                 </div>
               </div>
             ) : (
-              // Render a message if email is not present in local storage
+              // Merender jika email tidak ada di local storage
               <div className="mt-[65px] font-Poppin text-[18px] font-medium text-center text-ALERTRED">
                 Data diri tidak ditemukan.
                 <p>Silahkan melengkapi data diri terlebih dahulu!</p>
@@ -142,7 +144,7 @@ const Otp = () => {
                     Halaman Masuk
                   </Link>
                   <div className="relative mt-4 flex w-full items-center justify-center border border-t">
-                    <div className="absolute text-black font-Poppin text-[13px] px-5 bg-DARKBLUE04">
+                    <div className="absolute text-black font-Poppin text-[13px] px-5 bg-YELLOW04">
                       atau
                     </div>
                   </div>
@@ -158,8 +160,8 @@ const Otp = () => {
 
             {/* Render the button only if email is present */}
             {email && (
-              <button className="w-full font-Poppin text-[16px] font-semibold bg-YELLOW05  text-white py-[10px] rounded-xl mt-5 ">
-                {isLoading ? "Loading..." : "Simpan"}
+              <button className="flex items-center justify-center w-full font-Poppin text-[16px] font-semibold bg-YELLOW05  text-white py-[10px] rounded-xl mt-5 ">
+                {isLoading ? <SpinnerLoading /> : "Simpan"}
               </button>
             )}
           </form>

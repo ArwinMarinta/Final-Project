@@ -1,7 +1,7 @@
 import { Footer } from "flowbite-react";
 import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
 
-const footer = () => {
+const Footers = () => {
   return (
     <Footer container className="bg-white">
       <div className="w-full">
@@ -50,4 +50,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footers;
