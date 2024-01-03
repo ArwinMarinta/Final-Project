@@ -104,7 +104,7 @@ const Desktop = ({ user }) => {
                   <IoMdNotificationsOutline className="text-2xl" />
                 </NavLink>
                 <NavLink
-                  to={"/profile" || "/change-password" || "/history"}
+                  to="/profile"
                   className={({ isActive }) =>
                     isActive
                       ? "flex items-center rounded-[4px] bg-YELLOW05 gap-2 h-full pl-2.5 pr-3.5 after:content-['Akun']"

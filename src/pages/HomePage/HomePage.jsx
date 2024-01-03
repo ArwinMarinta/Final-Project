@@ -68,16 +68,15 @@ const HomePage = () => {
                 <img src={Personal} />
                 Gabung Program
               </Link>
-              <a
-                href="https://wa.me/+6282158729742"
-                rel="noreferrer"
+              <Link
+                to="https://wa.me/+6282158729742"
                 target="_blank"
                 alt=""
                 className="bg-YELLOW05 font-bold text-white py-1 px-2 rounded-[4px] flex flex-row items-center gap-1"
               >
                 <img src={Whatsapp} />
                 Tanya CS
-              </a>
+              </Link>
             </div>
           </div>
           <div className=" flex   py-4 lg:w-[40%] ">
