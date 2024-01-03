@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-// import { setContentDetail } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
 
 // import { toastify } from "../../utils/toastify";
