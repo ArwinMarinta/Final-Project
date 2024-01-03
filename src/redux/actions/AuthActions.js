@@ -1,7 +1,6 @@
 import axios from "axios";
 import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
-// import { setContentDetail } from "../reducers/DetailReducer";
 import { toastify } from "../../utils/toastify";
 
 // import { toastify } from "../../utils/toastify";
@@ -112,16 +111,7 @@ export const RequestPassword = (email, setIsLoading) => async () => {
 };
 
 export const register =
-  (
-    name,
-    email,
-    phone,
-    password,
-    confPassword,
-    setIsLoading,
-
-    navigate
-  ) =>
+  (name, email, phone, password, confPassword, setIsLoading, navigate) =>
   async () => {
     try {
       setIsLoading(true);

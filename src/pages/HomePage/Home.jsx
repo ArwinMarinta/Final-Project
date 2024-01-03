@@ -17,7 +17,7 @@ import {
 } from "../../redux/actions/CourseActions";
 import { useEffect, useState } from "react";
 import CourseIcon from "../../assets/course.svg";
-import Footer from "../../components/Navbar/footer";
+import Footer from "../../components/Navbar/Footers";
 
 const HomePage = () => {
   const dispatch = useDispatch();

@@ -18,6 +18,7 @@ import {
   setDetailDiscussion,
   setComentar,
   setCoursePromo,
+  setDiscussionToEdit,
 } from "../reducers/CourseReducer";
 
 export const getCategory = () => async (dispatch) => {
@@ -188,11 +189,11 @@ export const getDiscussion =
       dispatch(setGetData(data.value));
       const { discussion } = data.value;
       dispatch(setDiscussion(discussion));
-       const pageArray = [];
-       for (let index = 1; index <= data.totalPage; index++) {
-         pageArray.push(index);
-       }
-       dispatch(setPage(pageArray));
+      const pageArray = [];
+      for (let index = 1; index <= data.totalPage; index++) {
+        pageArray.push(index);
+      }
+      dispatch(setPage(pageArray));
     } catch (error) {
       if (error.response.status === 500) {
         dispatch(setErrors("Silahkan login untuk melihat kelas yang diambil"));
@@ -225,6 +226,24 @@ export const getDetailDiscussion =
       }
     }
   };
+export const editDiscussion =
+  (id, discussionId) => async (dispatch, getState) => {
+    const { token } = getState().auth;
+    try {
+      const response = await axios.get(
+        `${VITE_API_URL}/courses/${id}/discussions/${discussionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      dispatch(setDiscussionToEdit(data.value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export const addDiscussion =
   (id, judul, pertanyaan, gambar) => async (_, getState) => {
     const { token } = getState().auth;
@@ -252,6 +271,7 @@ export const addDiscussion =
         message: "Pertanyaan berhasil di buat ",
         type: "success",
       });
+      window.location.reload()
     } catch (error) {
       console.log(error);
     }
@@ -280,35 +300,34 @@ export const addComment =
         message: "Commentar berhasil di buat ",
         type: "success",
       });
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
   };
-export const Selesai =
-  (id,idDiskusi) => async (_, getState) => {
-    const { token } = getState().auth;
-    try {
-      await axios.put(
-        `${VITE_API_URL}/courses/${id}/discussions`,
-        {
-          discussionId: idDiskusi,
+export const Selesai = (id, idDiskusi) => async (_, getState) => {
+  const { token } = getState().auth;
+  try {
+    await axios.put(
+      `${VITE_API_URL}/courses/${id}/discussions`,
+      {
+        discussionId: idDiskusi,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      window.location.reload()
-      toastify({
-        message: "Commentar berhasil di buat ",
-        type: "success",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      }
+    );
+    window.location.reload();
+    toastify({
+      message: "Commentar berhasil di tutup ",
+      type: "success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getCourseFree = (courseId, navigate) => async (_, getState) => {
   try {
@@ -521,5 +540,33 @@ export const getCoursePremium =
         setIsLoading(false);
       }
       setIsLoading(false);
+    }
+  };
+export const updateDiscussion =
+  (idDiskusi, id, judul, pertanyaan, gambar) => async (_, getState) => {
+    const { token } = getState().auth;
+    try {
+      const formData = new FormData();
+      formData.append("photoDiscussion", gambar);
+      await axios.put(
+        `${VITE_API_URL}/courses/${id}/discussions/${idDiskusi}`,
+        {
+          title: judul,
+          question: pertanyaan,
+          photoDiscussion: gambar,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.reload();
+      toastify({
+        message: "Berhasil Update Diskusi",
+        type: "success",
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
