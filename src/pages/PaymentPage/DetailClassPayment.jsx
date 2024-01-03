@@ -5,6 +5,7 @@ import { getCourseDetail } from "../../redux/actions/DetailActions";
 import { Label, Select } from "flowbite-react";
 import MethodPayment from "../../data/MethodPayment";
 import { getCoursePremium } from "../../redux/actions/CourseActions";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 export default function DetailClassPayment() {
   const dispatch = useDispatch();
@@ -97,9 +98,9 @@ export default function DetailClassPayment() {
             <div className="w-full mt-6 px-2 lg:px-4 ">
               <button
                 onClick={handleClick}
-                className="py-2 w-full rounded-md bg-YELLOW05 font-Montserrat font-semibold text-white"
+                className="flex items-center justify-center py-2 w-full rounded-md bg-YELLOW05 font-Montserrat font-semibold text-white"
               >
-                {loading ? "Loading.." : "Bayar dan Ikuti Kelas"}
+                {loading ? <SpinnerLoading /> : "Bayar dan Ikuti Kelas"}
               </button>
             </div>
           </div>
