@@ -7,7 +7,11 @@ import {
   getDiscussion,
 } from "../../redux/actions/CourseActions";
 import { Link, useParams } from "react-router-dom";
+<<<<<<< HEAD
+import AddDiscussion from "../../components/modal/AddDiscussion";
+=======
 import AddDiscussion from "../../components/modal/AddDiscussion"
+>>>>>>> 21e4fb57db49eb0d7e23fe1952c406b099e57003
 import PaginationDiscussion from "./PaginationDiscussion";
 import { BiFilter } from "react-icons/bi";
 export default function DiscussionPage() {
