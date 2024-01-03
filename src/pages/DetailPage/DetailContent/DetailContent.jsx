@@ -186,7 +186,7 @@ const DetailContent = () => {
                                 courseDetail?.courseId,
                                 module?.moduleId,
                                 content?.contentId,
-                                contentDetail?.userCourseId
+                                courseDetail?.userCourseId
                               );
                             }}
                             className="flex items-center justify-between py-1 w-full"

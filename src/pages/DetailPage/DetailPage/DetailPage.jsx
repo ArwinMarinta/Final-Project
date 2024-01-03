@@ -26,6 +26,7 @@ const DetailPage = () => {
   const [number, setNumber] = useState(0);
   const [hoverStar, setHoverStar] = useState(undefined);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { courseId } = useParams();
 
@@ -67,6 +68,23 @@ const DetailPage = () => {
   const handleCetakSertifikat = (e) => {
     e.preventDefault();
     dispatch(postCertificate(courseId));
+  };
+
+  const handleDropdownOpen = () => {
+    setDropdownOpen(true);
+  };
+
+  const handleDropdownClose = () => {
+    setDropdownOpen(false);
+  };
+
+  const handleDropdownOptionClick = (option) => {
+    if (option === "cetakCertificate") {
+      dispatch(postCertificate(courseId));
+    } else if (option === "linkedinCertificate") {
+      console.log("Sertifikat LinkedIn diposting");
+    }
+    setDropdownOpen(false);
   };
 
   return (
@@ -276,83 +294,70 @@ const DetailPage = () => {
                     <span className="font-semibold">Join Group Telegram</span>
                     <BiLogoTelegram className="text-xl" />
                   </Link>
-                  {courseDetail?.learningProgress === 100 && (
-                    // <button
-                    //   className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5"
-                    //   onClick={handleCetakSertifikat}
-                    // >
-                    //   {" "}
-                    //   Cetak Sertifikat
-                    // </button>
-                    <>
+                  {/* {courseDetail?.learningProgress === 100 && (
+                    <div className="relative inline-block text-left">
                       <button
-                        id="dropdownDefaultButton"
-                        data-dropdown-toggle="dropdown"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        onMouseEnter={handleDropdownOpen}
+                        onMouseLeave={handleDropdownClose}
                         type="button"
+                        className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5 h-full"
+                        id="dropdown-menu"
+                        aria-haspopup="true"
+                        aria-expanded={dropdownOpen ? "true" : "false"}
                       >
-                        Dropdown button{" "}
-                        <svg
-                          className="w-2.5 h-2.5 ms-3"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 10 6"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="m1 1 4 4 4-4"
-                          />
-                        </svg>
+                        Sertifikat
                       </button>
-
-                      <div
-                        id="dropdown"
-                        className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-                      >
-                        <ul
-                          className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                          aria-labelledby="dropdownDefaultButton"
+                      {dropdownOpen && (
+                        <div
+                          onMouseEnter={handleDropdownOpen}
+                          onMouseLeave={handleDropdownClose}
+                          className="origin-top-right absolute right-0 pt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                          role="menu"
+                          aria-orientation="vertical"
+                          aria-labelledby="dropdown-menu"
                         >
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          <div className="py-1">
+                            <button
+                              onClick={() =>
+                                handleDropdownOptionClick("cetakCertificate")
+                              }
+                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                              role="menuitem"
                             >
-                              Dashboard
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              Cetak Sertifikat
+                            </button>
+                            <div className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                              <Link
+                                target={"_blank"}
+                                to="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=Test%20Certificate&organizationId=1337&issueYear=2018
+&issueMonth=2&expirationYear=2020&expirationMonth=5&certUrl=
+https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functional-consultant-sales&certId=1234"
+                              >
+                                Post to LinkedIn
+                              </Link>
+                            </div>
+
+                            <button
+                              onClick={() =>
+                                handleDropdownOptionClick("linkedinCertificate")
+                              }
+                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                              role="menuitem"
                             >
-                              Settings
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Earnings
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                            >
-                              Sign out
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </>
-                  )}
+                              Post To LinkedIn
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                     <button
+                      className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5"
+                       onClick={handleCetakSertifikat}
+                     >
+                       {" "}
+                       Cetak Sertifikat
+                     </button>
+                  )} */}
                   {courseDetail?.userCourseId === null && (
                     <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
                       {courseDetail?.type === "Free" ? (
@@ -454,89 +459,101 @@ const DetailPage = () => {
               </div>
             </div>
           </div>
-          <div
-            className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm h-max"
-            style={{ flex: "2" }}
-          >
-            <div className="py-5 px-6">
-              <div className="flex justify-between flex-wrap">
-                <h3 className=" font-bold">Materi Belajar</h3>
-                {courseDetail?.userCourseId === null ? (
-                  ""
-                ) : (
-                  <div className=" flex flex-wrap items-center bg-gray-200 rounded-sm dark:bg-gray-700 h-full">
-                    <p
-                      className="bg-YELLOW05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-white align-middle leading-none rounded-sm h-full px-4"
-                      style={{
-                        width: `${courseDetail?.learningProgress ?? "0"}%`,
-                      }}
-                    >
-                      {courseDetail?.learningProgress}
-                      {"% "}completed
-                    </p>
-                  </div>
-                )}
+          <div style={{ flex: "2" }}>
+            <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm px-6 py-4 mb-5">
+              <p className="text-center font-bold mb-3">Sertifikat Kelulusan</p>
+              <div className="flex gap-5">
+                <button className="border-2 border-YELLOW05 text-YELLOW05 font-semibold px-4 py-2 w-full ">
+                  Cetak Sertifikat
+                </button>
+                <button className="border-2 border-BLUE05 text-BLUE05 font-semibold px-4 py-2 w-full">
+                  Post to LinkedIn
+                </button>
               </div>
-              <div className="pt-2.5">
-                {courseDetail?.modules?.map((module, moduleIndex) => (
-                  <>
-                    <div className="flex gap-4 justify-between text-sm w-full mt-5 mb-3">
-                      <span className=" font-bold text-BLUE05">
-                        Chapter {moduleIndex + 1} - {module?.title}
-                      </span>
-                      <span className="font-medium whitespace-nowrap">
-                        {module?.duration} menit
-                      </span>
+            </div>
+            <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm h-max">
+              <div className="py-5 px-6">
+                <div className="flex justify-between flex-wrap">
+                  <h3 className=" font-bold">Materi Belajar</h3>
+                  {courseDetail?.userCourseId === null ? (
+                    ""
+                  ) : (
+                    <div className=" flex flex-wrap items-center bg-gray-200 rounded-sm dark:bg-gray-700 h-full">
+                      <p
+                        className="bg-YELLOW05 whitespace-nowrap w-full p-1.5 text-sm font-medium text-white align-middle leading-none rounded-sm h-full px-4 z-0"
+                        style={{
+                          width: `${courseDetail?.learningProgress ?? "0"}%`,
+                        }}
+                      >
+                        {courseDetail?.learningProgress}
+                        {"% "}completed
+                      </p>
                     </div>
-                    {courseDetail?.modules?.[moduleIndex]?.contents?.map(
-                      (content, contentIndex) => (
-                        <div className="" key={contentIndex}>
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleLinkClick(
-                                courseDetail?.courseId,
-                                module?.moduleId,
-                                content?.contentId,
-                                courseDetail?.userCourseId
-                              );
-                            }}
-                            className="flex items-center justify-between py-1 w-full"
-                          >
-                            <div className="flex items-center text-sm">
-                              <span className="rounded-full bg-DARKBLUE04 text-sm font-medium py-1 px-3 mr-2.5">
-                                {contentIndex + 1}
+                  )}
+                </div>
+                <div className="pt-2.5">
+                  {courseDetail?.modules?.map((module, moduleIndex) => (
+                    <>
+                      <div className="flex gap-4 justify-between text-sm w-full mt-5 mb-3">
+                        <span className=" font-bold text-BLUE05">
+                          Chapter {moduleIndex + 1} - {module?.title}
+                        </span>
+                        <span className="font-medium whitespace-nowrap">
+                          {module?.duration} menit
+                        </span>
+                      </div>
+                      {courseDetail?.modules?.[moduleIndex]?.contents?.map(
+                        (content, contentIndex) => (
+                          <div className="" key={contentIndex}>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleLinkClick(
+                                  courseDetail?.courseId,
+                                  module?.moduleId,
+                                  content?.contentId,
+                                  courseDetail?.userCourseId
+                                );
+                              }}
+                              className="flex items-center justify-between py-1 w-full"
+                            >
+                              <div className="flex items-center text-sm">
+                                <span className="rounded-full bg-DARKBLUE04 text-sm font-medium py-1 px-3 mr-2.5">
+                                  {contentIndex + 1}
+                                </span>
+                                <span className="">{content?.title}</span>
+                              </div>
+                              <span className="text-xl">
+                                {checkCourse?.status === "success" ? (
+                                  <>
+                                    {content?.isFinished ? (
+                                      <FaCircleCheck
+                                        style={{ color: "#00CF6C" }}
+                                      />
+                                    ) : (
+                                      <FaCirclePlay className="text-BLUE05" />
+                                    )}
+                                  </>
+                                ) : (
+                                  <>
+                                    {content?.isDemo ? (
+                                      <FaCirclePlay className="text-BLUE05" />
+                                    ) : (
+                                      <BiSolidLock
+                                        className={"text-black/60"}
+                                      />
+                                    )}
+                                  </>
+                                )}
                               </span>
-                              <span className="">{content?.title}</span>
-                            </div>
-                            <span className="text-xl">
-                              {checkCourse?.status === "success" ? (
-                                <>
-                                  {content?.isFinished ? (
-                                    <FaCircleCheck
-                                      style={{ color: "#00CF6C" }}
-                                    />
-                                  ) : (
-                                    <FaCirclePlay className="text-BLUE05" />
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  {content?.isDemo ? (
-                                    <FaCirclePlay className="text-BLUE05" />
-                                  ) : (
-                                    <BiSolidLock className={"text-black/60"} />
-                                  )}
-                                </>
-                              )}
-                            </span>
-                          </button>
-                          <hr className="my-1" />
-                        </div>
-                      )
-                    )}
-                  </>
-                ))}
+                            </button>
+                            <hr className="my-1" />
+                          </div>
+                        )
+                      )}
+                    </>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

@@ -145,7 +145,7 @@ export const postCertificate = (courseId) => async (_, getState) => {
   try {
     let { token } = getState().auth;
 
-    const response = await axios.post(
+    await axios.post(
       `${VITE_API_URL}/courses/${courseId}/certificates`,
       {},
       {
@@ -154,10 +154,6 @@ export const postCertificate = (courseId) => async (_, getState) => {
         },
       }
     );
-    toastify({
-      message: response.data.message,
-      type: "success",
-    });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       toastify({
