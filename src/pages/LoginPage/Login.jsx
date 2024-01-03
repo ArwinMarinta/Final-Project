@@ -3,7 +3,6 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/AuthActions";
-import { useEffect } from "react";
 import GoogleLogin from "../../components/GoogleLogin/Google";
 
 const Login = () => {
@@ -13,7 +12,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState("");
 
   // const [alertStatus, setAlertStatus] = useState(false);
 
@@ -26,23 +24,8 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    dispatch(login(email, password, setIsLoading, setAlert, navigate));
+    dispatch(login(email, password, setIsLoading, navigate));
   };
-
-  useEffect(() => {
-    // Fungsi untuk menyembunyikan alert setelah 3000 milidetik (3 detik)
-    const hideAlert = () => {
-      setAlert(""); // Menghapus pesan alert
-    };
-
-    // Memulai timeout ketika alertMessage berubah
-    if (alert) {
-      const timeoutId = setTimeout(hideAlert, 2500);
-
-      // Membersihkan timeout jika komponen di-unmount atau alertMessage berubah
-      return () => clearTimeout(timeoutId);
-    }
-  }, [alert]);
 
   return (
     <>
@@ -126,14 +109,6 @@ const Login = () => {
 
             <div className="flex cursor-pointer shadow-md border-YELLOW05 font-semibold rounded-lg mt-5 flex-row py-2 gap-1 justify-center items-center w-full border-2">
               <GoogleLogin />
-            </div>
-
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex justify-center w-full md:max-w-[50%]  ">
-              {alert && (
-                <div className="py-2 flex justify-center w-full px-2 font-Poppins text-[14px] text-LightBlue5 font-medium rounded-lg text-center bg-ALERTRED">
-                  {alert}!
-                </div>
-              )}
             </div>
           </div>
         </div>

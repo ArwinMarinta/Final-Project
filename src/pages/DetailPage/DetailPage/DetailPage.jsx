@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { BiLogoTelegram, BiSolidLock } from "react-icons/bi";
+import { BiLogoTelegram, BiSolidLock, BiLink } from "react-icons/bi";
 import { FaCirclePlay, FaCircleCheck, FaCircleInfo } from "react-icons/fa6";
 import { MdStar, MdStarBorder, MdOutlineClose } from "react-icons/md";
 import { putProgress } from "../../../redux/actions/CourseActions";
@@ -33,6 +33,7 @@ const DetailPage = () => {
   useEffect(() => {
     dispatch(getTestimonial(courseId));
     if (token) {
+      // console.log(courseDetail);
       dispatch(getCourseDetail(courseId, true));
       dispatch(getCheckCourse(courseId));
     } else {
@@ -287,8 +288,9 @@ const DetailPage = () => {
 
                 <div className="flex flex-wrap gap-2.5 mt-3 lg:mt-0">
                   <Link
-                    target={"_blank"}
-                    to="https://binar.club/gruptelefaq-km"
+                    to="https://t.me/+c0MZsCGj2jIzZjdl"
+                    target="_blank"
+                    alt=""
                     className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
                   >
                     <span className="font-semibold">Join Group Telegram</span>
@@ -358,7 +360,19 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                        Cetak Sertifikat
                      </button>
                   )} */}
-                  {courseDetail?.userCourseId === null && (
+                  {/* {courseDetail?.userCourseId === null && ( */}
+
+                  {courseDetail.courseDiscussionId !== null && (
+                    <Link
+                      to={`/discussion-course/${courseId}`}
+                      className="flex gap-2 rounded-sm text-YELLOW05 items-center border-2 border-YELLOW05 hover:text-yellow-500 hover:border-yellow-500 w-max py-1.5 px-4"
+                    >
+                      <span className="font-semibold">Discussion</span>
+                      <BiLink className="text-xl" />
+                    </Link>
+                  )}
+
+                  {courseDetail.userCourseId === null ? (
                     <button className="text-white bg-YELLOW05 hover:bg-yellow-500 px-5 font-semibold py-1.5">
                       {courseDetail?.type === "Free" ? (
                         <button
@@ -366,7 +380,7 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                             handleCourseFree(event, courseDetail.courseId);
                           }}
                         >
-                          Ambil Kelas{" "}
+                          Ambil Kelas
                         </button>
                       ) : (
                         <Link
@@ -377,7 +391,7 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                         </Link>
                       )}
                     </button>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -461,14 +475,35 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
           </div>
           <div style={{ flex: "2" }}>
             <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm px-6 py-4 mb-5">
-              <p className="text-center font-bold mb-3">Sertifikat Kelulusan</p>
+              <h6 className="text-center font-bold mb-3">
+                Sertifikat Kelulusan
+              </h6>
+              <p className="text-center px-5 mb-5">
+                <p>Selamat atas pencapaian Anda!</p> Sertifikat ini adalah bukti
+                dari perjuangan Anda dalam menyelesaikan kursus ini.
+              </p>
               <div className="flex gap-5">
-                <button className="border-2 border-YELLOW05 text-YELLOW05 font-semibold px-4 py-2 w-full ">
+                <button className="border-2 border-YELLOW05 text-YELLOW05 hover:bg-YELLOW05 hover:text-white font-semibold px-4 py-2 w-full ">
                   Cetak Sertifikat
                 </button>
-                <button className="border-2 border-BLUE05 text-BLUE05 font-semibold px-4 py-2 w-full">
+                <Link
+                  to="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=Test%20Certificate&organizationId=1337&issueYear=2018
+&issueMonth=2&expirationYear=2020&expirationMonth=5&certUrl=
+https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functional-consultant-sales&certId=1234"
+                  target="_blank"
+                  className="border-2 text-center border-BLUE05 text-BLUE05 hover:bg-BLUE05 hover:text-white font-semibold px-4 py-2 w-full"
+                >
+                  Post to LinkdIn
+                  {/* <Link
+                    target={"_blank"}
+                    to=
+                  >
+                    Post to LinkedIn
+                  </Link> */}
+                </Link>
+                {/* <button className="border-2 border-BLUE05 text-BLUE05 hover:bg-BLUE05 hover:text-white font-semibold px-4 py-2 w-full">
                   Post to LinkedIn
-                </button>
+                </button> */}
               </div>
             </div>
             <div className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-sm h-max">

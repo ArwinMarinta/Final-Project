@@ -88,7 +88,7 @@ function Checklist({
   const handlenamecourse = () => {
     if (nameCourse === "populer") {
       setTypeCourse([]);
-      handleTypeCourse("populer");
+      handleTypeCourse("popular");
     } else if (nameCourse === "promo") {
       setTypeCourse([]);
       handleTypeCourse("promo");

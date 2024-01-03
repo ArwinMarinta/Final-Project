@@ -1,7 +1,6 @@
 import { useState } from "react";
-
+// import { useParams } from "react-router-dom";
 import Checklist from "../../components/checklist/Checklist";
-
 import Search from "../../assets/search.svg";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -146,7 +145,7 @@ const Course = () => {
                 ) : (
                   <div className="grid md:grid-cols-3 grid-cols-1 mt-4 mb-12 gap-2">
                     {errors && (
-                      <div className="w-full md:w-[200%]">
+                      <div className="w-full md:w-[310%]">
                         <label className="flex justify-center bg-blue-100 rounded p-3 font-bold text-gray-600">
                           {errors}
                         </label>

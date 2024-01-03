@@ -57,6 +57,12 @@ const Profile = () => {
     navigate("/");
   };
 
+  const handleChange = (selectedFile) => {
+    if (token) {
+      dispatch(UpdatePicture(selectedFile));
+    }
+  };
+
   const handleChangeProfile = (event) => {
     event.preventDefault();
 
@@ -67,12 +73,6 @@ const Profile = () => {
       setPhotoProfile(newProfilePicture);
 
       handleChange(selectedFile);
-    }
-  };
-
-  const handleChange = (selectedFile) => {
-    if (token) {
-      dispatch(UpdatePicture(selectedFile));
     }
   };
 

@@ -3,6 +3,8 @@ import { setToken, setUser } from "../reducers/AuthReducer";
 import { VITE_API_URL } from "../../config/config";
 import { toastify } from "../../utils/toastify";
 
+// import { toastify } from "../../utils/toastify";
+
 export const login =
   (email, password, setIsLoading, navigate) => async (dispatch) => {
     try {
@@ -82,7 +84,7 @@ export const profile =
     }
   };
 
-export const RequestPassword = (email, setIsLoading, setAlert) => async () => {
+export const RequestPassword = (email, setIsLoading) => async () => {
   try {
     setIsLoading(true);
     const response = await axios.post(
@@ -91,8 +93,11 @@ export const RequestPassword = (email, setIsLoading, setAlert) => async () => {
         email,
       }
     );
+    toastify({
+      message: response.data.message,
+      type: "success",
+    });
 
-    setAlert(response.data.message);
     setIsLoading(false);
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -106,16 +111,7 @@ export const RequestPassword = (email, setIsLoading, setAlert) => async () => {
 };
 
 export const register =
-  (
-    name,
-    email,
-    phone,
-    password,
-    confPassword,
-    setIsLoading,
-
-    navigate
-  ) =>
+  (name, email, phone, password, confPassword, setIsLoading, navigate) =>
   async () => {
     try {
       setIsLoading(true);
