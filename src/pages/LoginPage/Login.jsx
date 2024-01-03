@@ -14,14 +14,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const [alertStatus, setAlertStatus] = useState(false);
-
   //fungsi show/hidden password
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-
-  //animasi loading setelah button submit diklik
 
   const handleLogin = async (event) => {
     event.preventDefault();

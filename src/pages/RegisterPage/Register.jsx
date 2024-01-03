@@ -26,7 +26,7 @@ const Register = () => {
     // membatasi input berupa angka dan simbol +
     const numberValue = inputValue.replace(/[^\d]/g, "");
 
-    // membatasi inputan nomor menjadi 15
+    // membatasi inputan nomor menjadi 14
     const maxLength = 14;
     const truncateValueNomor = numberValue.slice(0, maxLength);
 
