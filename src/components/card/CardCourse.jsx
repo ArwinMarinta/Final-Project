@@ -13,7 +13,11 @@ const CardCourse = ({ data, progress }) => {
       to={`/detail/course/${data.courseId}`}
       className="mt-2 flex flex-col  bg-white rounded-md m-auto shadow-lg  "
     >
-      <img className="w-full h-[15vh]C rounded-t-md" src={data.imageUrl} />
+      <img
+        className="w-full h-[15vh]C rounded-t-md"
+        src={data.imageUrl}
+        style={{ aspectRatio: "3/2" }}
+      />
       <div className="flex flex-col mt-3 px-2 mb-3">
         <div className="flex flex-row justify-between font-Montserrat  text-sm ">
           <div className="flex flex-row gap-1">

@@ -1,9 +1,11 @@
 import axios from "axios";
 import { VITE_API_URL } from "../../config/config";
+import { toastify } from "../../utils/toastify";
 import {
   setCourseDetail,
   setCheckCourse,
   setContentDetail,
+  setTestimonial,
   setError,
 } from "../reducers/DetailReducer";
 import {} from "../reducers/DetailReducer";
@@ -29,7 +31,7 @@ export const getCourseDetail =
       dispatch(setCourseDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log(error.response.data.message);
+        dispatch(setCourseDetail([]));
       }
     }
   };
@@ -57,7 +59,6 @@ export const getContentDetail =
 
       const { value } = response.data;
       const data = value;
-      // dispatch(setError(null));
       dispatch(setContentDetail(data));
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -92,13 +93,32 @@ export const getCheckCourse = (courseId) => async (dispatch, getState) => {
   }
 };
 
+export const getTestimonial = (courseId) => async (dispatch, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    const response = await axios.get(
+      `${VITE_API_URL}/course-testimonials/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const { value } = response.data;
+    const data = value;
+    dispatch(setTestimonial(data));
+  } catch (error) {
+    dispatch(setTestimonial([]));
+  }
+};
+
 export const postTestimonial =
   (courseId, testimonial, rating) => async (_, getState) => {
     try {
       let { token } = getState().auth;
-      console.log("Gege");
 
-      await axios.post(
+      const response = await axios.post(
         `${VITE_API_URL}/course-testimonials/${courseId}`,
         { testimonial, rating: Number(rating) },
         {
@@ -107,7 +127,39 @@ export const postTestimonial =
           },
         }
       );
+      toastify({
+        message: response.data.message,
+        type: "success",
+      });
     } catch (error) {
-      console.log("eror");
+      if (axios.isAxiosError(error)) {
+        toastify({
+          message: error?.response?.data?.message,
+          type: "error",
+        });
+      }
     }
   };
+
+export const postCertificate = (courseId) => async (_, getState) => {
+  try {
+    let { token } = getState().auth;
+
+    await axios.post(
+      `${VITE_API_URL}/courses/${courseId}/certificates`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toastify({
+        message: error?.response?.data?.message,
+        type: "error",
+      });
+    }
+  }
+};
