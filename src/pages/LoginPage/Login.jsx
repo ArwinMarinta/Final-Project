@@ -37,7 +37,7 @@ const Login = () => {
             className="w-full border-2 rounded-lg shadow-xl px-6 py-8 "
           >
             <form onSubmit={handleLogin}>
-              <h1 className="text-[24px] font-bold  font-Montserrat mb-8">
+              <h1 className="text-[24px] font-bold text-YELLOW05 font-Montserrat mb-8">
                 Masuk
               </h1>
               <div className="flex flex-col gap-5">

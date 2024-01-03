@@ -87,7 +87,7 @@ const Register = () => {
             onSubmit={handleRegis}
             className="w-full border-2 rounded-lg shadow-xl px-6 py-8"
           >
-            <h1 className="text-[28px] font-Montserrat font-bold   mb-8">
+            <h1 className="text-[28px] text-YELLOW05 font-Montserrat font-bold   mb-8">
               Daftar
             </h1>
             <div className="flex flex-col gap-5">
