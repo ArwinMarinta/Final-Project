@@ -24,11 +24,15 @@ export default function DetailDiscussion() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    if (jawaban != "" && image !== null) {
+    if (jawaban === "") {
+      setErrors("Jawaban tidak boleh kosong");
+    }
+    if (jawaban != "") {
       dispatch(addComment(jawaban, image, id, discussionId));
     }
     if (jawaban == "" && image == null) {
       setErrors("Jawaban atau gambar tidak boleh kosong");
+
       setTimeout(() => {
         setErrors("");
       }, 2000);
@@ -199,7 +203,7 @@ export default function DetailDiscussion() {
                       <div className="flex flex-row justify-between items-center w-full">
                         <div className="flex flex-row items-center gap-3">
                           <img
-                            className="w-8 rounded-full bg-blue-200"
+                            className="w-10 rounded-full bg-blue-200 object-top object-cover h-10"
                             src={item.userPhoto}
                             alt=""
                           />

@@ -10,7 +10,7 @@ const Otp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
-  const [resendTimer, setResendTimer] = useState(3); // Hitungan mundur awal
+  const [resendTimer, setResendTimer] = useState(300); // Hitungan mundur awal
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingresend, setIsLoadingResend] = useState(false);
 
