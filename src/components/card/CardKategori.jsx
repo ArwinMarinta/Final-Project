@@ -7,7 +7,7 @@ const CardKategori = ({ data }) => {
       <div className="flex flex-col justify-center px-1 ">
         <img
           src={data.urlPhoto}
-          className="rounded-2xl"
+          className="rounded-3xl"
           style={{ aspectRatio: "3/2" }}
         />
         <div className="text-black font-Montserrat font-semibold text-xs py-3 self-center">

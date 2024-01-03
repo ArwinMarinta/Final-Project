@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ResetPasswordUser } from "../../redux/actions/AuthActions";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -103,9 +104,9 @@ const ResetPassword = () => {
           <button
             onClick={handleClick}
             type="submit"
-            className="w-full font-Poppins bg-YELLOW05  text-white py-[10px]  mt-5 rounded-xl font-bold"
+            className="flex items-center justify-center w-full font-Poppins bg-YELLOW05  text-white py-[10px]  mt-5 rounded-xl font-bold"
           >
-            {isLoading ? "Loading..." : "Simpan"}
+            {isLoading ? <SpinnerLoading /> : <span>Simpan</span>}
           </button>
         </form>
       </div>

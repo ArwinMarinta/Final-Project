@@ -88,6 +88,8 @@ function App() {
         <Route path="/course/:nameCourse" element={<Course />} />
         <Route path="/course" element={<Course />} />
         <Route path="/search-course/:nameCourse" element={<SearchCourse />} />
+        <Route path="/discussion-course/:id" element={<DiscussionPage />} />
+        <Route path="/detailDiscussion/:id/:discussionId" element={<DetailDiscussion />} />
         <Route
           path="/discussion-course/:id"
           element={
@@ -95,10 +97,6 @@ function App() {
               <DiscussionPage />
             </NoAccesToken>
           }
-        />
-        <Route
-          path="/detailDiscussion/:id/:discussionId"
-          element={<DetailDiscussion />}
         />
         <Route path="*" element={<NotFound />} />
         <Route

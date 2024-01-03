@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { BiSolidLock } from "react-icons/bi";
 import { FaCirclePlay, FaCircleCheck } from "react-icons/fa6";
 import { MdOutlineClose } from "react-icons/md";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa";
 import { putProgress } from "../../../redux/actions/CourseActions";
 import { resetContentDetail } from "../../../redux/reducers/DetailReducer";
@@ -18,7 +19,6 @@ import {
 const DetailContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const [coursesId, setCoursesId] = useState(null);
 
   const { courseDetail } = useSelector((state) => state.detail) || {};
   const { contentDetail } = useSelector((state) => state.detail) || {};
@@ -34,8 +34,6 @@ const DetailContent = () => {
   const { contentId } = useParams();
   const { moduleId } = useParams();
 
-  // console.log(coursesId);
-
   useEffect(() => {
     if (token) {
       dispatch(getCourseDetail(courseId, true));
@@ -48,7 +46,6 @@ const DetailContent = () => {
   }, [dispatch, courseId, moduleId, contentId, userCourse, token]);
 
   const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
-    // setCoursesId(courseId);
     dispatch(putProgress(userCourseId, contentId));
 
     dispatch(resetContentDetail());
@@ -94,13 +91,10 @@ const DetailContent = () => {
                 <img src={orderCourseIMG} className="w-2/3" alt="" />
               </div>
               <div className="w-full flex justify-center">
-                <Link
-                  to={`/detail/payment/${courseId}`}
-                  className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2"
-                >
+                <button className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2">
                   <span className="ml-5">{""}</span>
                   Belajar Sekarang <FaArrowRight className="mr-5 mt-0.5" />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -113,7 +107,16 @@ const DetailContent = () => {
         </div>
       )}
       <div className="mb-24 sm:mb-10">
-        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto my-4 md:my-8">
+        <div className="hidden sm:block container font-semibold  mx-auto py-5">
+          <Link
+            to={`/detail/course/${courseId}`}
+            className="flex items-center gap-3"
+          >
+            <IoMdArrowRoundBack className="text-xl" />{" "}
+            <p>{courseDetail?.title}</p>
+          </Link>
+        </div>
+        <div className="container flex flex-col lg:flex-row gap-5 lg:gap-10 mx-auto ">
           <div className="" style={{ flex: "2" }}>
             <iframe
               className="w-full aspect-video rounded-md bg-black"
@@ -130,12 +133,19 @@ const DetailContent = () => {
             <h1 className="text-2xl sm:text-3xl font-semibold mt-1">
               {contentDetail?.title}
             </h1>
+            <p className="text-lg">
+              by <span className="capitalize">{courseDetail?.instructor}</span>
+            </p>
           </div>
+
           <div
             className="border shadow-sm drop-shadow-sm ring-offset-1 border-gray-400/20 rounded-md h-max"
             style={{ flex: "1" }}
           >
-            <div className="py-5 px-6">
+            <div
+              className="py-5 px-6 overflow-auto lg:h-96 2xl:h-screen"
+              style={{ height: "75vh" }}
+            >
               <div className="flex justify-between flex-wrap">
                 <h3 className=" font-bold">Materi Belajar</h3>
                 {courseDetail?.userCourseId === null ? (
@@ -154,6 +164,7 @@ const DetailContent = () => {
                   </div>
                 )}
               </div>
+
               <div className="pt-2.5">
                 {courseDetail?.modules?.map((module, moduleIndex) => (
                   <>
@@ -175,7 +186,7 @@ const DetailContent = () => {
                                 courseDetail?.courseId,
                                 module?.moduleId,
                                 content?.contentId,
-                                contentDetail?.userCourseId
+                                courseDetail?.userCourseId
                               );
                             }}
                             className="flex items-center justify-between py-1 w-full"
