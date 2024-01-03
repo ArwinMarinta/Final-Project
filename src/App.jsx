@@ -1,10 +1,10 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import HomePage from "./pages/HomePage/HomePage";
+import HomePage from "./pages/HomePage/Home";
 import RegisterPage from "./pages/RegisterPage/Register";
 import LoginPage from "./pages/LoginPage/Login";
-import DetailPage from "./pages/DetailPage/DetailPage/DetailPage";
+import DetailPage from "./pages/DetailPage/DetailPageCourse/DetailPage";
 import ProfilePage from "./pages/ProfilePage/Profile";
 import NotificationPage from "./pages/NotificationPage/Notifications";
 import ResetPasswordPage from "./pages/PasswordPage/ResetPassword";
@@ -14,7 +14,7 @@ import OtpPage from "./pages/OtpPage/Otp";
 import VerifyEmail from "./pages/PasswordPage/VerifyEmail";
 import DetailPaymentPage from "./pages/PaymentPage/DetailClassPayment";
 import ChangePassword from "./pages/ProfilePage/ChangePassword";
-import DetailContent from "./pages/DetailPage/DetailContent/DetailContent";
+import DetailContent from "./pages/DetailPage/DetailContentPage/DetailContent";
 import HistoryPage from "./pages/ProfilePage/Histori";
 import Proctected from "./components/Protecd/Proctected";
 import NoAccesToken from "./components/Protecd/NoAccesToken";
