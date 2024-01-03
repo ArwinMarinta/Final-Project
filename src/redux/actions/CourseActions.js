@@ -321,7 +321,9 @@ export const Selesai = (id, idDiskusi) => async (_, getState) => {
     );
     window.location.reload();
     toastify({
+
       message: "Commentar berhasil di tutup ",
+
       type: "success",
     });
   } catch (error) {
