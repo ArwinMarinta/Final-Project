@@ -28,11 +28,6 @@ const DetailPage = () => {
   const [hoverStar, setHoverStar] = useState(undefined);
   const [showPopUp, setShowPopUp] = useState(false);
 
-  const [testimonialText, setTestimonialText] = useState("");
-  const [number, setNumber] = useState(0);
-  const [hoverStar, setHoverStar] = useState(undefined);
-  const [showPopUp, setShowPopUp] = useState(false);
-
   const { courseId } = useParams();
 
   useEffect(() => {
@@ -44,7 +39,6 @@ const DetailPage = () => {
       dispatch(getCourseDetail(courseId, false));
     }
   }, [dispatch, courseId, token]);
-
 
   const handleLinkClick = (
     courseId,
@@ -64,8 +58,7 @@ const DetailPage = () => {
         message: "Ambil Kelas Terlebih Dahulu",
         type: "error",
       });
-    }
-    else if (userCourseId == null && user !== null && isDemo == false) {
+    } else if (userCourseId == null && user !== null && isDemo == false) {
       navigate(
         `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
       );
