@@ -23,11 +23,14 @@ const DetailPage = () => {
   const { testimonial } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
+<<<<<<< HEAD
   const [testimonialText, setTestimonialText] = useState("");
   const [number, setNumber] = useState(0);
   const [hoverStar, setHoverStar] = useState(undefined);
   const [showPopUp, setShowPopUp] = useState(false);
 
+=======
+>>>>>>> 7e14df39c7d5bd61f85bd4de994991d7f1127a0a
   const [testimonialText, setTestimonialText] = useState("");
   const [number, setNumber] = useState(0);
   const [hoverStar, setHoverStar] = useState(undefined);
@@ -45,7 +48,10 @@ const DetailPage = () => {
     }
   }, [dispatch, courseId, token]);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7e14df39c7d5bd61f85bd4de994991d7f1127a0a
   const handleLinkClick = (
     courseId,
     moduleId,
@@ -64,8 +70,12 @@ const DetailPage = () => {
         message: "Ambil Kelas Terlebih Dahulu",
         type: "error",
       });
+<<<<<<< HEAD
     }
     else if (userCourseId == null && user !== null && isDemo == false) {
+=======
+    } else if (userCourseId == null && user !== null && isDemo == false) {
+>>>>>>> 7e14df39c7d5bd61f85bd4de994991d7f1127a0a
       navigate(
         `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
       );
