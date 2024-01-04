@@ -48,7 +48,6 @@ const DetailPage = () => {
     isDemo
   ) => {
     dispatch(putProgress(userCourseId, contentId));
-
     navigate(
       `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
     );

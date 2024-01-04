@@ -56,7 +56,7 @@ const CardCourse = ({ data, progress }) => {
             </div>
             <div className="flex flex-row gap-1">
               <img src={Time} />
-              <p>{data.duration}</p>
+              <p>{data.totalDuration}</p>
             </div>
           </div>
         </div>
