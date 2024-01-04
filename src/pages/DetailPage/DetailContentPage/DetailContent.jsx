@@ -96,8 +96,7 @@ const DetailContent = () => {
                   className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2"
                 >
                   <span className="ml-5">{""}</span>
-                  Belajar Sekarang Juga
-                  <FaArrowRight className="mr-5 mt-0.5" />
+                  Belajar Sekarang <FaArrowRight className="mr-5 mt-0.5" />
                 </Link>
               </div>
             </div>
