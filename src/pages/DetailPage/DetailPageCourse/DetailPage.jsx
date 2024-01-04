@@ -192,6 +192,7 @@ const DetailPage = () => {
                 className="sm:max-w-xs w-full"
                 src={courseDetail?.imageUrl}
                 alt=""
+                style={{ aspectRatio: "3/2" }}
               />
             </div>
             <div className="sm:pl-8 w-full">
