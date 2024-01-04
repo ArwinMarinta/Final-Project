@@ -91,6 +91,7 @@ const DetailContent = () => {
                 <img src={orderCourseIMG} className="w-2/3" alt="" />
               </div>
               <div className="w-full flex justify-center">
+
                 <Link to={`/detail/payment/${courseId}`} className="flex justify-between items-center bg-BLUE05 w-4/5 text-white font-semibold rounded-full py-1.5 mt-2">
                   <span className="ml-5">{""}</span>
                   Belajar Sekarang <FaArrowRight className="mr-5 mt-0.5" />

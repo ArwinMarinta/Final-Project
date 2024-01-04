@@ -23,7 +23,6 @@ const DetailPage = () => {
   const { testimonial } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
-
   const [testimonialText, setTestimonialText] = useState("");
   const [number, setNumber] = useState(0);
   const [hoverStar, setHoverStar] = useState(undefined);
@@ -40,6 +39,7 @@ const DetailPage = () => {
       dispatch(getCourseDetail(courseId, false));
     }
   }, [dispatch, courseId, token]);
+
 
   const handleLinkClick = (
     courseId,

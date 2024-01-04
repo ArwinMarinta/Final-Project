@@ -32,6 +32,7 @@ export default function DetailDiscussion() {
     }
     if (jawaban == "" && image == null) {
       setErrors("Jawaban atau gambar tidak boleh kosong");
+
       setTimeout(() => {
         setErrors("");
       }, 2000);
