@@ -164,7 +164,10 @@ const HomePage = () => {
 
           {category.length > 0 && (
             <div className="">
-              <Carousel responsive={responsive2}>
+              <Carousel
+                responsive={responsive2}
+                arrows={false}
+              >
                 {/* <div className="flex flex-row bg-red-500 items-center "> */}
                 <button
                   onClick={() => setSelectedCategory("All")}
@@ -188,7 +191,7 @@ const HomePage = () => {
           )}
 
           <div className=" drop-shadow-xl ">
-            <Carousel responsive={responsive}>
+            <Carousel responsive={responsive} arrows={false}>
               {filterCourses(selectedCategory).map((data) => (
                 <CardCourse key={data.id} data={data} />
               ))}
@@ -213,7 +216,7 @@ const HomePage = () => {
           </div>
 
           <div className=" drop-shadow-xl ">
-            <Carousel responsive={responsive}>
+            <Carousel responsive={responsive} arrows={false}>
               {coursePromo.map((data) => (
                 <CardCourse key={data.id} data={data} />
               ))}
