@@ -5,6 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { register } from "../../redux/actions/AuthActions";
 import { useDispatch } from "react-redux";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Register = () => {
     // membatasi input berupa angka dan simbol +
     const numberValue = inputValue.replace(/[^\d]/g, "");
 
-    // membatasi inputan nomor menjadi 15
+    // membatasi inputan nomor menjadi 14
     const maxLength = 14;
     const truncateValueNomor = numberValue.slice(0, maxLength);
 
@@ -86,7 +87,7 @@ const Register = () => {
             onSubmit={handleRegis}
             className="w-full border-2 rounded-lg shadow-xl px-6 py-8"
           >
-            <h1 className="text-[28px] font-Montserrat font-bold   mb-8">
+            <h1 className="text-[28px] text-YELLOW05 font-Montserrat font-bold   mb-8">
               Daftar
             </h1>
             <div className="flex flex-col gap-5">
@@ -206,9 +207,9 @@ const Register = () => {
             </div>
             <button
               type="submit"
-              className="font-Poppins btn btn-primary w-full text-[14px] font-medium bg-YELLOW05 text-white py-[10px] rounded-xl mt-10 "
+              className=" flex items-center justify-center font-Poppins btn btn-primary w-full text-[14px] font-medium bg-YELLOW05 text-white py-[10px] rounded-xl mt-10 "
             >
-              {isLoading ? "Loading..." : "Daftar"}
+              {isLoading ? <SpinnerLoading /> : <span>Daftar</span>}
             </button>
             <div className="flex justify-center items-center gap-2 mt-6">
               <h1 className="font-Poppins text-[14px] font-normal">

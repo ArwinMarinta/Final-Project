@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { RequestPassword } from "../../redux/actions/AuthActions";
 import ArrowIcon from "../../assets/arrow_left_black.svg";
 import { Link } from "react-router-dom";
+import SpinnerLoading from "../../utils/SpinnerLoading";
 
 const VerifyEmail = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,9 @@ const VerifyEmail = () => {
           </div>
           <button
             type="submit"
-            className="w-full font-Poppins bg-YELLOW05 font-bold text-white py-[10px] rounded-2xl mt-5 "
+            className="flex items-center justify-center w-full font-Poppins bg-YELLOW05 font-bold text-white py-[10px] rounded-2xl mt-5 "
           >
-            {isLoading ? "Loading..." : "Kirim"}
+            {isLoading ? <SpinnerLoading /> : <span>Kirim</span>}
           </button>
         </form>
       </div>

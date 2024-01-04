@@ -72,9 +72,11 @@ const courseSlice = createSlice({
     setCoursePromo: (state, action) => {
       state.coursePromo = action.payload;
     },
+
     setDiscussionToEdit: (state, action) => {
       state.discussionToEdit = action.payload;
     },
+
   },
 });
 

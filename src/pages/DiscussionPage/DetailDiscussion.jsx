@@ -24,7 +24,10 @@ export default function DetailDiscussion() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    if (jawaban != "" ) {
+    if (jawaban === "") {
+      setErrors("Jawaban tidak boleh kosong");
+    }
+    if (jawaban != "") {
       dispatch(addComment(jawaban, image, id, discussionId));
     }
     if (jawaban == "" && image == null) {
