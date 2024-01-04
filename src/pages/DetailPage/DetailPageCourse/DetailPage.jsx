@@ -49,11 +49,10 @@ const DetailPage = () => {
   ) => {
     dispatch(putProgress(userCourseId, contentId));
 
-    if (userCourseId !== null && isDemo == false) {
-      navigate(
-        `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
-      );
-    } else if (userCourseId == null && user !== null && isDemo == true) {
+    navigate(
+      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+    );
+    if (userCourseId == null && user !== null && isDemo == true) {
       toastify({
         message: "Ambil Kelas Terlebih Dahulu",
         type: "error",
