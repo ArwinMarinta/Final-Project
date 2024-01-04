@@ -13,6 +13,7 @@ import {
   postTestimonial,
   postCertificate,
 } from "../../../redux/actions/DetailActions";
+import { toastify } from "../../../utils/toastify";
 
 const DetailPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const DetailPage = () => {
   const { checkCourse } = useSelector((state) => state.detail);
   const { testimonial } = useSelector((state) => state.detail);
   const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const [testimonialText, setTestimonialText] = useState("");
   const [number, setNumber] = useState(0);
@@ -39,12 +41,39 @@ const DetailPage = () => {
     }
   }, [dispatch, courseId, token]);
 
-  const handleLinkClick = (courseId, moduleId, contentId, userCourseId) => {
+  const handleLinkClick = (
+    courseId,
+    moduleId,
+    contentId,
+    userCourseId,
+    isDemo
+  ) => {
     dispatch(putProgress(userCourseId, contentId));
 
-    navigate(
-      `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
-    );
+    if (userCourseId !== null && isDemo == false) {
+      navigate(
+        `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+      );
+    } else if (userCourseId == null && user !== null && isDemo == true) {
+      toastify({
+        message: "Ambil Kelas Terlebih Dahulu",
+        type: "error",
+      });
+    }
+    else if (userCourseId == null && user !== null && isDemo == false) {
+      navigate(
+        `/detail/course/${courseId}/module/${moduleId}/content/${contentId}`
+      );
+    }
+    if (user == null) {
+      toastify({
+        message: "Silahkan Login Terlebih Dahulu",
+        type: "error",
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    }
   };
 
   const handleCourseFree = async (event, courseID) => {
@@ -477,7 +506,8 @@ https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Flearn%2Fcertifications%2Fd365-functio
                                   courseDetail?.courseId,
                                   module?.moduleId,
                                   content?.contentId,
-                                  courseDetail?.userCourseId
+                                  courseDetail?.userCourseId,
+                                  content?.isDemo
                                 );
                               }}
                               className="flex items-center justify-between py-1 w-full"
