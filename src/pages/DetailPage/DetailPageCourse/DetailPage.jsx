@@ -28,6 +28,11 @@ const DetailPage = () => {
   const [hoverStar, setHoverStar] = useState(undefined);
   const [showPopUp, setShowPopUp] = useState(false);
 
+  const [testimonialText, setTestimonialText] = useState("");
+  const [number, setNumber] = useState(0);
+  const [hoverStar, setHoverStar] = useState(undefined);
+  const [showPopUp, setShowPopUp] = useState(false);
+
   const { courseId } = useParams();
 
   useEffect(() => {
